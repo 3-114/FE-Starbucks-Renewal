@@ -1,11 +1,12 @@
-import LoginHeader from "@/components/layout/headers/LoginHeader"
+import OnlyIconHeader from "@/components/layout/headers/OnlyIconHeader"
+import { LoginHeaderData } from "@/data/HeaderData"
 
 export default function layout({
     children,
   }: Readonly<{ children: React.ReactNode }>) {
     return (
     <>
-        <LoginHeader/>
+        <OnlyIconHeader HeaderData={LoginHeaderData} />
         {children}
     </>
   )
