@@ -1,8 +1,9 @@
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { LoginUnderMenuData } from "@/data/LoginData"
+
+import LoginForm from "@/components/form/LoginForm"
 
 export default function page() {
   return (
@@ -17,26 +18,15 @@ export default function page() {
               alt={"starbucks_logo"}
             />
             <div className="w-full flex flex-col gap-3">
-              <h1 className="font-semibold leading-normal tracking-tight text-xl whitespace-pre-wrap">
-                안녕하세요.{"\n"}
-                스타벅스입니다.
-              </h1>
+              <div className="font-semibold leading-normal tracking-tight text-xl">
+                <h1>안녕하세요.</h1>
+                <h1>스타벅스입니다.</h1>
+              </div>
               <span className="font-medium leading-normal tracking-tighter text-sm text-[#717171]">회원 서비스 이용을 위해 로그인 해주세요.</span>
             </div>
           </div>
           <div className="flex flex-col gap-7">
-            <form className="flex flex-col gap-6">
-              <Input 
-                  className=""
-                  type="id"
-                  placeholder="아이디" 
-                />
-                <Input 
-                  className="" 
-                  type="password"
-                  placeholder="비밀번호" 
-                />
-            </form>
+            <LoginForm />
             <ul className="flex items-center text-[12px] px-16 text-black ">
                 {LoginUnderMenuData.map((item, index) => {
                   const isLastItem = index === LoginUnderMenuData.length - 1;
