@@ -1,4 +1,4 @@
-import { LoginUnderMenuType } from "@/types/InitialDataTypes"
+import { LoginUnderMenuType } from "@/types/Initial/InitialDataTypes"
 
 export const LoginUnderMenuData: LoginUnderMenuType[] = [
     {

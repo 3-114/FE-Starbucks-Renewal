@@ -1,4 +1,4 @@
-import { GnbType } from "@/types/InitialDataTypes"
+import { GnbType } from "@/types/Initial/InitialDataTypes"
 
 export default function OnlyIconHeader({HeaderData}: {HeaderData: GnbType[]}) {
   return (
