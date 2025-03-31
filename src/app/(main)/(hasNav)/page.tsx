@@ -43,10 +43,6 @@ export default function page() {
       <div>
       <Button variant="smalltpye" size="sm" color="white" className="text-[#01A862] border border-[#01A862]"> 등록하기</Button>
       </div>
-      svg 전용 버튼
-      <div>
-        힝
-      </div>
       장바구니 전용 버튼
       <div>
         <Button variant="smalltpye" size="xs" color="white" className="text-[#01A862] border border-[#01A862]"> X </Button>

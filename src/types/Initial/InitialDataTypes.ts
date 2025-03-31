@@ -18,3 +18,10 @@ export interface MainHeaderGubType {
     carticon :  React.FC<React.SVGProps<SVGSVGElement>>;
     xicon: React.FC<React.SVGProps<SVGSVGElement>>;
 }
+
+export interface WelcomeUserCardProps {
+    username?: string
+    message?: string
+    avatarUrl?: string
+    greeting?: string
+  }
