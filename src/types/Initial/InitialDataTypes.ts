@@ -1,7 +1,7 @@
 export interface GnbType {
     id: number;
     title: string;
-    icon: React.FC<React.SVGProps<SVGSVGElement>>;
+    icon: React.FC<React.SVGProps<SVGSVGElement>>; 
 }
 
 export interface LoginUnderMenuType {
@@ -20,7 +20,7 @@ export interface MainHeaderGubType {
 }
 
 export interface WelcomeUserCardProps {
-    username?: string
+    avatarname?: string
     message?: string
     avatarUrl?: string
     greeting?: string

@@ -1,5 +1,5 @@
 import { GnbType,MainHeaderGubType } from '@/types/Initial/InitialDataTypes';
-import { ChevronLeft,AlignJustify,Search,ShoppingCart,X  } from 'lucide-react';
+import ChevronLeft from '@/components/icon/ChevronLeft';
 
 export const LoginHeaderData: GnbType[] = [
     {
@@ -13,8 +13,8 @@ export const MainHeaderData: MainHeaderGubType =
   {
     id: 1,
     title: '온라인스토어',
-    hamburgericon: AlignJustify,
-    searchicon: Search,
-    carticon: ShoppingCart,
-    xicon: X,
+    hamburgericon: 'AlignJustify',
+    searchicon: 'Search',
+    carticon: 'ShoppingCart',
+    xicon: 'X',
   }

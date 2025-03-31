@@ -19,7 +19,7 @@ export const LoginUnderMenuData: LoginUnderMenuType[] = [
 ]
 
 export const DummyUserInfo = {
-  username: "스타벅스",
+  avatarName: "스타벅스",
   avatarUrl: "https://github.com/shadcn.png",
   greeting: "안녕하세요.",
   message: "회원 서비스 이용을 위해 로그인 해주세요.",
