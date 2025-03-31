@@ -1,7 +1,10 @@
-import Image from "next/image"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
+import { Button, } from "@/components/ui/button"
+
+import WelcomeUserCard from "@/components/shared/WelcomeUserCard"
+
 import { LoginUnderMenuData } from "@/data/LoginData"
+
 
 import LoginForm from "@/components/form/LoginForm"
 
@@ -10,21 +13,7 @@ export default function page() {
     <main className="px-7 flex flex-col gap-70">
       <section>
         <div className="flex flex-col gap-14">
-          <div className="flex flex-col gap-6">
-            <Image
-              width={62}
-              height={62}
-              src={"/"}
-              alt={"starbucks_logo"}
-            />
-            <div className="w-full flex flex-col gap-3">
-              <div className="font-semibold leading-normal tracking-tight text-xl">
-                <h1>안녕하세요.</h1>
-                <h1>스타벅스입니다.</h1>
-              </div>
-              <span className="font-medium leading-normal tracking-tighter text-sm text-[#717171]">회원 서비스 이용을 위해 로그인 해주세요.</span>
-            </div>
-          </div>
+          <WelcomeUserCard />
           <div className="flex flex-col gap-7">
             <LoginForm />
             <ul className="flex items-center text-[12px] px-16 text-black ">
@@ -47,9 +36,7 @@ export default function page() {
           </div>
         </div>
       </section>
-      <Button variant="login" size="login">
-        <span className="text-white font-inter">로그인하기</span>
-      </Button>
+      <Button variant="largetpye" size="detailedproduct"> 구매하기 </Button>
     </main>
   )
 }

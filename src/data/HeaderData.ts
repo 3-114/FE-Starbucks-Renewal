@@ -1,4 +1,4 @@
-import { GnbType,MainHeaderGubType } from '@/types/InitialDataTypes';
+import { GnbType,MainHeaderGubType } from '@/types/Initial/InitialDataTypes';
 import { ChevronLeft,AlignJustify,Search,ShoppingCart,X  } from 'lucide-react';
 
 export const LoginHeaderData: GnbType[] = [
