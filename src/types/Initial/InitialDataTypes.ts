@@ -16,6 +16,12 @@ export interface NavMenuType {
     link: string;
 }
 
+export interface EventNavMenuType {
+    id: number;
+    title: string;
+}
+
+
 export interface WelcomeUserCardProps {
     username?: string
     message?: string
