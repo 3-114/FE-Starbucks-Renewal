@@ -5,8 +5,6 @@ import Search from '@/components/icon/Search';
 import ShoppingCart from '@/components/icon/ShoppingCart';
 import X from '@/components/icon/X';
 
-// import { ChevronLeft, AlignJustify, Search, ShoppingCart, X  } from 'lucide-react';
-
 export const LoginHeaderData: GnbType[] = [
     {
         id: 1,

@@ -21,9 +21,8 @@ export interface EventNavMenuType {
     title: string;
 }
 
-
 export interface WelcomeUserCardProps {
-    username?: string
+    avatarname?: string
     message?: string
     avatarUrl?: string
     greeting?: string
