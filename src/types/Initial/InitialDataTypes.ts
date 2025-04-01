@@ -10,6 +10,12 @@ export interface LoginUnderMenuType {
     Link: string;
 }
 
+export interface NavMenuType {
+    id: number;
+    title: string;
+    link: string;
+}
+
 export interface WelcomeUserCardProps {
     username?: string
     message?: string
