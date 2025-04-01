@@ -1,31 +1,36 @@
-import { MainHeaderData } from "@/data/HeaderData"
+import { GnbType } from "@/types/Initial/InitialDataTypes"
 
-export default function MainHeader() {
-    return (
-      <header>
-          <nav className="w-full px-3 py-4">
-          <ul className="w-full grid grid-cols-3 items-center">
-            <li className="justify-self-start">
-              <MainHeaderData.hamburgericon 
-                className="w-6 h-6 text-gray-700 cursor-pointer" 
-              />
+export default async function MainHeader({
+  HeaderData,
+  title,
+}: {
+  HeaderData: GnbType[]
+  title: string
+}) {
+  return (
+    <header className="w-full px-4 py-2 flex items-center">
+      <nav className="w-full py-1 flex items-center relative">
+        <ul className="flex items-center">
+          {HeaderData?.slice(0, 1).map((menu) => (
+            <li key={menu.id}>
+              <menu.icon className="w-6 h-6 text-gray-700" />
             </li>
-            <li className="font-semibold text-sm justify-self-center">
-              {MainHeaderData.title}
+          ))}
+        </ul>
+
+        {/* 절대 위치로 중앙에 배치 */}
+        <h1 className="text-sm font-semibold absolute left-1/2 transform -translate-x-1/2 tracking-normal">
+          {title}
+        </h1>
+
+        <ul className="flex items-center gap-[10px] ml-auto">
+          {HeaderData?.slice(1).map((menu) => (
+            <li key={menu.id}>
+              <menu.icon className="w-6 h-6 m-1 text-gray-700" />
             </li>
-            <li className="flex items-center space-x-4 justify-self-end">
-              <MainHeaderData.searchicon 
-                className="w-6 h-6 text-gray-700 cursor-pointer" 
-              />
-              <MainHeaderData.carticon 
-                className="w-6 h-6 text-gray-700 cursor-pointer" 
-              />
-              <MainHeaderData.xicon 
-                className="w-6 h-6 text-gray-700 cursor-pointer" 
-              />
-            </li>
-          </ul>
-          </nav>
-      </header>
-    )
-  }
+          ))}
+        </ul>
+      </nav>
+    </header>
+  )
+}
