@@ -1,12 +1,10 @@
-import { EventNavData } from "@/data/NavData"
-
 export default async function Page({
   searchParams,
 }: {
   searchParams: Promise<{ category?: string }>
 }) {
   const params = await searchParams;
-  const category = params.category ?? EventNavData[0].eventName;
+  const category = params.category;
 
   return (
     <div className="p-6">
