@@ -1,11 +1,11 @@
-import Link from "next/link";
-import { LoginUnderMenuData } from "@/data/LoginData";
+import Link from 'next/link';
+import { LoginUnderMenuData } from '@/data/LoginData';
 
 export default function NomalSeparator() {
   return (
-    <div className="flex justify-center text-[12px] text-black leading-0 font-semibold whitespace-nowrap">
+    <ul className="flex justify-center text-[14px] text-black leading-0 font-semibold whitespace-nowrap py-6">
       {LoginUnderMenuData.map((item, index) => (
-        <span key={item.id} >
+        <span key={item.id}>
           <Link href={item.Link} className="hover:underline">
             {item.title}
           </Link>
@@ -14,6 +14,6 @@ export default function NomalSeparator() {
           )}
         </span>
       ))}
-    </div>
+    </ul>
   );
 }
