@@ -1,9 +1,10 @@
-import React from 'react'
+import MainNav from '@/components/layout/navs/MainNav'
+import { MainNavData } from '@/data/NavData'
 
-export default function layout({children}: Readonly<{children: React.ReactNode}>) {
+export default async function layout({children}: Readonly<{children: React.ReactNode}>) {
   return (
     <>
-    {/* sub menu tab menu */}
+      <MainNav NavData={MainNavData}/>
       {children}
     </>
   )

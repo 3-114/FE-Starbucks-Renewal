@@ -12,12 +12,12 @@ import { UiColorData } from "@/data/ui/UiColorData"
 // [&_svg]:pointer-events-none,
 // gap-2 제거, 
 const buttonVariants = cva(
-  "px-3 rounded-full inline-flex items-center justify-center whitespace-nowrap transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+  "rounded-full inline-flex items-center justify-center whitespace-nowrap transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
   {
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
+          "px-3 bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
         destructive:
           "bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
         outline:
@@ -30,6 +30,8 @@ const buttonVariants = cva(
         largetpye: "text-sm text-primary-foreground font-medium gap-[10px] shadow-xs hover:bg-primary/90 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
         middletpye: "text-base text-primary-foreground font-semibold gap-[10px] shadow-xs hover:bg-primary/90 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
         smalltpye: "text-xs text-primary-foreground font-semibold gap-[10px] shadow-xs hover:bg-primary/90 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
+        navcarousel:
+          "text-[14px] font-semibold tracking-normal whitespace-nowrap transition-colors rounded-none leading-[17px]",
       },
       size: {
         default: "px-4 py-2 has-[>svg]:px-3",
@@ -47,6 +49,7 @@ const buttonVariants = cva(
         large: "h-[32px]",
         small: "h-[30px]",
         tiny: "h-[28px]",
+        navcarousel: "px-[22px] py-[19px]",
       },
     },
     defaultVariants: {

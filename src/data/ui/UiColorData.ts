@@ -5,5 +5,6 @@ export const UiColorData: Record<UiColor, string> = {
   blue: "bg-[#3182F6]",
   white: "bg-white",
   gray: "bg-[#E0E0E0]",
-  darkGray: "bg-[#CFCFCF]", 
+  darkGray: "bg-[#CFCFCF]",
+  transparent: "bg-transparent",
 };
