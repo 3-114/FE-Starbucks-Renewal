@@ -8,7 +8,6 @@ export interface MainFooterType {
 export interface TermsMeta {
     id: number;
     title: string;
-    content: string;
     Link: '/',
   }
 

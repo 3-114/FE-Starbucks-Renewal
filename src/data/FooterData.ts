@@ -6,19 +6,16 @@ export const MainFooterDummyData: MainFooterType = {
       {
         id: 1,
         title: "개인정보처리방침",
-        content: "당사는 이용자의 개인정보를 중요시하며, 관련 법령을 준수합니다...",
         Link: '/',
       },
       {
         id: 2,
         title: "홈페이지 이용약관",
-        content: "본 웹사이트 이용에 앞서 다음 약관을 반드시 확인하시기 바랍니다...",
         Link: '/',
       },
       {
         id: 3,
         title: "스타벅스카드 이용약관",
-        content: "스타벅스카드 이용과 관련된 세부 내용은 다음과 같습니다...",
         Link: '/',
       }
     ],
