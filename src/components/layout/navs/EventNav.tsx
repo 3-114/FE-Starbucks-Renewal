@@ -11,11 +11,20 @@ export default function EventNav({ NavData }: { NavData: EventNavMenuType[] }) {
   const searchParams = useSearchParams()
   const router = useRouter()
 
-  const activeTitle = searchParams.get("category") ?? NavData[0]?.title
+  React.useEffect(() => {
+    const currentCategory = searchParams.get("category")
+    const firstCategory = NavData[0]?.eventName
+  
+    if (!currentCategory && firstCategory) {
+      const query = new URLSearchParams(searchParams.toString())
+      query.set("category", firstCategory)
+      router.replace(`?${query.toString()}`)
+    }
+  }, [searchParams, NavData, router])
 
-  const handleClick = (title: string) => {
+  const handleClick = (eventName: string) => {
     const query = new URLSearchParams(searchParams.toString())
-    query.set("category", title)
+    query.set("category", eventName)
     router.push(`?${query.toString()}`)
   }
 
@@ -25,17 +34,17 @@ export default function EventNav({ NavData }: { NavData: EventNavMenuType[] }) {
         {NavData.map((item) => (
           <CarouselItem key={item.id} className="!basis-auto">
             <Button
-              onClick={() => handleClick(item.title)}
+              onClick={() => handleClick(item.eventName)}
               variant="navcarousel"
               size="navcarousel"
               color="transparent"
               className={cn(
-                activeTitle === item.title
+                (searchParams.get("category") ?? NavData[0]?.eventName) === item.eventName
                   ? "text-[#01A862]"
                   : "text-[#838383]"
               )}
             >
-              {item.title}
+              {item.eventName}
             </Button>
           </CarouselItem>
         ))}

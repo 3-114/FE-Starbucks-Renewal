@@ -6,7 +6,7 @@ export default async function Page({
   searchParams: Promise<{ category?: string }>
 }) {
   const params = await searchParams;
-  const category = params.category ?? EventNavData[0].title;
+  const category = params.category ?? EventNavData[0].eventName;
 
   return (
     <div className="p-6">

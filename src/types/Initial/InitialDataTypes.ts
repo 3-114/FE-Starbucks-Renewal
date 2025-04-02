@@ -16,10 +16,10 @@ export interface NavMenuType {
     link: string;
 }
 
-export interface EventNavMenuType {
-    id: number;
-    title: string;
-}
+export type EventNavMenuType = {
+    id: number
+    eventName: string
+  }
 
 export interface WelcomeUserCardProps {
     avatarname?: string
