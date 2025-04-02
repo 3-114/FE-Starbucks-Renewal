@@ -1,7 +1,7 @@
 import { MainFooterType } from "@/types/FooterDataTypes";
 
 export const MainFooterDummyData: MainFooterType = {
-    logoUrl: "https://image.starbucks.co.kr/common/img/common/logo.png",
+    logoUrl: "/logoUrl.png",
     terms: [
       {
         id: 1,
