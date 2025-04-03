@@ -1,12 +1,19 @@
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import BottomButtonWrapper from '../layout/Footers/BottomButtonWrapper';
 
-export default function privacyForm() {
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from '@/components/ui/accordion';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Button } from '@/components/ui/button';
+
+export default function PrivacyForm() {
   return (
-    <form className="w-full relative space-y-4">
-      <Checkbox />
-      <BottomButtonWrapper>
+    <form className="w-full space-y-6">
+      <Checkbox variant="green" />
+      <BottomButtonWrapper className="px-7">
         <Button
           type="submit"
           variant="largetpye"
