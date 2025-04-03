@@ -22,7 +22,7 @@ export const LoginUnderMenuData: LoginUnderMenuType[] = [
 ];
 
 export const DummyUserInfo: WelcomeUserCardProps = {
-  avatarname: '스타벅스',
+  avatarname: '스타벅스입니다.',
   avatarUrl: '/avatarUrl.png',
   greeting: '안녕하세요.',
   message: '회원 서비스 이용을 위해 로그인 해주세요.',

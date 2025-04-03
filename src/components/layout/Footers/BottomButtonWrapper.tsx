@@ -1,7 +1,13 @@
 export default function BottomButtonWrapper({
-    children,
-  }: {
-    children: React.ReactNode;
-  }) {
-    return <div className="w-full px-7 fixed bottom-5 left-0">{children}</div>;
-  }
+  children,
+  className = '',
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={`w-full fixed bottom-5 left-0 ${className}`}>
+      {children}
+    </div>
+  );
+}

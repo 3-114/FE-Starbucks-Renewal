@@ -8,7 +8,7 @@ import { LoginUnderMenuData } from '@/data/LoginData';
 
 export default function LoginForm() {
   return (
-    <form className="w-full relative space-y-4">
+    <form className="w-full relative space-y-4 px-7">
       <Input name="username" type="text" placeholder="아이디" variant="login" />
       <Input
         name="password"
@@ -21,7 +21,7 @@ export default function LoginForm() {
         className="pt-8 flex justify-center leading-0 font-semibold whitespace-nowrap"
       />
 
-      <BottomButtonWrapper>
+      <BottomButtonWrapper className="px-7">
         <Button
           type="submit"
           variant="largetpye"
