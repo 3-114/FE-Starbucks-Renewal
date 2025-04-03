@@ -5,7 +5,7 @@ import { DummyUserInfo } from '@/data/LoginData';
 
 export default function page() {
   return (
-    <main className="px-7">
+    <main>
       <WelcomeUserCard data={DummyUserInfo} />
       <LoginForm />
     </main>

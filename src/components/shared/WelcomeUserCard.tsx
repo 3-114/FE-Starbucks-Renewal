@@ -8,7 +8,7 @@ export default function WelcomeUserCard({
 }) {
   const { avatarname, avatarUrl, greeting, message } = data;
   return (
-    <section className="space-y-4 pt-15 pb-10">
+    <section className="w-full space-y-4 pt-15 pb-10 px-7">
       <Avatar className="size-[5rem]">
         <AvatarImage src={avatarUrl} />
         <AvatarFallback>{avatarname?.charAt(0) ?? ''}</AvatarFallback>
