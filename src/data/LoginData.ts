@@ -17,7 +17,7 @@ export const LoginUnderMenuData: LoginUnderMenuType[] = [
   {
     id: 3,
     title: '회원가입',
-    Link: '/privacyConsent',
+    Link: '/privacyconsent',
   },
 ];
 
