@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { CheckBoxGroup } from '@/components/separator/CheckBoxGroup';
+import { CheckBoxGroup } from '@/components/shared/CheckBoxGroup';
 import BottomButtonWrapper from '@/components/layout/Footers/BottomButtonWrapper';
 
 import { AgreementItemsProp } from '@/types/ResponseDataTypes';
