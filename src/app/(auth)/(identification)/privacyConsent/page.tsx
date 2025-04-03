@@ -1,5 +1,9 @@
+import WelcomeUserCard from '@/components/shared/WelcomeUserCard';
+
 export default function page() {
   return (
-    <div>page</div>
-  )
+    <main>
+      <WelcomeUserCard />
+    </main>
+  );
 }
