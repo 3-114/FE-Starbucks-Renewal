@@ -27,3 +27,9 @@ export interface WelcomeUserCardProps {
     avatarUrl?: string
     greeting?: string
   }
+
+export interface SeparatorTypes {
+    id: number;
+    title: string;
+    Link: string;
+}

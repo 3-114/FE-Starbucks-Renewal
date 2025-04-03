@@ -6,6 +6,8 @@ import NomalSeparator from "@/components/separator/NomalSeparator"
 
 import { login } from "@/actions/login-service/login/index"
 
+import { LoginUnderMenuData } from "@/data/LoginData";
+
 export default function page() {
   return (
     <main className="font-inter flex-grow grid grid-rows-12 px-7">
@@ -17,7 +19,7 @@ export default function page() {
           <div className="flex flex-col gap-7">
             <LoginForm />
             <ul className="text-[12px] text-black text-center w-full gap-x-2">
-              <NomalSeparator />
+              <NomalSeparator data={LoginUnderMenuData} className="flex justify-center leading-0 font-semibold whitespace-nowrap"/>
             </ul>
           </div>
           <div className="mt-auto pb-6">
