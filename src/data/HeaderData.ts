@@ -6,32 +6,40 @@ import ShoppingCart from '@/components/icon/ShoppingCart';
 import X from '@/components/icon/X';
 
 export const LoginHeaderData: GnbType[] = [
-    {
-        id: 1,
-        title: 'back',
-        icon: ChevronLeft,
-      },
-]
+  {
+    id: 1,
+    title: 'back',
+    icon: ChevronLeft,
+  },
+];
 
-export const MainHeaderData: GnbType[] =  [
+export const IdentificationHeaderData: GnbType[] = [
   {
-      id: 1,
-      title: 'hamburger',
-      icon: AlignJustify,
-    },
+    id: 4,
+    title: 'x',
+    icon: X,
+  },
+];
+
+export const MainHeaderData: GnbType[] = [
   {
-      id: 2,
-      title: 'search',
-      icon: Search,
-    },
+    id: 1,
+    title: 'hamburger',
+    icon: AlignJustify,
+  },
   {
-      id: 3,
-      title: 'shoppingcart',
-      icon: ShoppingCart,
-    },
+    id: 2,
+    title: 'search',
+    icon: Search,
+  },
   {
-      id: 4,
-      title: 'x',
-      icon: X ,
-    },
-]
+    id: 3,
+    title: 'shoppingcart',
+    icon: ShoppingCart,
+  },
+  {
+    id: 4,
+    title: 'x',
+    icon: X,
+  },
+];
