@@ -6,7 +6,7 @@ export default function BottomButtonWrapper({
   className?: string;
 }) {
   return (
-    <div className={`w-full fixed bottom-5 left-0 ${className}`}>
+    <div className={`w-full fixed bottom-0 left-0 ${className}`}>
       {children}
     </div>
   );
