@@ -6,7 +6,7 @@ import { ChevronRight } from 'lucide-react';
 export default function TossCertification() {
   return (
     <section className="pt-20 space-y-6 text-center tracking-tighter">
-      <div className="w-full px-16">
+      <div className="w-fit px-16 mx-auto">
         <Image
           src="/lockImg.png"
           alt="자물쇠 이미지"
