@@ -33,11 +33,9 @@ export default function TossCertification() {
         </p>
         <ChevronRight size={20} color="#9E9E9E" />
       </Link>
-      <div className="px-4 py-3 text-start bg-[#F7F7F7] text-xs tracking-tighter">
-        <p className="text-sm font-medium text-[#6B6B6B]">
-          문제 발생 시 조치방법
-        </p>
-        <ul className="mt-1 list-disc pl-5 text-[#6B6B6B] space-y-1">
+      <div className="px-4 py-3 text-start bg-[#F7F7F7] text-xs tracking-tighter text-[#6B6B6B]">
+        <p className="text-sm">문제 발생 시 조치방법</p>
+        <ul className="mt-1 list-disc pl-5 space-y-1">
           <li>휴대폰에서 토스앱 설치가 되어있는지 확인해 주세요.</li>
           <li>
             토스앱 &gt; 우측하단 전체 &gt; 보안과 인증 &gt; 토스인증서에서
