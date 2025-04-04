@@ -19,8 +19,8 @@ export const CheckBoxGroup = ({
     <div className="flex items-center gap-2 py-4 relative">
       <Checkbox
         className={className}
-        variant="green"
         data-required={required}
+        variant="green"
       />
       <label>{label}</label>
       <Link

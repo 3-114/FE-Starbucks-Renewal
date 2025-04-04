@@ -3,24 +3,31 @@ import BottomButtonWrapper from '@/components/layout/Footers/BottomButtonWrapper
 import { Button } from '@/components/ui/button';
 export default function TossPrivacyForm() {
   return (
-      <BottomButtonWrapper className='space-y-2 px-7'>
-        <CheckBoxGroup label="[필수] 개인정보 제 3자 제공 동의" className="text-lg font-bold" link="/"/>
-        <Button
-            variant="largetpye"
-            size="agree"
-            className="w-full"
-            color='blue'
-          >
-            동의하기
-          </Button>
-          <Button
-            variant="largetpye"
-            size="agree"
-            className="w-full text-black shadow-none"
-            color='white'
-          >
-            닫기
-          </Button>
-      </BottomButtonWrapper>
-  )
+    <BottomButtonWrapper className="group space-y-2 px-7 ">
+      <CheckBoxGroup
+        label="[필수] 개인정보 제 3자 제공 동의"
+        className="text-lg font-bold border border-blue-600 data-[state=checked]:bg-transparent data-[state=checked]:border-transparent data-[state=checked]:text-blue-600"
+        link="/"
+        required
+      />
+      <Button
+        variant="largetpye"
+        size="agree"
+        className="w-full
+      group-has-[button[data-state=unchecked][data-required=true]]:bg-[#E0E0E0]
+        group-has-[button[data-state=unchecked][data-required=true]]:pointer-events-none"
+        color="blue"
+      >
+        동의하기
+      </Button>
+      <Button
+        variant="largetpye"
+        size="agree"
+        className="w-full text-black shadow-none"
+        color="white"
+      >
+        닫기
+      </Button>
+    </BottomButtonWrapper>
+  );
 }

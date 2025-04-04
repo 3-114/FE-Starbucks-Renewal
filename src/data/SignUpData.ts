@@ -32,6 +32,6 @@ export const DummyAgreementItems: AgreementItemsProp[] = [
 
 export const DummyTossInfo: WelcomeUserCardProps = {
   avatarname: '토스로 인증할께요',
-  avatarUrl: '/avatarUrl.png',
+  avatarUrl: '/TossLogo.png',
   greeting: '스타벅스에서',
 };
