@@ -2,13 +2,19 @@
 
 import BottomButtonWrapper from '@/components/layout/Footers/BottomButtonWrapper';
 import { Button } from '@/components/ui/button';
-import { StepProps } from '@/types/SignUpDataTypes';
+import { SignupFormData } from '@/types/SignUpDataTypes';
+
+interface UserIdFormProps {
+  formData: SignupFormData;
+  handleInputChange: (name: keyof SignupFormData, value: string | number | boolean) => void;
+  handleNextStep: () => void;
+}
 
 export default function UserIdForm({
   formData,
   handleInputChange,
   handleNextStep,
-}: StepProps) {
+}: UserIdFormProps) {
   return (
     <div className="p-4">
       <h2 className="text-lg font-medium text-center mb-2">아이디 입력</h2>
@@ -33,11 +39,7 @@ export default function UserIdForm({
           size="lg"
           onClick={handleNextStep}
           disabled={formData.userId.length < 5}
-          className="
-            w-full text-lg font-bold py-6
-            group-has-[button[data-state=unchecked][data-required=true]]:bg-[#E0E0E0]
-            group-has-[button[data-state=unchecked][data-required=true]]:pointer-events-none
-            "
+          className="w-full text-lg font-bold py-6"
         >
           다음
         </Button>

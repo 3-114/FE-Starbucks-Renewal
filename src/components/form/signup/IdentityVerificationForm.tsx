@@ -2,21 +2,25 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { StepProps } from '@/types/SignUpDataTypes';
+import { SignupFormData } from '@/types/SignUpDataTypes';
 import WelcomeUserCard from '@/components/shared/WelcomeUserCard';
 import BottomButtonWrapper from '@/components/layout/Footers/BottomButtonWrapper';
 import { MessageCircle, Smartphone } from 'lucide-react';
 import { ToggleSelectionBox } from '@/components/shared/ToggleBoxGroup';
 import { CheckBoxGroup } from '@/components/shared/CheckBoxGroup';
 
+interface IdentityVerificationFormProps {
+  formData: SignupFormData;
+  handleInputChange: (name: keyof SignupFormData, value: string | number | boolean) => void;
+  handleNextStep: () => void;
+}
+
 export default function IdentityVerificationForm({
   formData,
   handleInputChange,
   handleNextStep,
-}: StepProps) {
-  const [verificationMethod, setVerificationMethod] = useState<
-    'toss' | 'phone' | null
-  >(null);
+}: IdentityVerificationFormProps) {
+  const [verificationMethod, setVerificationMethod] = useState<'toss' | 'phone' | null>(null);
 
   const handleSelectMethod = (method: 'toss' | 'phone') => {
     setVerificationMethod(method);
@@ -36,7 +40,7 @@ export default function IdentityVerificationForm({
           description="5초만에 간편하게 인증할 수 있어요."
           checked={verificationMethod === 'toss'}
           onClick={() => handleSelectMethod('toss')}
-          className="shadow-md "
+          className="shadow-md"
         />
         <ToggleSelectionBox
           icon={<Smartphone className="h-5 w-5" />}
@@ -57,10 +61,9 @@ export default function IdentityVerificationForm({
           color={!verificationMethod ? 'gray' : 'default'}
           onClick={handleNextStep}
           disabled={!formData.verified}
-          className="
-            w-full text-lg font-bold py-6
+          className={`w-full text-lg font-bold py-6 ${
             !verificationMethod ? 'pointer-events-none' : ''
-            "
+          }`}
         >
           다음
         </Button>

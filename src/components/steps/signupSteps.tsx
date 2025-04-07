@@ -1,6 +1,7 @@
-import { StepProps } from '@/types/StepPropsTypes';
-import { DummyAgreementItems } from '@/data/SignUpData';
+'user '
 
+import { StepProps } from '@/types/SignUpDataTypes';
+import { DummyAgreementItems } from '@/data/SignUpData';
 import PrivacyForm from '@/components/form/PrivacyForm';
 import IdentityVerificationForm from '@/components/form/signup/IdentityVerificationForm';
 import TossCertification from '@/components/shared/TossCertification';
@@ -9,8 +10,6 @@ import PhoneCertification from '@/components/shared/PhoneCertification';
 import UserIdForm from '@/components/form/signup/UserIdForm';
 import PasswordStep from '@/components/form/signup/PasswordForm';
 import CompletionForm from '@/components/form/signup/CompletionForm';
-
-import { useRouter } from 'next/navigation';
 import WelcomeUserCard from '@/components/shared/WelcomeUserCard';
 
 export const signupSteps: StepProps[] = [
@@ -43,15 +42,7 @@ export const signupSteps: StepProps[] = [
   {
     id: 4,
     header: { type: 'OnlyIconHeader', props: { type: 'identification' } },
-    content: ({ onNext }) => (
-      <section className="px-7">
-        <WelcomeUserCard type="tos" size="3.7rem" />
-        <TossPrivacyForm
-          onAgree={onNext}
-          onClose={() => router.back()}
-        />
-      </section>
-    ),
+    content: ({ onNext }) => <TossPrivacyForm onAgree={onNext} />,
   },
   {
     id: 5,

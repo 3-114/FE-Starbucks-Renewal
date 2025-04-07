@@ -1,14 +1,24 @@
 'use client';
 
-import { StepProps } from '@/types/SignUpDataTypes';
+import { SignupFormData } from '@/types/SignUpDataTypes';
 import BottomButtonWrapper from '@/components/layout/Footers/BottomButtonWrapper';
 import { Button } from '@/components/ui/button';
+
+interface PasswordFormProps {
+  formData: SignupFormData;
+  handleInputChange: (name: keyof SignupFormData, value: string | number | boolean) => void;
+  handleNextStep: () => void;
+}
 
 export default function PasswordForm({
   formData,
   handleInputChange,
   handleNextStep,
-}: StepProps) {
+}: PasswordFormProps) {
+  const isValid =
+    formData.password.length >= 8 &&
+    formData.password === formData.passwordConfirm;
+
   return (
     <div className="p-4">
       <h2 className="text-lg font-medium text-center mb-2">비밀번호 입력</h2>
@@ -42,15 +52,10 @@ export default function PasswordForm({
           variant="largetpye"
           size="lg"
           onClick={handleNextStep}
-          disabled={
-            formData.password.length < 8 ||
-            formData.password !== formData.passwordConfirm
-          }
-          className="
-            w-full text-lg font-bold py-6
-            group-has-[button[data-state=unchecked][data-required=true]]:bg-[#E0E0E0]
-            group-has-[button[data-state=unchecked][data-required=true]]:pointer-events-none
-            "
+          disabled={!isValid}
+          className={`w-full text-lg font-bold py-6 ${
+            !isValid ? 'bg-[#E0E0E0] pointer-events-none' : ''
+          }`}
         >
           다음
         </Button>

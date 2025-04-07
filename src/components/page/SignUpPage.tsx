@@ -1,6 +1,6 @@
 'use client';
 
-import { signupSteps } from '@/steps/signupSteps';
+import { signupSteps } from '@/components/steps/signupSteps';
 import { useFunnel } from '@/hooks/useFunnel';
 import OnlyIconHeader from '@/components/layout/headers/OnlyIconHeader';
 import SignUpHeader from '@/components/layout/headers/SignUpHeader';
