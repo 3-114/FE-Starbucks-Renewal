@@ -13,22 +13,20 @@ const StepIndicator: React.FC<StepIndicatorProps> = ({
     <div className="flex items-center">
       {Array.from({ length: totalSteps }).map((_, index) => (
         <React.Fragment key={index}>
-          {/* 스텝 원형 */}
           <div
-            className={`relative flex items-center justify-center w-6 h-6 rounded-full ${
+            className={`relative flex items-center justify-center w-4 h-4 rounded-full ${
               index + 1 <= currentStep
                 ? 'bg-black text-white'
-                : 'bg-gray-200 text-gray-500'
+                : 'border border-[#B9B9B9] text-[#B9B9B9]'
             }`}
           >
-            <span className="text-xs font-medium">{index + 1}</span>
+            <span className="text-[11px] font-medium">{index + 1}</span>
           </div>
 
-          {/* 연결선 (마지막 원형 이후에는 제외) */}
           {index < totalSteps - 1 && (
             <div
-              className={`w-8 h-0.5 ${
-                index + 1 < currentStep ? 'bg-black' : 'bg-gray-200'
+              className={`w-2 h-[0.5px] ${
+                index + 1 < currentStep ? 'bg-black' : 'bg-[#B9B9B9]'
               }`}
             />
           )}
