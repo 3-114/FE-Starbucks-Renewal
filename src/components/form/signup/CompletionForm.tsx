@@ -1,10 +1,12 @@
 'use client';
 
-import { StepProps } from '@/types/SignUpDataTypes';
+import { SignupFormData } from '@/types/SignUpDataTypes';
 
-export default function CompletionStep({
-  formData,
-}: Pick<StepProps, 'formData'>) {
+interface CompletionStepProps {
+  formData: SignupFormData;
+}
+
+export default function CompletionStep({ formData }: CompletionStepProps) {
   return (
     <div className="p-4 text-center">
       <div className="mb-6">
