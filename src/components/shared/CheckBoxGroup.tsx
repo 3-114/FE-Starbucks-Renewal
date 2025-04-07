@@ -12,7 +12,7 @@ export const CheckBoxGroup = ({
   checked?: boolean;
   link?: string;
   label: string;
-  className: string;
+  className?: string;
   required?: boolean;
 }) => {
   return (
