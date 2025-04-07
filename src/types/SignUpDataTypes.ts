@@ -13,6 +13,6 @@ export interface StepIndicatorProps {
 
 export interface StepProps {
   formData: FormData;
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleInputChange: (name: string, value: string | boolean | number) => void;
   handleNextStep: () => void;
 }

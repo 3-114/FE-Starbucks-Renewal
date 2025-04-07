@@ -1,6 +1,8 @@
 'use client';
 
 import { StepProps } from '@/types/SignUpDataTypes';
+import BottomButtonWrapper from '@/components/layout/Footers/BottomButtonWrapper';
+import { Button } from '@/components/ui/button';
 
 export default function PasswordForm({
   formData,
@@ -18,7 +20,7 @@ export default function PasswordForm({
           type="password"
           name="password"
           value={formData.password}
-          onChange={handleInputChange}
+          onChange={(e) => handleInputChange('password', e.target.value)}
           placeholder="영문, 숫자, 특수문자 조합 8-20자"
           className="w-full px-3 py-2 border rounded-lg mb-3"
         />
@@ -28,27 +30,31 @@ export default function PasswordForm({
           type="password"
           name="passwordConfirm"
           value={formData.passwordConfirm}
-          onChange={handleInputChange}
+          onChange={(e) => handleInputChange('passwordConfirm', e.target.value)}
           placeholder="비밀번호를 한번 더 입력해주세요"
           className="w-full px-3 py-2 border rounded-lg"
         />
       </div>
 
-      <button
-        className={`w-full py-3 rounded-lg ${
-          formData.password.length >= 8 &&
-          formData.password === formData.passwordConfirm
-            ? 'bg-green-600 text-white'
-            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-        }`}
-        onClick={handleNextStep}
-        disabled={
-          formData.password.length < 8 ||
-          formData.password !== formData.passwordConfirm
-        }
-      >
-        다음
-      </button>
+      <BottomButtonWrapper className="px-7 pt-5 shadow-[0_0_10px_rgba(0,0,0,0.1)]">
+        <Button
+          type="submit"
+          variant="largetpye"
+          size="lg"
+          onClick={handleNextStep}
+          disabled={
+            formData.password.length < 8 ||
+            formData.password !== formData.passwordConfirm
+          }
+          className="
+            w-full text-lg font-bold py-6
+            group-has-[button[data-state=unchecked][data-required=true]]:bg-[#E0E0E0]
+            group-has-[button[data-state=unchecked][data-required=true]]:pointer-events-none
+            "
+        >
+          다음
+        </Button>
+      </BottomButtonWrapper>
     </div>
   );
 }

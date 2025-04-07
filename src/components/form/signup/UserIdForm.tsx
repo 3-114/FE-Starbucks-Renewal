@@ -1,6 +1,7 @@
 'use client';
 
-import React from 'react';
+import BottomButtonWrapper from '@/components/layout/Footers/BottomButtonWrapper';
+import { Button } from '@/components/ui/button';
 import { StepProps } from '@/types/SignUpDataTypes';
 
 export default function UserIdForm({
@@ -19,23 +20,28 @@ export default function UserIdForm({
           type="text"
           name="userId"
           value={formData.userId}
-          onChange={handleInputChange}
+          onChange={(e) => handleInputChange('userId', e.target.value)}
           placeholder="영문, 숫자 5-20자"
           className="w-full px-3 py-2 border rounded-lg"
         />
       </div>
 
-      <button
-        className={`w-full py-3 rounded-lg ${
-          formData.userId.length >= 5
-            ? 'bg-green-600 text-white'
-            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-        }`}
-        onClick={handleNextStep}
-        disabled={formData.userId.length < 5}
-      >
-        다음
-      </button>
+      <BottomButtonWrapper className="px-7 pt-5 shadow-[0_0_10px_rgba(0,0,0,0.1)]">
+        <Button
+          type="submit"
+          variant="largetpye"
+          size="lg"
+          onClick={handleNextStep}
+          disabled={formData.userId.length < 5}
+          className="
+            w-full text-lg font-bold py-6
+            group-has-[button[data-state=unchecked][data-required=true]]:bg-[#E0E0E0]
+            group-has-[button[data-state=unchecked][data-required=true]]:pointer-events-none
+            "
+        >
+          다음
+        </Button>
+      </BottomButtonWrapper>
     </div>
   );
 }
