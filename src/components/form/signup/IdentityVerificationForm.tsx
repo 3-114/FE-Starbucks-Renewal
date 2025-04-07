@@ -26,10 +26,7 @@ export default function IdentityVerificationForm({
   return (
     <section className="px-7 pt-16">
       <WelcomeUserCard
-        data={{
-          avatarname: '인증을 진행해 주세요',
-          greeting: '본인확인을 위해',
-        }}
+        type="identification"
         className="text-[22px]/normal tracking-[-0.02em]"
       />
       <div className="space-y-3 mt-8 mb-36">

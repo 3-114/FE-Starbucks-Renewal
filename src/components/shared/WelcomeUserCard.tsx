@@ -1,15 +1,32 @@
 import { WelcomeUserCardProps } from '@/types/Initial/InitialDataTypes';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
+import { DummyUserInfo } from '@/data/LoginData';
+import {
+  DummyUserInfo as PrivacyConsentData,
+  DummyTossInfo,
+} from '@/data/SignUpData';
+
+const dataMap: Record<string, WelcomeUserCardProps> = {
+  login: DummyUserInfo,
+  privacyconsent: PrivacyConsentData,
+  tos: DummyTossInfo,
+  identification: {
+    avatarname: '인증을 진행해 주세요',
+    greeting: '본인확인을 위해',
+  },
+};
+
 export default function WelcomeUserCard({
-  data,
+  type,
   size,
   className,
 }: {
-  data: WelcomeUserCardProps;
+  type: keyof typeof dataMap;
   size?: string;
   className?: string;
 }) {
+  const data = dataMap[type];
   const { avatarname, avatarUrl, greeting, message } = data;
   return (
     <section className="w-full space-y-4 pt-15 pb-10 px-7 tracking-tighter">
