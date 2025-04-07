@@ -1,3 +1,5 @@
+'use client';
+
 import { CheckBoxGroup } from '@/components/shared/CheckBoxGroup';
 import BottomButtonWrapper from '@/components/layout/Footers/BottomButtonWrapper';
 import { LinkBoxGroup } from '@/components/shared/LinkBoxGroup';
@@ -11,17 +13,15 @@ import {
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 
-export default function PhoneCertification() {
+export default function PhoneCertification({ onNext }: { onNext: () => void }) {
   return (
     <section className="group tracking-tighter">
-      <p
-        className="font-[Pretendard] text-[22px] font-medium
-       leading-[30px] text-black pt-16 pb-6"
-      >
+      <p className="font-[Pretendard] text-[22px] font-medium leading-[30px] text-black pt-16 pb-6">
         본인확인을 위해
         <br />
         인증을 진행해 주세요
       </p>
+
       <div className="text-sm/normal font-semibold tracking-tighter">
         <CheckBoxGroup
           label="[필수] 본인 인증 서비스 약관 전체 동의"
@@ -49,10 +49,11 @@ export default function PhoneCertification() {
           className="font-medium"
         />
       </div>
+
       <form action="" className="space-y-4">
         <hr className="border-[1px]" />
-        <Input placeholder="이름" variant="login"></Input>
-        <Input placeholder="생년월일" variant="login"></Input>
+        <Input placeholder="이름" variant="login" />
+        <Input placeholder="생년월일" variant="login" />
         <div className="w-full flex items-center space-x-3">
           <Select defaultValue="skt">
             <SelectTrigger className="w-1/3 px-0 py-4 text-sm/normal text-[#6e6e6e] border-none">
@@ -68,7 +69,7 @@ export default function PhoneCertification() {
             placeholder="전화번호"
             variant="login"
             className="border-none"
-          ></Input>
+          />
           <Button
             type="submit"
             variant="navcarousel"
@@ -88,16 +89,18 @@ export default function PhoneCertification() {
           제재를 받으실 수 있습니다.
         </li>
       </ul>
+
       <BottomButtonWrapper className="px-7 pt-5 shadow-[0_0_10px_rgba(0,0,0,0.1)]">
         <Button
-          type="submit"
+          type="button"
           variant="largetpye"
           size="lg"
+          onClick={onNext}
           className="
             w-full text-lg font-bold py-6
             group-has-[button[data-state=unchecked][data-required=true]]:bg-[#E0E0E0]
             group-has-[button[data-state=unchecked][data-required=true]]:pointer-events-none
-            "
+          "
         >
           다음
         </Button>

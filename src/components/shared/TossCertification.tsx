@@ -1,11 +1,13 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { ChevronRight } from 'lucide-react';
 
-export default function TossCertification() {
+export default function TossCertification({ onNext }: { onNext: () => void }) {
   return (
-    <section className="pt-20 space-y-6 text-center tracking-tighter">
+    <section className="pt-20 space-y-6 text-center tracking-tighter px-7">
       <div className="w-full px-16">
         <Image
           src="/lockImg.png"
@@ -21,7 +23,12 @@ export default function TossCertification() {
           아래 버튼을 눌러 인증해 주세요.
         </p>
       </div>
-      <Button variant="largetpye" size="md" className="w-[134px]">
+      <Button
+        variant="largetpye"
+        size="md"
+        className="w-[134px]"
+        onClick={onNext}
+      >
         토스로 인증하기
       </Button>
       <Link

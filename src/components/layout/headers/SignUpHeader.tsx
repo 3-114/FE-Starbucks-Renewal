@@ -1,19 +1,11 @@
 'use client';
 
-// import { getHeaderData } from '@/actions/header-fetch/getHeaderData';
 import StepIndicator from '@/components/icon/StepIndicator';
 import { GnbType } from '@/types/Initial/InitialDataTypes';
 
 import { SignUpHeaderData } from '@/data/HeaderData';
 
-export default function SignUpHeader({
-  // section,
-  step,
-}: {
-  // section: string;
-  step: number;
-}) {
-  // const HeaderData = await getHeaderData(section);
+export default function SignUpHeader({ step }: { step: number }) {
   const HeaderData = SignUpHeaderData;
 
   return (

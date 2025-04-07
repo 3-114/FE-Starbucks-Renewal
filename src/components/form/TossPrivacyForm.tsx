@@ -1,9 +1,18 @@
+'use client';
+
 import { CheckBoxGroup } from '@/components/shared/CheckBoxGroup';
 import BottomButtonWrapper from '@/components/layout/Footers/BottomButtonWrapper';
 import { Button } from '@/components/ui/button';
-export default function TossPrivacyForm() {
+
+export default function TossPrivacyForm({
+  onAgree,
+  onClose,
+}: {
+  onAgree: () => void;
+  onClose: () => void;
+}) {
   return (
-    <BottomButtonWrapper className="group space-y-2 px-7 ">
+    <BottomButtonWrapper className="group space-y-2 px-7">
       <CheckBoxGroup
         label="[필수] 개인정보 제 3자 제공 동의"
         className="text-lg font-bold border border-blue-600 data-[state=checked]:bg-transparent data-[state=checked]:border-transparent data-[state=checked]:text-blue-600"
@@ -14,9 +23,10 @@ export default function TossPrivacyForm() {
         variant="largetpye"
         size="agree"
         className="w-full
-      group-has-[button[data-state=unchecked][data-required=true]]:bg-[#E0E0E0]
-        group-has-[button[data-state=unchecked][data-required=true]]:pointer-events-none"
+          group-has-[button[data-state=unchecked][data-required=true]]:bg-[#E0E0E0]
+          group-has-[button[data-state=unchecked][data-required=true]]:pointer-events-none"
         color="blue"
+        onClick={onAgree}
       >
         동의하기
       </Button>
@@ -25,6 +35,7 @@ export default function TossPrivacyForm() {
         size="agree"
         className="w-full text-black shadow-none"
         color="white"
+        onClick={onClose}
       >
         닫기
       </Button>

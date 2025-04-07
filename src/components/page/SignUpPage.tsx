@@ -7,6 +7,15 @@ import UserIdForm from '@/components/form/signup/UserIdForm';
 import PasswordStep from '@/components/form/signup/PasswordForm';
 import CompletionForm from '@/components/form/signup/CompletionForm';
 import { FormData } from '@/types/SignUpDataTypes';
+import PrivacyForm from '@/components/form/PrivacyForm';
+import WelcomeUserCard from '@/components/shared/WelcomeUserCard';
+import OnlyIconHeader from '@/components/layout/headers/OnlyIconHeader';
+
+import { DummyAgreementItems } from '@/data/SignUpData';
+import TossCertification from '@/components/shared/TossCertification';
+import TossPrivacyForm from '@/components/form/TossPrivacyForm';
+import PhoneCertification from '@/components/shared/PhoneCertification';
+import router from 'next/router';
 
 export default function SignUpPage() {
   const [currentStep, setCurrentStep] = useState<number>(1);
@@ -36,45 +45,91 @@ export default function SignUpPage() {
     switch (currentStep) {
       case 1:
         return (
-          <IdentityVerificationForm
-            formData={formData}
-            handleInputChange={handleInputChange}
-            handleNextStep={handleNextStep}
-          />
+          <>
+            <OnlyIconHeader type="identification" />
+            <WelcomeUserCard type="privacyconsent" />
+            <PrivacyForm data={DummyAgreementItems} onNext={handleNextStep} />
+          </>
         );
       case 2:
         return (
-          <UserIdForm
-            formData={formData}
-            handleInputChange={handleInputChange}
-            handleNextStep={handleNextStep}
-          />
+          <>
+            <SignUpHeader step={1} />
+            <IdentityVerificationForm
+              formData={formData}
+              handleInputChange={handleInputChange}
+              handleNextStep={handleNextStep}
+            />
+          </>
         );
       case 3:
         return (
-          <PasswordStep
-            formData={formData}
-            handleInputChange={handleInputChange}
-            handleNextStep={handleNextStep}
-          />
+          <>
+            <OnlyIconHeader type="identification" />
+            <TossCertification onNext={handleNextStep} />
+          </>
         );
       case 4:
-        return <CompletionForm formData={formData} />;
+        return (
+          <>
+            <OnlyIconHeader type="identification" />
+            <section className="px-7">
+              <WelcomeUserCard type="tos" size="3.7rem" />
+              <TossPrivacyForm
+                onAgree={handleNextStep}
+                onClose={() => router.back()}
+              />
+            </section>
+          </>
+        );
+      case 5:
+        return (
+          <>
+            <OnlyIconHeader type="identification" />
+            <section className="px-7">
+              <PhoneCertification onNext={handleNextStep} />
+            </section>
+          </>
+        );
+      case 6:
+        return (
+          <>
+            <SignUpHeader step={2} />
+            <UserIdForm
+              formData={formData}
+              handleInputChange={handleInputChange}
+              handleNextStep={handleNextStep}
+            />
+          </>
+        );
+      case 7:
+        return (
+          <>
+            <SignUpHeader step={3} />
+            <PasswordStep
+              formData={formData}
+              handleInputChange={handleInputChange}
+              handleNextStep={handleNextStep}
+            />
+          </>
+        );
+      case 8:
+        return (
+          <>
+            <SignUpHeader step={4} />
+            <CompletionForm formData={formData} />;
+          </>
+        );
       default:
         return (
-          <IdentityVerificationForm
-            formData={formData}
-            handleInputChange={handleInputChange}
-            handleNextStep={handleNextStep}
-          />
+          <>
+            <OnlyIconHeader type="identification" />
+            <WelcomeUserCard type="privacyconsent" />
+            <PrivacyForm data={DummyAgreementItems} onNext={handleNextStep} />
+          </>
         );
     }
   };
 
-  return (
-    <main>
-      <SignUpHeader step={currentStep} />
-      {renderStep()}
-    </main>
-  );
+  return <main>{renderStep()}</main>;
 }
