@@ -43,3 +43,11 @@ export const MainHeaderData: GnbType[] = [
     icon: X,
   },
 ];
+
+export const SignUpHeaderData: GnbType[] = [
+  {
+    id: 1,
+    title: 'x',
+    icon: X,
+  },
+];
