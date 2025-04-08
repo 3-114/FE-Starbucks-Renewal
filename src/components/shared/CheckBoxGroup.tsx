@@ -8,12 +8,15 @@ export const CheckBoxGroup = ({
   label,
   className,
   required = false,
+  checked = false,
+  onChange,
 }: {
   checked?: boolean;
   link?: string;
   label: string;
   className?: string;
   required?: boolean;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) => {
   return (
     <div className="flex items-center gap-2 py-4 relative">
@@ -21,6 +24,14 @@ export const CheckBoxGroup = ({
         className={className}
         data-required={required}
         variant="green"
+        checked={checked}
+        onCheckedChange={(checked) => {
+          if (onChange) {
+            onChange({
+              target: { checked },
+            } as React.ChangeEvent<HTMLInputElement>);
+          }
+        }}
       />
       <label>{label}</label>
       <Link

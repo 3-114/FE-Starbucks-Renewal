@@ -6,5 +6,5 @@ export type NavItem = {
 export type AgreementItemsProp = {
   id: number;
   label: string;
-  link: string;
+  link?: string;
 };

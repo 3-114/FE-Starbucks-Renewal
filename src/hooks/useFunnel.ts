@@ -17,6 +17,7 @@ export const useFunnel = () => {
     passwordConfirm: '',
     email: '',
     nickname: '',
+    agreements: [],
   });
 
   const reset = () => {
@@ -28,6 +29,7 @@ export const useFunnel = () => {
       passwordConfirm: '',
       email: '',
       nickname: '',
+      agreements: [],
     });
   };
 

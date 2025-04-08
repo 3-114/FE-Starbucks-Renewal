@@ -1,3 +1,8 @@
+export type AgreementItem = {
+  id: number;
+  checked: boolean;
+};
+
 export type SignupFormData = {
   verified: boolean;
   userId: string;
@@ -5,6 +10,7 @@ export type SignupFormData = {
   passwordConfirm: string;
   email: string;
   nickname: string;
+  agreements: AgreementItem[];
 };
 
 export interface StepIndicatorProps {
