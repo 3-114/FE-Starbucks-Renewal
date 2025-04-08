@@ -1,30 +1,30 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { SignupFormData } from '@/types/SignUpDataTypes';
 import WelcomeUserCard from '@/components/shared/WelcomeUserCard';
 import BottomButtonWrapper from '@/components/layout/Footers/BottomButtonWrapper';
-import { MessageCircle, Smartphone } from 'lucide-react';
 import { ToggleSelectionBox } from '@/components/shared/ToggleBoxGroup';
 import { CheckBoxGroup } from '@/components/shared/CheckBoxGroup';
 
-interface IdentityVerificationFormProps {
-  formData: SignupFormData;
-  handleInputChange: (name: keyof SignupFormData, value: string | number | boolean) => void;
-  handleNextStep: () => void;
-}
+import { Button } from '@/components/ui/button';
+import { MessageCircle, Smartphone } from 'lucide-react';
 
-export default function IdentityVerificationForm({
-  formData,
-  handleInputChange,
-  handleNextStep,
-}: IdentityVerificationFormProps) {
-  const [verificationMethod, setVerificationMethod] = useState<'toss' | 'phone' | null>(null);
+export default function VerifyMethodForm({
+  goTo,
+}: {
+  goTo: (stepKey: string) => void;
+}) {
+  const [verificationMethod, setVerificationMethod] = useState<
+    'toss' | 'phone' | null
+  >(null);
 
   const handleSelectMethod = (method: 'toss' | 'phone') => {
     setVerificationMethod(method);
-    handleInputChange('verified', true);
+  };
+
+  const handleConfirm = () => {
+    if (verificationMethod === 'toss') goTo('toss-certification');
+    if (verificationMethod === 'phone') goTo('phone-certification');
   };
 
   return (
@@ -48,19 +48,23 @@ export default function IdentityVerificationForm({
           description="본인 명의 휴대폰으로 인증할 수 있어요."
           checked={verificationMethod === 'phone'}
           onClick={() => handleSelectMethod('phone')}
+          data-selected={verificationMethod === 'phone'}
         />
       </div>
-      <div className="font-semibold">
+      <div
+        data-selected={verificationMethod === 'phone'}
+        className="font-semibold data-[selected=true]:hidden"
+      >
         <CheckBoxGroup label="같은 인증방식을 다음에도 이용하기" />
       </div>
       <BottomButtonWrapper className="px-7 pt-5 shadow-[0_0_10px_rgba(0,0,0,0.1)]">
         <Button
-          type="submit"
+          type="button"
           variant="largetpye"
           size="lg"
           color={!verificationMethod ? 'gray' : 'default'}
-          onClick={handleNextStep}
-          disabled={!formData.verified}
+          onClick={handleConfirm}
+          disabled={!verificationMethod}
           className={`w-full text-lg font-bold py-6 ${
             !verificationMethod ? 'pointer-events-none' : ''
           }`}

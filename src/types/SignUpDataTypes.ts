@@ -3,7 +3,8 @@ export type SignupFormData = {
   userId: string;
   password: string;
   passwordConfirm: string;
-  agreeTerms: boolean;
+  email: string;
+  nickname: string;
 };
 
 export interface StepIndicatorProps {
@@ -25,16 +26,18 @@ type HeaderType = {
 
 export interface StepContentProps {
   formData: SignupFormData;
-  onInput: (name: keyof SignupFormData, value: string | boolean | number) => void;
+  onInput: (
+    name: keyof SignupFormData,
+    value: string | boolean | number
+  ) => void;
   onNext: () => void;
+  onPrev: () => void;
+  goTo: (stepKey: string) => void;
 }
 
 export interface StepProps {
   id: number;
+  key: string;
   header?: HeaderType;
-  content: (args: {
-    formData: SignupFormData;
-    onNext: () => void;
-    onInput: (name: keyof SignupFormData, value: string | number | boolean) => void;
-  }) => React.ReactNode;
+  content: (args: StepContentProps) => React.ReactNode;
 }

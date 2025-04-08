@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { usePathname } from 'next/navigation';
+import { signupSteps } from '@/components/steps/signup';
 import { SignupFormData } from '@/types/SignUpDataTypes';
 
 type InputValue = string | boolean | number;
@@ -14,7 +15,8 @@ export const useFunnel = () => {
     userId: '',
     password: '',
     passwordConfirm: '',
-    agreeTerms: false,
+    email: '',
+    nickname: '',
   });
 
   const reset = () => {
@@ -24,15 +26,28 @@ export const useFunnel = () => {
       userId: '',
       password: '',
       passwordConfirm: '',
-      agreeTerms: false,
+      email: '',
+      nickname: '',
     });
   };
 
   const next = () => setStepIndex((prev) => prev + 1);
 
-  const onInput = (name: keyof SignupFormData, value: InputValue) => {
-    setFormData((prev) => ({ ...prev, [name]: value }));
+  const prev = () => setStepIndex((curr) => (curr > 0 ? curr - 1 : curr));
+
+  const goTo = (stepKey: string) => {
+    const index = signupSteps.findIndex((step) => step.key === stepKey);
+    if (index !== -1) {
+      setStepIndex(index);
+    }
   };
+
+  const onInput = useCallback(
+    (name: keyof SignupFormData, value: InputValue) => {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    },
+    []
+  );
 
   useEffect(() => {
     if (!pathname.startsWith('/signup')) {
@@ -40,5 +55,12 @@ export const useFunnel = () => {
     }
   }, [pathname]);
 
-  return { stepIndex, formData, next, onInput };
+  return {
+    stepIndex,
+    formData,
+    onNext: next,
+    onPrev: prev,
+    goTo,
+    onInput,
+  };
 };

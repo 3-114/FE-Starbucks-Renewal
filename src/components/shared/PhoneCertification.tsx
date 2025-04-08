@@ -12,10 +12,25 @@ import {
   SelectItem,
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
+import { SignupFormData } from '@/types/SignUpDataTypes';
 
-export default function PhoneCertification({ onNext }: { onNext: () => void }) {
+export default function PhoneCertification({
+  onNext,
+  onInput,
+}: {
+  onNext: () => void;
+  onInput: (
+    name: keyof SignupFormData,
+    value: string | number | boolean
+  ) => void;
+}) {
+  const handleNext = () => {
+    onInput('verified', true);
+    onNext();
+  };
+
   return (
-    <section className="group tracking-tighter">
+    <section className="group tracking-tighter px-7">
       <p className="font-[Pretendard] text-[22px] font-medium leading-[30px] text-black pt-16 pb-6">
         본인확인을 위해
         <br />
@@ -95,7 +110,7 @@ export default function PhoneCertification({ onNext }: { onNext: () => void }) {
           type="button"
           variant="largetpye"
           size="lg"
-          onClick={onNext}
+          onClick={handleNext}
           className="
             w-full text-lg font-bold py-6
             group-has-[button[data-state=unchecked][data-required=true]]:bg-[#E0E0E0]

@@ -1,13 +1,24 @@
 'use client';
 
-import { signupSteps } from '@/components/steps/signupSteps';
+import { signupSteps } from '@/components/steps/signup';
 import { useFunnel } from '@/hooks/useFunnel';
 import OnlyIconHeader from '@/components/layout/headers/OnlyIconHeader';
 import SignUpHeader from '@/components/layout/headers/SignUpHeader';
 
 export default function SignUpPage() {
-  const { stepIndex, formData, next, onInput } = useFunnel();
+  const {
+    stepIndex,
+    formData,
+    onNext,
+    onPrev,
+    goTo,
+    onInput: onInput,
+  } = useFunnel();
   const current = signupSteps[stepIndex];
+
+  if (!current) {
+    return <main>존재하지 않는 단계입니다. 처음으로 돌아가 주세요.</main>;
+  }
 
   const renderHeader = () => {
     if (!current.header) return null;
@@ -19,9 +30,15 @@ export default function SignUpPage() {
   };
 
   return (
-    <main>
+    <>
       {renderHeader()}
-      {current.content({ formData, onNext: next, onInput })}
-    </main>
+      {current.content({
+        formData,
+        onInput,
+        onNext,
+        onPrev,
+        goTo,
+      })}
+    </>
   );
 }

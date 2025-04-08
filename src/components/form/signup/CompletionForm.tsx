@@ -1,12 +1,16 @@
 'use client';
 
+import BottomButtonWrapper from '@/components/layout/Footers/BottomButtonWrapper';
+import { Button } from '@/components/ui/button';
 import { SignupFormData } from '@/types/SignUpDataTypes';
+import { useRouter } from 'next/navigation';
 
 interface CompletionStepProps {
   formData: SignupFormData;
 }
 
 export default function CompletionStep({ formData }: CompletionStepProps) {
+  const router = useRouter();
   return (
     <div className="p-4 text-center">
       <div className="mb-6">
@@ -29,9 +33,17 @@ export default function CompletionStep({ formData }: CompletionStepProps) {
       <p className="mb-6 text-gray-600">
         {formData.userId}님, 회원가입이 성공적으로 완료되었습니다.
       </p>
-      <button className="w-full py-3 rounded-lg bg-green-600 text-white">
-        로그인 페이지로 이동
-      </button>
+      <BottomButtonWrapper className="px-7">
+        <Button
+          type="button"
+          variant="largetpye"
+          size="lg"
+          onClick={() => router.push('/')}
+          className="w-full text-lg font-bold py-6"
+        >
+          다음
+        </Button>
+      </BottomButtonWrapper>
     </div>
   );
 }
