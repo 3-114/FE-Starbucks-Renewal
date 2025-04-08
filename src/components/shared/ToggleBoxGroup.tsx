@@ -60,13 +60,3 @@ export const ToggleSelectionBox = ({
     </div>
   );
 };
-
-export const ToggleSelectionBoxGroup = ({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) => {
-  return <div className={cn('flex flex-col gap-3', className)}>{children}</div>;
-};

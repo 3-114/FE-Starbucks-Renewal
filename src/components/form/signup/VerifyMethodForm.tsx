@@ -1,11 +1,16 @@
 'use client';
 
-import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { ChevronRight } from 'lucide-react';
 
-export default function TossCertification({ Next }: { Next: () => void }) {
+export default function TossCertification({
+  Next,
+  GoTo,
+}: {
+  Next: () => void;
+  GoTo: (stepKey: string) => void;
+}) {
   return (
     <section className="pt-20 space-y-6 text-center tracking-tighter px-7">
       <div className="w-full px-16">
@@ -31,15 +36,15 @@ export default function TossCertification({ Next }: { Next: () => void }) {
       >
         토스로 인증하기
       </Button>
-      <Link
-        href={'/'}
+      <button
+        onClick={() => GoTo('phone-certification')}
         className="flex pt-54 space-x-[2px] justify-center items-center"
       >
         <p className="text-xs text-[#9E9E9E] font-medium underline">
           토스앱이 없을 경우 휴대폰 인증도 가능해요
         </p>
         <ChevronRight size={20} color="#9E9E9E" />
-      </Link>
+      </button>
       <div className="px-4 py-3 text-start bg-[#F7F7F7] text-xs tracking-tighter text-[#6B6B6B]">
         <p className="text-sm">문제 발생 시 조치방법</p>
         <ul className="mt-1 list-disc pl-5 space-y-1">
