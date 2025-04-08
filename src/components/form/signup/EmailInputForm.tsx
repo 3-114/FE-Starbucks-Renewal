@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   Select,
   SelectContent,
@@ -14,11 +14,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
 export default function EmailInputForm({
-  formData,
   onInput,
   onNext,
 }: {
-  formData: SignupFormData;
   onInput: (
     name: keyof SignupFormData,
     value: string | boolean | number
@@ -29,24 +27,19 @@ export default function EmailInputForm({
   const [domain, setDomain] = useState('');
   const [customDomain, setCustomDomain] = useState('');
 
-  useEffect(() => {
-    if (formData.email.includes('@')) {
-      const [local, dom] = formData.email.split('@');
-      setLocalPart(local);
-      setDomain(dom);
-    }
-  }, [formData.email]);
-
-  useEffect(() => {
+  const handleNext = () => {
     const finalDomain = domain === 'custom' ? customDomain : domain;
     if (localPart && finalDomain) {
-      onInput('email', `${localPart}@${finalDomain}`);
+      const email = `${localPart}@${finalDomain}`;
+      onInput('email', email);
+      onNext();
     }
-  }, [localPart, domain, customDomain, onInput]);
+  };
 
   return (
     <section className="flex flex-col gap-4 px-7">
       <div className="flex items-center gap-2 w-full">
+        {/* 로컬 파트 입력 */}
         <Input
           variant="login"
           placeholder="이메일"
@@ -55,48 +48,28 @@ export default function EmailInputForm({
         />
         <p className="text-lg">@</p>
 
-        {domain === 'custom' ? (
-          <div className="flex items-center gap-2">
-            <Input
-              variant="login"
-              placeholder="직접 입력"
-              value={customDomain}
-              onChange={(e) => setCustomDomain(e.target.value)}
-              className="h-9 w-[140px] text-sm px-2"
-            />
-            <Select
-              value={domain}
-              onValueChange={(value) => {
-                setDomain(value);
-                if (value !== 'custom') setCustomDomain('');
-              }}
-            >
-              <SelectTrigger
-                size="sm"
-                className="border-none font-black text-[14px] w-7 justify-center"
-              >
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="naver.com">naver.com</SelectItem>
-                <SelectItem value="gmail.com">gmail.com</SelectItem>
-                <SelectItem value="daum.net">daum.net</SelectItem>
-                <SelectItem value="hanmail.net">hanmail.net</SelectItem>
-                <SelectItem value="custom">직접입력</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        ) : (
+        <div className="flex items-center gap-2 relative">
+          <Input
+            variant="login"
+            placeholder="직접 입력"
+            value={customDomain}
+            onChange={(e) => setCustomDomain(e.target.value)}
+            className={`h-9 w-[140px] text-sm px-2 transition-all duration-200 ${
+              domain === 'custom' ? 'block' : 'hidden'
+            }`}
+          />
           <Select
             value={domain}
             onValueChange={(value) => {
-              setDomain(value);
               if (value !== 'custom') setCustomDomain('');
+              setDomain(value);
             }}
           >
             <SelectTrigger
               size="sm"
-              className="border-none font-black text-[14px]"
+              className={`border-none font-black text-[14px] justify-center ${
+                domain === 'custom' ? 'w-7' : 'w-34'
+              }`}
             >
               <SelectValue placeholder="도메인 선택" />
             </SelectTrigger>
@@ -108,8 +81,10 @@ export default function EmailInputForm({
               <SelectItem value="custom">직접입력</SelectItem>
             </SelectContent>
           </Select>
-        )}
+        </div>
       </div>
+
+      {/* 안내 문구 */}
       <ul className="text-xs text-[#6B6B6B] leading-snug space-y-1 mt-2 pl-4 list-disc">
         <li>
           스타벅스 코리아의 새로운 서비스와 최신 이벤트 정보를 이메일로
@@ -121,15 +96,16 @@ export default function EmailInputForm({
         </li>
       </ul>
 
+      {/* 다음 버튼 */}
       <BottomButtonWrapper className="px-7 pt-5 shadow-[0_0_10px_rgba(0,0,0,0.1)]">
         <Button
           type="button"
           variant="largetpye"
           size="lg"
-          onClick={onNext}
+          onClick={handleNext}
           className="w-full text-lg font-bold py-6"
           disabled={
-            !localPart || (domain === 'custom' ? !customDomain : !domain)
+            !localPart || !domain || (domain === 'custom' && !customDomain)
           }
         >
           다음
