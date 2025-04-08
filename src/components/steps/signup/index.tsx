@@ -58,8 +58,8 @@ export const signupSteps: StepProps[] = [
     id: 7,
     key: 'email-input',
     header: { type: 'SignUpHeader', props: { step: 3 } },
-    content: ({ formData, onInput, onNext }) => (
-      <EmailInputStep formData={formData} onInput={onInput} onNext={onNext} />
+    content: ({ onInput, onNext }) => (
+      <EmailInputStep onInput={onInput} onNext={onNext} />
     ),
   },
   {
