@@ -1,14 +1,26 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { CheckBoxGroup } from '@/components/shared/CheckBoxGroup';
 import WelcomeUserCard from '@/components/shared/WelcomeUserCard';
 import BottomButtonWrapper from '@/components/layout/Footers/BottomButtonWrapper';
 import { Button } from '@/components/ui/button';
+import { SignupFormData } from '@/types/SignUpDataTypes';
 
+interface TossPrivacyFormProps {
+  GoTo: (stepKey: string) => void;
+  Input: (name: keyof SignupFormData, value: string | number | boolean) => void;
+  Prev: () => void;
+}
 
-export default function TossPrivacyForm({ onAgree }: {onAgree: () => void;}) {
-  const router = useRouter();
+export default function TossPrivacyForm({
+  GoTo,
+  Input,
+  Prev,
+}: TossPrivacyFormProps) {
+  const handleAgree = () => {
+    Input('verified', true);
+    GoTo('create-user');
+  };
 
   return (
     <section className="px-7">
@@ -23,11 +35,9 @@ export default function TossPrivacyForm({ onAgree }: {onAgree: () => void;}) {
         <Button
           variant="largetpye"
           size="agree"
-          className="w-full
-            group-has-[button[data-state=unchecked][data-required=true]]:bg-[#E0E0E0]
-            group-has-[button[data-state=unchecked][data-required=true]]:pointer-events-none"
+          className="w-full group-has-[button[data-state=unchecked][data-required=true]]:bg-[#E0E0E0] group-has-[button[data-state=unchecked][data-required=true]]:pointer-events-none"
           color="blue"
-          onClick={onAgree}
+          onClick={handleAgree}
         >
           동의하기
         </Button>
@@ -36,7 +46,7 @@ export default function TossPrivacyForm({ onAgree }: {onAgree: () => void;}) {
           size="agree"
           className="w-full text-black shadow-none"
           color="white"
-          onClick={() => router.back()}
+          onClick={Prev}
         >
           닫기
         </Button>

@@ -15,6 +15,10 @@ const dataMap: Record<string, WelcomeUserCardProps> = {
     avatarname: '인증을 진행해 주세요',
     greeting: '본인확인을 위해',
   },
+  createuser: {
+    avatarname: '입력해 주세요.',
+    greeting: '아이디와 비밀번호를',
+  },
 };
 
 export default function WelcomeUserCard({

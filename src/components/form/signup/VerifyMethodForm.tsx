@@ -1,61 +1,77 @@
 'use client';
 
-import Image from 'next/image';
-import { Button } from '@/components/ui/button';
-import { ChevronRight } from 'lucide-react';
+import { useState } from 'react';
+import WelcomeUserCard from '@/components/shared/WelcomeUserCard';
+import BottomButtonWrapper from '@/components/layout/Footers/BottomButtonWrapper';
+import { ToggleSelectionBox } from '@/components/shared/ToggleBoxGroup';
+import { CheckBoxGroup } from '@/components/shared/CheckBoxGroup';
 
-export default function TossCertification({
-  Next,
+import { Button } from '@/components/ui/button';
+import { MessageCircle, Smartphone } from 'lucide-react';
+
+export default function VerifyMethodForm({
   GoTo,
 }: {
-  Next: () => void;
   GoTo: (stepKey: string) => void;
 }) {
+  const [verificationMethod, setVerificationMethod] = useState<
+    'toss' | 'phone' | null
+  >(null);
+
+  const handleSelectMethod = (method: 'toss' | 'phone') => {
+    setVerificationMethod(method);
+  };
+
+  const handleConfirm = () => {
+    if (verificationMethod === 'toss') GoTo('toss-certification');
+    if (verificationMethod === 'phone') GoTo('phone-certification');
+  };
+
   return (
-    <section className="pt-20 space-y-6 text-center tracking-tighter px-7">
-      <div className="w-full px-16">
-        <Image
-          src="/lockImg.png"
-          alt="자물쇠 이미지"
-          width={200}
-          height={140}
+    <section className="px-7 pt-16">
+      <WelcomeUserCard
+        type="identification"
+        className="text-[22px]/normal tracking-[-0.02em]"
+      />
+      <div className="space-y-3 mt-8 mb-36">
+        <ToggleSelectionBox
+          icon={<MessageCircle className="h-5 w-5" />}
+          title="토스로 회원 가입하기"
+          description="5초만에 간편하게 인증할 수 있어요."
+          checked={verificationMethod === 'toss'}
+          onClick={() => handleSelectMethod('toss')}
+          className="shadow-md"
+        />
+        <ToggleSelectionBox
+          icon={<Smartphone className="h-5 w-5" />}
+          title="휴대폰 본인 인증하기"
+          description="본인 명의 휴대폰으로 인증할 수 있어요."
+          checked={verificationMethod === 'phone'}
+          onClick={() => handleSelectMethod('phone')}
+          data-selected={verificationMethod === 'phone'}
         />
       </div>
-      <div className="text-base/normal font-semibold text-[#6B6B6B]">
-        <p>
-          본인인증을 위하여 토스로 이동해 주세요.
-          <br />
-          아래 버튼을 눌러 인증해 주세요.
-        </p>
-      </div>
-      <Button
-        variant="largetpye"
-        size="md"
-        className="w-[134px]"
-        onClick={Next}
+      <div
+        data-selected={verificationMethod === 'phone'}
+        className="font-semibold data-[selected=true]:hidden"
       >
-        토스로 인증하기
-      </Button>
-      <button
-        onClick={() => GoTo('phone-certification')}
-        className="flex pt-54 space-x-[2px] justify-center items-center"
-      >
-        <p className="text-xs text-[#9E9E9E] font-medium underline">
-          토스앱이 없을 경우 휴대폰 인증도 가능해요
-        </p>
-        <ChevronRight size={20} color="#9E9E9E" />
-      </button>
-      <div className="px-4 py-3 text-start bg-[#F7F7F7] text-xs tracking-tighter text-[#6B6B6B]">
-        <p className="text-sm">문제 발생 시 조치방법</p>
-        <ul className="mt-1 list-disc pl-5 space-y-1">
-          <li>휴대폰에서 토스앱 설치가 되어있는지 확인해 주세요.</li>
-          <li>
-            토스앱 &gt; 우측하단 전체 &gt; 보안과 인증 &gt; 토스인증서에서
-            인증요청 내용을 확인하실 수 있습니다.
-          </li>
-          <li>문제가 계속된다면, 토스 고객센터: 1599-4905로 문의바랍니다.</li>
-        </ul>
+        <CheckBoxGroup label="같은 인증방식을 다음에도 이용하기" />
       </div>
+      <BottomButtonWrapper className="px-7 pt-5 shadow-[0_0_10px_rgba(0,0,0,0.1)]">
+        <Button
+          type="button"
+          variant="largetpye"
+          size="lg"
+          color={!verificationMethod ? 'gray' : 'default'}
+          onClick={handleConfirm}
+          disabled={!verificationMethod}
+          className={`w-full text-lg font-bold py-6 ${
+            !verificationMethod ? 'pointer-events-none' : ''
+          }`}
+        >
+          다음
+        </Button>
+      </BottomButtonWrapper>
     </section>
   );
 }

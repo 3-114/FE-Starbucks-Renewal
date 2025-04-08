@@ -30,7 +30,7 @@ export default function SignUpPage() {
   };
 
   return (
-    <main>
+    <>
       {renderHeader()}
       {current.content({
         formData,
@@ -39,6 +39,6 @@ export default function SignUpPage() {
         Prev,
         GoTo,
       })}
-    </main>
+    </>
   );
 }
