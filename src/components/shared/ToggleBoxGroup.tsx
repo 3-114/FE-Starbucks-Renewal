@@ -1,45 +1,42 @@
 'use client';
 
-import React from 'react';
+import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
-interface ToggleSelectionBoxProps {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-  checked?: boolean;
-  onClick?: () => void;
-  className?: string;
-}
-
 export const ToggleSelectionBox = ({
-  icon,
+  imgSrc,
   title,
   description,
   checked = false,
   onClick,
   className,
-}: ToggleSelectionBoxProps) => {
+}: {
+  imgSrc: string;
+  title: string;
+  description: string;
+  checked?: boolean;
+  onClick?: () => void;
+  className?: string;
+}) => {
   return (
     <div
       className={cn(
-        'relative flex items-center gap-3 rounded-lg border p-4 transition-all cursor-pointer',
+        'relative flex items-center gap-3 rounded-lg border-2 p-4 transition-all cursor-pointer',
         checked
-          ? 'border-[#01A862] border-2'
-          : 'border-border bg-background hover:bg-accent/5',
+          ? 'border-[#01A862]'
+          : 'border-transparent bg-background hover:bg-accent/5',
         className
       )}
       onClick={onClick}
     >
-      <div
-        className={cn(
-          'flex h-10 w-10 shrink-0 items-center justify-center rounded-full',
-          checked
-            ? 'bg-[#01A862] text-primary-foreground'
-            : 'bg-muted text-muted-foreground'
-        )}
-      >
-        {icon}
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full overflow-hidden bg-muted">
+        <Image
+          src={imgSrc}
+          alt={title}
+          width={20}
+          height={20}
+          className="object-contain"
+        />
       </div>
 
       <div className="flex-1">
