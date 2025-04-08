@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
@@ -8,7 +11,7 @@ export const CheckBoxGroup = ({
   label,
   className,
   required = false,
-  checked = false,
+  checked,
   onChange,
 }: {
   checked?: boolean;
@@ -18,22 +21,31 @@ export const CheckBoxGroup = ({
   required?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) => {
+  const [internalChecked, setInternalChecked] = useState(false);
+
+  const isControlled = typeof checked === 'boolean';
+  const currentChecked = isControlled ? checked : internalChecked;
+
+  const handleCheckChange = (checked: boolean) => {
+    if (onChange) {
+      onChange({
+        target: { checked },
+      } as React.ChangeEvent<HTMLInputElement>);
+    } else {
+      setInternalChecked(!!checked);
+    }
+  };
+
   return (
-    <div className="flex items-center gap-2 py-4 relative">
+    <div className="flex items-center gap-2 py-4 relative cursor-pointer select-none">
       <Checkbox
         className={className}
         data-required={required}
         variant="green"
-        checked={checked}
-        onCheckedChange={(checked) => {
-          if (onChange) {
-            onChange({
-              target: { checked },
-            } as React.ChangeEvent<HTMLInputElement>);
-          }
-        }}
+        checked={currentChecked}
+        onCheckedChange={handleCheckChange}
       />
-      <label>{label}</label>
+      <label className="cursor-pointer">{label}</label>
       <Link
         href={link}
         className={cn(
