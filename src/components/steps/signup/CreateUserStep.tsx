@@ -4,17 +4,20 @@ import WelcomeUserCard from '@/components/shared/WelcomeUserCard';
 
 export default function CreateUserStep({
   formData,
-  Input,
-  Next,
+  onInput,
+  onNext,
 }: {
   formData: SignupFormData;
-  Input: (name: keyof SignupFormData, value: string | number | boolean) => void;
-  Next: () => void;
+  onInput: (
+    name: keyof SignupFormData,
+    value: string | number | boolean
+  ) => void;
+  onNext: () => void;
 }) {
   return (
     <main>
       <WelcomeUserCard type={'createuser'} />
-      <CreateUserForm formData={formData} Input={Input} Next={Next} />
+      <CreateUserForm formData={formData} onInput={onInput} onNext={onNext} />
     </main>
   );
 }

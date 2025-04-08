@@ -6,20 +6,21 @@ import BottomButtonWrapper from '@/components/layout/Footers/BottomButtonWrapper
 import { Button } from '@/components/ui/button';
 import { SignupFormData } from '@/types/SignUpDataTypes';
 
-interface TossPrivacyFormProps {
-  GoTo: (stepKey: string) => void;
-  Input: (name: keyof SignupFormData, value: string | number | boolean) => void;
-  Prev: () => void;
-}
-
 export default function TossPrivacyForm({
-  GoTo,
-  Input,
-  Prev,
-}: TossPrivacyFormProps) {
+  goTo,
+  onInput,
+  onPrev,
+}: {
+  goTo: (stepKey: string) => void;
+  onInput: (
+    name: keyof SignupFormData,
+    value: string | number | boolean
+  ) => void;
+  onPrev: () => void;
+}) {
   const handleAgree = () => {
-    Input('verified', true);
-    GoTo('create-user');
+    onInput('verified', true);
+    goTo('create-user');
   };
 
   return (
@@ -46,7 +47,7 @@ export default function TossPrivacyForm({
           size="agree"
           className="w-full text-black shadow-none"
           color="white"
-          onClick={Prev}
+          onClick={onPrev}
         >
           닫기
         </Button>

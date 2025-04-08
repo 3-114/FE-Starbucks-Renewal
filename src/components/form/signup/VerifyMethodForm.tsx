@@ -10,9 +10,9 @@ import { Button } from '@/components/ui/button';
 import { MessageCircle, Smartphone } from 'lucide-react';
 
 export default function VerifyMethodForm({
-  GoTo,
+  goTo,
 }: {
-  GoTo: (stepKey: string) => void;
+  goTo: (stepKey: string) => void;
 }) {
   const [verificationMethod, setVerificationMethod] = useState<
     'toss' | 'phone' | null
@@ -23,8 +23,8 @@ export default function VerifyMethodForm({
   };
 
   const handleConfirm = () => {
-    if (verificationMethod === 'toss') GoTo('toss-certification');
-    if (verificationMethod === 'phone') GoTo('phone-certification');
+    if (verificationMethod === 'toss') goTo('toss-certification');
+    if (verificationMethod === 'phone') goTo('phone-certification');
   };
 
   return (

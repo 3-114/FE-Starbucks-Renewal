@@ -10,12 +10,15 @@ import { SignupFormData } from '@/types/SignUpDataTypes';
 
 export default function CreateUserForm({
   formData,
-  Input: updateFormData,
-  Next,
+  onInput: updateFormData,
+  onNext,
 }: {
   formData: SignupFormData;
-  Input: (name: keyof SignupFormData, value: string | boolean | number) => void;
-  Next: () => void;
+  onInput: (
+    name: keyof SignupFormData,
+    value: string | boolean | number
+  ) => void;
+  onNext: () => void;
 }) {
   const [validation, setValidation] = useState({
     userId: null as null | boolean,
@@ -180,7 +183,7 @@ export default function CreateUserForm({
           type="button"
           variant="largetpye"
           size="lg"
-          onClick={Next}
+          onClick={onNext}
           className="w-full text-lg font-bold py-6 data-[valid=false]:bg-[#E0E0E0] data-[valid=false]:pointer-events-none"
           data-valid={isFormValid()}
         >

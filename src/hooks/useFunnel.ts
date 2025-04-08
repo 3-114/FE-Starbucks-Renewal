@@ -15,7 +15,8 @@ export const useFunnel = () => {
     userId: '',
     password: '',
     passwordConfirm: '',
-    agreeTerms: false,
+    email: '',
+    nickname: '',
   });
 
   const reset = () => {
@@ -25,7 +26,8 @@ export const useFunnel = () => {
       userId: '',
       password: '',
       passwordConfirm: '',
-      agreeTerms: false,
+      email: '',
+      nickname: '',
     });
   };
 
@@ -50,5 +52,12 @@ export const useFunnel = () => {
     }
   }, [pathname]);
 
-  return { stepIndex, formData, next, prev, goTo, onInput };
+  return {
+    stepIndex,
+    formData,
+    onNext: next,
+    onPrev: prev,
+    goTo,
+    onInput,
+  };
 };

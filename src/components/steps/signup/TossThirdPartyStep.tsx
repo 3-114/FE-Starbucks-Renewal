@@ -2,13 +2,16 @@ import TossPrivacyForm from '@/components/form/TossPrivacyForm';
 import { SignupFormData } from '@/types/SignUpDataTypes';
 
 export default function TossThirdPartyStep({
-  GoTo,
-  Prev,
-  Input,
+  goTo,
+  onPrev,
+  onInput,
 }: {
-  GoTo: (stepKey: string) => void;
-  Prev: () => void;
-  Input: (name: keyof SignupFormData, value: string | number | boolean) => void;
+  goTo: (stepKey: string) => void;
+  onPrev: () => void;
+  onInput: (
+    name: keyof SignupFormData,
+    value: string | number | boolean
+  ) => void;
 }) {
-  return <TossPrivacyForm GoTo={GoTo} Input={Input} Prev={Prev} />;
+  return <TossPrivacyForm goTo={goTo} onInput={onInput} onPrev={onPrev} />;
 }

@@ -19,6 +19,10 @@ const dataMap: Record<string, WelcomeUserCardProps> = {
     avatarname: '입력해 주세요.',
     greeting: '아이디와 비밀번호를',
   },
+  email: {
+    avatarname: '입력해 주세요.',
+    greeting: '이메일을',
+  },
 };
 
 export default function WelcomeUserCard({

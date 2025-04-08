@@ -2,11 +2,14 @@ import PhoneCertification from '@/components/shared/PhoneCertification';
 import { SignupFormData } from '@/types/SignUpDataTypes';
 
 export default function PhoneCertificationStep({
-  Next,
-  Input,
+  onNext,
+  onInput,
 }: {
-  Next: () => void;
-  Input: (name: keyof SignupFormData, value: string | number | boolean) => void;
+  onNext: () => void;
+  onInput: (
+    name: keyof SignupFormData,
+    value: string | number | boolean
+  ) => void;
 }) {
-  return <PhoneCertification onNext={Next} onInput={Input} />;
+  return <PhoneCertification onNext={onNext} onInput={onInput} />;
 }

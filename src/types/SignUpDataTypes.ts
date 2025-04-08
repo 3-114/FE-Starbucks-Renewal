@@ -3,7 +3,8 @@ export type SignupFormData = {
   userId: string;
   password: string;
   passwordConfirm: string;
-  agreeTerms: boolean;
+  email: string;
+  nickname: string;
 };
 
 export interface StepIndicatorProps {
@@ -25,10 +26,13 @@ type HeaderType = {
 
 export interface StepContentProps {
   formData: SignupFormData;
-  Input: (name: keyof SignupFormData, value: string | boolean | number) => void;
-  Next: () => void;
-  Prev: () => void;
-  GoTo: (stepKey: string) => void;
+  onInput: (
+    name: keyof SignupFormData,
+    value: string | boolean | number
+  ) => void;
+  onNext: () => void;
+  onPrev: () => void;
+  goTo: (stepKey: string) => void;
 }
 
 export interface StepProps {

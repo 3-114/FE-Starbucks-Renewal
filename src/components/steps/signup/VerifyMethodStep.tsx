@@ -1,9 +1,9 @@
 import VerifyMethodForm from '@/components/form/signup/VerifyMethodForm';
 
 export default function VerifyMethodStep({
-  GoTo,
+  goTo,
 }: {
-  GoTo: (stepKey: string) => void;
+  goTo: (stepKey: string) => void;
 }) {
-  return <VerifyMethodForm GoTo={GoTo} />;
+  return <VerifyMethodForm goTo={goTo} />;
 }

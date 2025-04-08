@@ -9,10 +9,10 @@ export default function SignUpPage() {
   const {
     stepIndex,
     formData,
-    next: Next,
-    prev: Prev,
-    goTo: GoTo,
-    onInput: Input,
+    onNext,
+    onPrev,
+    goTo,
+    onInput: onInput,
   } = useFunnel();
   const current = signupSteps[stepIndex];
 
@@ -34,10 +34,10 @@ export default function SignUpPage() {
       {renderHeader()}
       {current.content({
         formData,
-        Input,
-        Next,
-        Prev,
-        GoTo,
+        onInput,
+        onNext,
+        onPrev,
+        goTo,
       })}
     </>
   );
