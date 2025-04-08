@@ -9,6 +9,8 @@ import TossThirdPartyStep from '@/components/steps/signup/TossThirdPartyStep';
 import PhoneCertificationStep from '@/components/steps/signup/PhoneCertificationStep';
 import CreateUserStep from '@/components/steps/signup/CreateUserStep';
 import EmailInputStep from '@/components/steps/signup/EmailInputStep';
+import NickNameInputStep from '@/components/steps/signup/NickNameInputStep';
+import CompletionStep from '@/components/steps/signup/CompletionStep';
 
 export const signupSteps: StepProps[] = [
   {
@@ -59,5 +61,23 @@ export const signupSteps: StepProps[] = [
     content: ({ formData, onInput, onNext }) => (
       <EmailInputStep formData={formData} onInput={onInput} onNext={onNext} />
     ),
+  },
+  {
+    id: 8,
+    key: 'nicname-input',
+    header: { type: 'OnlyIconHeader', props: { type: 'identification' } },
+    content: ({ formData, onInput, onNext }) => (
+      <NickNameInputStep
+        formData={formData}
+        onInput={onInput}
+        onNext={onNext}
+      />
+    ),
+  },
+  {
+    id: 9,
+    key: 'Completion',
+    header: { type: 'SignUpHeader', props: { step: 4 } },
+    content: ({ formData }) => <CompletionStep formData={formData} />,
   },
 ];

@@ -1,8 +1,8 @@
-import EmailInputForm from '@/components/form/signup/EmailInputForm';
+import NickNameInputForm from '@/components/form/signup/NickNameInputForm';
 import WelcomeUserCard from '@/components/shared/WelcomeUserCard';
 import { SignupFormData } from '@/types/SignUpDataTypes';
 
-export default function EmailInputStep({
+export default function NickNameInputStep({
   formData,
   onInput,
   onNext,
@@ -16,8 +16,12 @@ export default function EmailInputStep({
 }) {
   return (
     <main>
-      <WelcomeUserCard type={'email'} />
-      <EmailInputForm formData={formData} onInput={onInput} onNext={onNext} />
+      <WelcomeUserCard type={'nickname'} />
+      <NickNameInputForm
+        formData={formData}
+        onInput={onInput}
+        onNext={onNext}
+      />
     </main>
   );
 }

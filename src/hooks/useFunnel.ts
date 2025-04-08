@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { usePathname } from 'next/navigation';
 import { signupSteps } from '@/components/steps/signup';
 import { SignupFormData } from '@/types/SignUpDataTypes';
@@ -42,9 +42,12 @@ export const useFunnel = () => {
     }
   };
 
-  const onInput = (name: keyof SignupFormData, value: InputValue) => {
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  const onInput = useCallback(
+    (name: keyof SignupFormData, value: InputValue) => {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    },
+    []
+  );
 
   useEffect(() => {
     if (!pathname.startsWith('/signup')) {
