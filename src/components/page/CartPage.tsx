@@ -1,7 +1,7 @@
 import AddressCarousel from '@/components/shared/AddressCarousel';
 import CartContainer from '@/components/container/CartContainer';
-import BottomButtonWrapper from '../layout/Footers/BottomButtonWrapper';
-import { Button } from '../ui/button';
+import BottomButtonWrapper from '@/components/layout/Footers/BottomButtonWrapper';
+import { Button } from '@/components/ui/button';
 
 const dummyAddresses = [
   {
@@ -21,7 +21,7 @@ const dummyAddresses = [
 
 export default function CartPage() {
   return (
-    <main>
+    <main className="pb-42">
       <AddressCarousel addresses={dummyAddresses} />
       <CartContainer />
       <BottomButtonWrapper className="px-6 pt-5 shadow-[0_0_10px_rgba(0,0,0,0.1)]">
