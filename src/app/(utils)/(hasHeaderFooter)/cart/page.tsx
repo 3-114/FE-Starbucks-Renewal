@@ -1,9 +1,9 @@
-import CartPage from "@/components/page/CartPage"
+import CartPage from '@/components/page/CartPage';
 
 export default function page() {
   return (
-    <main>
-      <CartPage/>
-    </main>
-  )
+    <>
+      <CartPage />
+    </>
+  );
 }
