@@ -1,4 +1,5 @@
 import AddressCarousel from '@/components/shared/AddressCarousel';
+import CartContainer from '@/components/container/CartContainer';
 
 const dummyAddresses = [
   {
@@ -18,9 +19,9 @@ const dummyAddresses = [
 
 export default function CartPage() {
   return (
-    <>
+    <main>
       <AddressCarousel addresses={dummyAddresses} />
-      {/* 일반과 예약 */}
-    </>
+      <CartContainer />
+    </main>
   );
 }
