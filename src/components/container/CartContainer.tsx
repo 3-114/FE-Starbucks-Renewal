@@ -2,7 +2,7 @@ export default function CartContainer() {
   return (
     <section>
       <></>
-      nav따라 보이는
+      장바구니일 것이다
     </section>
   );
 }
