@@ -1,5 +1,5 @@
 import CartTabNav from '@/components/layout/navs/CartTabNav';
-import CartList from '@/components/shared/CartList';
+import CartList from '@/components/shared/cart/CartList';
 
 const dummyCartTabData = [
   { id: 1, title: '일반', count: 0 },
@@ -11,11 +11,18 @@ export default function CartContainer() {
     <section>
       <CartTabNav CartTabData={dummyCartTabData} />
       <CartList
-        productUuids={['uuid-1', 'uuid-3']}
-        subtotal={60000}
-        discount={5000}
-        shipping={3000}
-        total={58000}
+        productUuids={[
+          'uuid-1',
+          'uuid-2',
+          'uuid-3',
+          'uuid-4',
+          'uuid-5',
+          'uuid-6',
+          'uuid-7',
+          'uuid-8',
+          'uuid-9',
+          'uuid-10',
+        ]}
       />
     </section>
   );
