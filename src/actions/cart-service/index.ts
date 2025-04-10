@@ -1,2 +1,2 @@
-export * from '@/actions/cart-service/toggle-checkbox';
-export * from '@/actions/cart-service/fetch-cart';
+export * from '@/actions/cart-service/toggleCheckbox';
+export * from '@/actions/cart-service/fetchCart';

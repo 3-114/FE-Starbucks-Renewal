@@ -1,6 +1,6 @@
 import CartTabNav from '@/components/layout/navs/CartTabNav';
-import CartList from '@/components/shared/cart/CartList';
-import EmptyCart from '@/components/shared/cart/EmptyCart';
+import FilledCartContent from '@/components/shared/cart/FilledCartContent';
+import EmptyCartContent from '@/components/shared/cart/EmptyCartContent';
 
 import { fetchCartProductUuids } from '@/actions/cart-service';
 
@@ -16,9 +16,9 @@ export default async function CartView() {
     <section>
       <CartTabNav CartTabData={dummyCartTabData} />
       {productUuids.length === 0 ? (
-        <EmptyCart />
+        <EmptyCartContent />
       ) : (
-        <CartList productUuids={productUuids} />
+        <FilledCartContent productUuids={productUuids} />
       )}
     </section>
   );

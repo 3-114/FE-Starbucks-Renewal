@@ -1,5 +1,6 @@
 'use client';
-import React from 'react';
+
+import { Checkbox } from '@/components/ui/checkbox';
 
 interface CartSelectionHeaderProps {
   isChecked: boolean;
@@ -19,15 +20,15 @@ export default function CartSelectionHeader({
   };
 
   return (
-    <div className="flex justify-between items-center py-2 px-3 border-b">
-      <div className="flex items-center gap-2">
-        <input
-          type="checkbox"
+    <div className="flex justify-between items-center py-6 px-4 bg-white text-sm font-medium">
+      <div className="flex items-center gap-[10px]">
+        <Checkbox
           checked={isChecked}
-          onChange={handleCheckChange}
-          className="h-5 w-5 text-green-500 rounded border-gray-300 focus:ring-green-500"
+          onCheckedChange={handleCheckChange}
+          variant="green"
+          size="lg"
         />
-        <span className="text-sm font-medium">전체 선택</span>
+        <p>전체 선택</p>
       </div>
       <button onClick={handleDelete} className="text-sm text-gray-500">
         전체 삭제

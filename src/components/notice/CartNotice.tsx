@@ -1,6 +1,6 @@
 export default function CartNotice() {
   return (
-    <div className="bg-gray-100 p-4 mt-2 text-xs text-gray-500 space-y-1">
+    <div className="bg-gray-100 p-4 mt-2 mb-2 text-xs text-gray-500 space-y-1">
       <p>
         • 장바구니에는 최대 20개까지 담을 수 있으며, 담긴 상품은 최대 2개월간
         보관됩니다.

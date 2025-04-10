@@ -3,14 +3,14 @@
 import { revalidateTag } from 'next/cache';
 
 export async function fetchCartProductUuids(tabId?: number): Promise<string[]> {
-  const suffix = tabId === 1 ? '/1' : '';
+  const suffix = tabId === 1 ? '/reservation' : '';
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/cart${suffix}`,
+    `${process.env.API_BASE_URL}/cart/product${suffix}`,
     {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'X-Member-UUID': process.env.MEMBER_UUID ?? '',
+        'Member-Uuid': process.env.MEMBER_UUID ?? '',
       },
       next: {
         tags: ['cart:product-uuids'],
@@ -22,9 +22,7 @@ export async function fetchCartProductUuids(tabId?: number): Promise<string[]> {
   }
 
   const data = await response.json();
-  console.log(data.productUuidList);
-
-  return data.productUuidList;
+  return data.result;
 }
 
 export async function setActiveCartTab(prevTabId: number, nextTabId: number) {

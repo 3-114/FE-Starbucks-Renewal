@@ -3,13 +3,19 @@ import CartSummary from '@/components/shared/cart/CartSummary';
 import CartNotice from '@/components/notice/CartNotice';
 import CartFooter from '@/components/layout/Footers/CartFooter';
 import CartAllSelectBox from '@/components/feature/boxs/CartAllSelectBox';
+import { getProductByUuid } from '@/actions/cart-service/getProductByUuid';
 
-import { dummyProduct } from '@/data/ProductData';
+import MainFooter from '@/components/layout/Footers/MainFooter';
+import { MainFooterDummyData } from '@/data/FooterData';
 
-export default function CartList({ productUuids }: { productUuids: string[] }) {
-  const cartItems = productUuids
-    .map((uuid) => dummyProduct[uuid])
-    .filter((item) => item !== undefined);
+export default async function CartList({
+  productUuids,
+}: {
+  productUuids: string[];
+}) {
+  const cartItems = (
+    await Promise.all(productUuids.map((uuid) => getProductByUuid(uuid)))
+  ).filter(Boolean);
 
   const checkedItems = cartItems.filter((item) => item.checked);
   const uncheckedItems = cartItems.filter((item) => !item.checked);
@@ -30,21 +36,15 @@ export default function CartList({ productUuids }: { productUuids: string[] }) {
   const finalTotal = productTotal + shippingTotal - discountTotal;
   const totalCount = checkedItems.length;
 
-  // 전체 선택 여부 확인
   const allChecked =
     cartItems.length > 0 && cartItems.every((item) => item.checked);
 
   return (
-    <div className="flex flex-col pb-10">
-      <div className="bg-white rounded-md shadow-sm mb-2">
-        <CartAllSelectBox isChecked={allChecked} />
-      </div>
-
-      <div className="bg-gray-100 my-2">
-        {orderedItems.map((item) => (
-          <CartItemBox key={item.uuid} item={item} />
-        ))}
-      </div>
+    <article className="pb-60 bg-gray-200">
+      <CartAllSelectBox isChecked={allChecked} />
+      {orderedItems.map((item) => (
+        <CartItemBox key={item.uuid} item={item} />
+      ))}
 
       <CartSummary
         productTotal={productTotal}
@@ -53,7 +53,8 @@ export default function CartList({ productUuids }: { productUuids: string[] }) {
         finalTotal={finalTotal}
       />
       <CartNotice />
+      <MainFooter FooterData={MainFooterDummyData} />
       <CartFooter totalCount={totalCount} finalTotal={finalTotal} />
-    </div>
+    </article>
   );
 }

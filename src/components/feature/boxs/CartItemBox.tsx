@@ -6,7 +6,7 @@ import RemoveButton from '@/components/ui/cart/RemoveButton';
 
 export default function CartItemBox({ item }: { item: ProductData }) {
   return (
-    <div className="bg-white p-4 flex items-start mb-2">
+    <div className="bg-white mb-2 p-4 flex items-start">
       <div className="mt-1 mr-2">
         <ItemCheckbox id={item.uuid} checked={item.checked} />
       </div>
