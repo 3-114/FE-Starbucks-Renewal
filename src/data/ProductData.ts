@@ -1,6 +1,6 @@
 import { ProductData } from '@/types/ResponseDataTypes';
 
-export const dummyProductMap: Record<string, ProductData> = {
+export const dummyProduct: Record<string, ProductData> = {
   'uuid-1': {
     uuid: 'uuid-1',
     name: 'USB C타입 충전기',
