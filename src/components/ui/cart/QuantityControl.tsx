@@ -1,8 +1,9 @@
 'use client';
 
+import { useState, useTransition } from 'react';
 import { Plus, Minus } from 'lucide-react';
-import { useTransition } from 'react';
-// 서버 액션 import 추가 예정
+import { updateQuantity, getProductByUuid } from '@/actions/cart-service';
+import { Button } from '@/components/ui/button';
 
 export default function QuantityControl({
   id,
@@ -11,35 +12,55 @@ export default function QuantityControl({
   id: string;
   quantity: number;
 }) {
+  const [localQuantity, setLocalQuantity] = useState(quantity);
   const [isPending, startTransition] = useTransition();
 
+  const changeQuantity = (newQty: number) => {
+    const previousQty = localQuantity;
+
+    setLocalQuantity(newQty); 
+
+    startTransition(async () => {
+      try {
+        await updateQuantity(id, newQty);
+
+        const updated = await getProductByUuid(id);
+        setLocalQuantity(updated.quantity);
+      } catch (e) {
+        console.error('수량 업데이트 실패', e);
+        setLocalQuantity(previousQty);
+      }
+    });
+  };
+
   return (
-    <div className="flex items-center border rounded-md">
-      <button
-        className="px-2 py-1"
-        disabled={isPending || quantity <= 1}
-        onClick={() => {
-          startTransition(async () => {
-            // 서버 액션 호출 예정
-            // await updateQuantity(id, quantity - 1);
-          });
-        }}
+    <div className="flex items-center gap-2">
+      <Button
+        variant="outline"
+        size="icon"
+        className="border border-gray-500 size-6"
+        color = "transparent"
+        disabled={isPending || localQuantity <= 1}
+        onClick={() => changeQuantity(localQuantity - 1)}
       >
-        <Minus size={16} />
-      </button>
-      <span className="px-3">{quantity}</span>
-      <button
-        className="px-2 py-1"
+        <Minus
+          size={16}
+          className={localQuantity <= 1 ? 'text-gray-500' : 'text-black'}
+        />
+      </Button>
+
+      <span className="w-6 text-center text-base">{localQuantity}</span>
+
+      <Button
+        variant="outline"
+        size="icon"
+        className="border border-gray-500 size-6"
+        color = "transparent"
         disabled={isPending}
-        onClick={() => {
-          startTransition(async () => {
-            // 서버 액션 호출 예정
-            // await updateQuantity(id, quantity + 1);
-          });
-        }}
+        onClick={() => changeQuantity(localQuantity + 1)}
       >
-        <Plus size={16} />
-      </button>
+        <Plus size={16} className="text-black" />
+      </Button>
     </div>
   );
 }

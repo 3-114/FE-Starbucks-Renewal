@@ -23,7 +23,7 @@ export default async function CartList({
 
   const productTotal = checkedItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
-    0
+    0 
   );
 
   const maxShippingFee = Math.max(

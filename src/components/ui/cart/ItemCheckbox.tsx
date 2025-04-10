@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
-import { ToggleCheckbox } from '@/actions/cart-service';
+import { ToggleCheckbox, getProductByUuid } from '@/actions/cart-service';
 
 export default function ItemCheckbox({
   id,
@@ -16,16 +16,20 @@ export default function ItemCheckbox({
 
   return (
     <Checkbox
-      checked={checked}
+      checked={localChecked}
       variant="green"
-      size="md"
+      size="lg"
       disabled={isPending}
       onCheckedChange={(newChecked) => {
         const optimistic = Boolean(newChecked);
         setLocalChecked(optimistic);
+
         startTransition(async () => {
           try {
             await ToggleCheckbox(id, optimistic);
+
+            const updatedProduct = await getProductByUuid(id);
+            setLocalChecked(updatedProduct.checked);
           } catch {
             setLocalChecked(!optimistic);
           }

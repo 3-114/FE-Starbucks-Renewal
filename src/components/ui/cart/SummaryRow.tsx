@@ -6,9 +6,9 @@ export default function SummaryRow({
   value: number;
 }) {
   return (
-    <div className="flex justify-between mb-2">
-      <span className="text-gray-600">{label}</span>
-      <span className="font-medium">{value.toLocaleString()}원</span>
+    <div className="flex justify-between mb-2 font-semibold">
+      <p>{label}</p>
+      <p>{value.toLocaleString()}원</p>
     </div>
   );
 }

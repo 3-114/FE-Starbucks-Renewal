@@ -2,23 +2,31 @@
 
 import { X } from 'lucide-react';
 import { useTransition } from 'react';
-// 서버 액션 import 추가 예정
+import { Button } from '@/components/ui/button';
+import { removeItem, fetchCartProductUuids } from '@/actions/cart-service';
 
 export default function RemoveButton({ id }: { id: string }) {
   const [isPending, startTransition] = useTransition();
 
   return (
-    <button
-      className="text-gray-400"
+    <Button
+      variant="ghost"
+      size="icon"
+      color="transparent"
       disabled={isPending}
+      className='border size-6'
       onClick={() => {
         startTransition(async () => {
-          // 서버 액션 호출 예정
-          // await removeItem(id);
+          try {
+            await removeItem(id);
+            await fetchCartProductUuids();
+          } catch (e) {
+            console.error('삭제 실패', e);
+          }
         });
       }}
     >
-      <X size={18} />
-    </button>
+      <X size={16} className='text-gray-400'/>
+    </Button>
   );
 }
