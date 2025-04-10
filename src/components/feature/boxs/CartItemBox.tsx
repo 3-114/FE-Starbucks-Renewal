@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import { ProductData } from '@/types/ResponseDataTypes';
-import ItemCheckbox from '@/components/shared/cart/ItemCheckbox';
+import ItemCheckbox from '@/components/ui/cart/ItemCheckbox';
 import QuantityControl from '@/components/ui/cart/QuantityControl';
 import RemoveButton from '@/components/ui/cart/RemoveButton';
 
-export default function CartItem({ item }: { item: ProductData }) {
+export default function CartItemBox({ item }: { item: ProductData }) {
   return (
     <div className="bg-white p-4 flex items-start mb-2">
       <div className="mt-1 mr-2">

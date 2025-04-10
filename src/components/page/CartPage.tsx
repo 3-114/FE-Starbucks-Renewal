@@ -1,5 +1,5 @@
 import AddressCarousel from '@/components/shared/cart/AddressCarousel';
-import CartContainer from '@/components/container/cart/CartContainer';
+import CartView from '@/components/View/CartView';
 
 const dummyAddresses = [
   {
@@ -21,7 +21,7 @@ export default function CartPage() {
   return (
     <main>
       <AddressCarousel addresses={dummyAddresses} />
-      <CartContainer />
+      <CartView />
     </main>
   );
 }

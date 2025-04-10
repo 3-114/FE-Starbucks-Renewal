@@ -31,3 +31,9 @@ export type ProductData = {
   price: number;
   shippingFee: number;
 };
+
+export type CartTabType = {
+  id: number;
+  title: string;
+  count: number;
+};

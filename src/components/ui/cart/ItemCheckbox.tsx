@@ -1,7 +1,8 @@
 'use client';
 
+import { useState, useTransition } from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
-import { useTransition } from 'react';
+import { ToggleCheckbox } from '@/actions/cart-service';
 
 export default function ItemCheckbox({
   id,
@@ -11,6 +12,7 @@ export default function ItemCheckbox({
   checked: boolean;
 }) {
   const [isPending, startTransition] = useTransition();
+  const [localChecked, setLocalChecked] = useState(checked);
 
   return (
     <Checkbox
@@ -19,10 +21,14 @@ export default function ItemCheckbox({
       size="md"
       disabled={isPending}
       onCheckedChange={(newChecked) => {
-        // 낙관적 UI 업데이트
+        const optimistic = Boolean(newChecked);
+        setLocalChecked(optimistic);
         startTransition(async () => {
-          // 서버 액션 호출 예정
-          // await updateItemCheck(id, Boolean(newChecked));
+          try {
+            await ToggleCheckbox(id, optimistic);
+          } catch {
+            setLocalChecked(!optimistic);
+          }
         });
       }}
     />

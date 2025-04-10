@@ -1,13 +1,12 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useTransition } from 'react';
 import { cn } from '@/lib/utils';
-
-type CartTabType = {
-  id: number;
-  title: string;
-  count: number;
-};
+import { CartTabType } from '@/types/ResponseDataTypes';
+import {
+  fetchCartProductUuids,
+  setActiveCartTab,
+} from '@/actions/cart-service';
 
 export default function CartTabNav({
   CartTabData,
@@ -16,6 +15,7 @@ export default function CartTabNav({
 }) {
   const [activeTab, setActiveTab] = useState<number>(CartTabData[0].id);
   const [navData] = useState<CartTabType[]>(CartTabData);
+  const [isPending, startTransition] = useTransition();
 
   const [activeMenuStyle, setActiveMenuStyle] = useState({ left: 0, width: 0 });
   const menuRefs = useRef<(HTMLLIElement | null)[]>([]);
@@ -26,7 +26,6 @@ export default function CartTabNav({
       const activeMenu = menuRefs.current.find(
         (el, index) => navData[index].id === activeTab && el
       );
-
       if (activeMenu && navRef.current) {
         const { offsetLeft, offsetWidth } = activeMenu;
         setActiveMenuStyle({ left: offsetLeft, width: offsetWidth });
@@ -34,16 +33,25 @@ export default function CartTabNav({
     };
 
     updateActiveTabStyle();
-
     window.addEventListener('resize', updateActiveTabStyle);
-
-    return () => {
-      window.removeEventListener('resize', updateActiveTabStyle);
-    };
+    return () => window.removeEventListener('resize', updateActiveTabStyle);
   }, [activeTab, navData]);
 
   const handleTabClick = (tabId: number) => {
+    if (tabId === activeTab || isPending) return;
+
+    const prevTabId = activeTab;
     setActiveTab(tabId);
+
+    startTransition(async () => {
+      try {
+        await setActiveCartTab(prevTabId, tabId);
+        await fetchCartProductUuids(tabId);
+      } catch {
+        console.error('탭 변경 실패. 이전 상태로 롤백합니다.');
+        setActiveTab(prevTabId);
+      }
+    });
   };
 
   return (
@@ -61,7 +69,9 @@ export default function CartTabNav({
             data-state={menu.id === activeTab ? 'active' : 'inactive'}
             className={cn(
               'text-sm tracking-normal font-semibold py-[19px] text-nowrap cursor-pointer relative',
-              'data-[state=active]:pb-[2px]'
+              'data-[state=active]:pb-[2px]',
+              isPending && 'pointer-events-none text-gray-400',
+              menu.id === activeTab && isPending && 'opacity-70'
             )}
             onClick={() => handleTabClick(menu.id)}
           >

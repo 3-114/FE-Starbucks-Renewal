@@ -1,4 +1,4 @@
-import CartItem from '@/components/shared/cart/CartItem';
+import CartItemBox from '@/components/feature/boxs/CartItemBox';
 import CartSummary from '@/components/shared/cart/CartSummary';
 import CartNotice from '@/components/notice/CartNotice';
 import CartFooter from '@/components/layout/Footers/CartFooter';
@@ -42,7 +42,7 @@ export default function CartList({ productUuids }: { productUuids: string[] }) {
 
       <div className="bg-gray-100 my-2">
         {orderedItems.map((item) => (
-          <CartItem key={item.uuid} item={item} />
+          <CartItemBox key={item.uuid} item={item} />
         ))}
       </div>
 
