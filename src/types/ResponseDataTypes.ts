@@ -21,3 +21,19 @@ export type CartContextState = {
   address: CartAddressProp;
   selectedTab: 'general' | 'reservation';
 };
+
+export type ProductData = {
+  uuid: string;
+  name: string;
+  image: string;
+  checked: boolean;
+  quantity: number;
+  price: number;
+  shippingFee: number;
+};
+
+export type CartTabType = {
+  id: number;
+  title: string;
+  count: number;
+};
