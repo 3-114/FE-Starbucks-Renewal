@@ -3,7 +3,7 @@
 import { revalidateTag } from 'next/cache';
 
 export async function fetchCartProductUuids(tabId?: number): Promise<string[]> {
-  const suffix = tabId === 1 ? '/reservation' : '';
+  const suffix = tabId === 1 ? '/reservation' : '/general';
   const response = await fetch(
     `${process.env.API_BASE_URL}/cart/product${suffix}`,
     {
