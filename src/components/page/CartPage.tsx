@@ -1,26 +1,13 @@
-import AddressCarousel from '@/components/shared/cart/AddressCarousel';
+import CartAddressCarousel from '@/components/feature/carousels/CartAddressCarousel';
 import CartView from '@/components/View/CartView';
 
-const dummyAddresses = [
-  {
-    id: '1',
-    name: '집',
-    zipcode: 12345,
-    addressLine: '서울시 강남구 어딘가에 살고 있는 나',
-    isDefault: true,
-  },
-  {
-    id: '2',
-    name: '회사',
-    zipcode: 77777,
-    addressLine: '부산시 사하구 어딘가에 살고 있는 나',
-  },
-];
+import { fetchAddressUuidsList } from '@/actions/cart-service';
 
-export default function CartPage() {
+export default async function CartPage() {
+  const addressList = await fetchAddressUuidsList()
   return (
     <main>
-      <AddressCarousel addresses={dummyAddresses} />
+      <CartAddressCarousel addressUuidList={addressList} />
       <CartView />
     </main>
   );
