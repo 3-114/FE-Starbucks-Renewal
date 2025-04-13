@@ -11,10 +11,10 @@ export function useNinjaFetch<T>(
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const hasFeatched = useRef(false);
+  const hasFetched = useRef(false);
 
   useEffect(() => {
-    if (!shouldFetch || hasFeatched.current) return;
+    if (!shouldFetch || hasFetched.current) return;
 
     const controller = new AbortController();
 

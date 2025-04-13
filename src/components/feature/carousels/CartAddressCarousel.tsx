@@ -12,81 +12,56 @@ import {
   type CarouselApi,
 } from '@/components/ui/carousel';
 import { Button } from '@/components/ui/button';
-import { AddressDetailType } from '@/types/ResponseDataTypes';
 import { fetchAddressdetail, prefetchAddressdetail } from '@/actions/cart-service';
 import router from 'next/router';
+import { useNinjaFetch } from '@/hooks/useNinjaFetch';
 
-const AddressDetailItem = ({ 
-  uuid, 
-  isActive, 
-  prefetch = false 
-}: { 
-  uuid: string; 
+const AddressDetailItem = ({
+  uuid,
+  isActive,
+  prefetch = false,
+}: {
+  uuid: string;
   isActive: boolean;
   prefetch?: boolean;
 }) => {
-  const [address, setAddress] = useState<AddressDetailType | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (isActive || prefetch) {
-      const loadAddress = async () => {
-        try {
-          setLoading(true);
-          setError(null);
-          const data = await fetchAddressdetail(uuid);
-          setAddress(data);
-        } catch (err) {
-          setError(err instanceof Error ? err.message : 'Unknown error');
-          console.error('Error fetching address:', err);
-        } finally {
-          setLoading(false);
-        }
-      };
-      
-      loadAddress();
-    }
-  }, [isActive, prefetch, uuid]);
-
-  if (loading) {
-    return (
-      <article className="py-4 animate-pulse">
-        <div className="h-5 bg-gray-200 rounded w-1/3 mb-2"></div>
-        <div className="h-4 bg-gray-200 rounded w-full"></div>
-      </article>
-    );
-  }
-
-  if (error) {
-    return (
-      <article className="py-4 text-red-500">
-        <p>주소 정보를 불러오지 못했습니다.</p>
-      </article>
-    );
-  }
-
-  if (!address) {
-    return null;
-  }
+  const { data: address, loading, error } = useNinjaFetch(
+    (signal) => fetchAddressdetail(uuid),
+    isActive || prefetch
+  );
 
   return (
     <article className="py-4">
       <div className="flex items-start space-x-2">
-        <p className="font-semibold text-sm">{address.name}</p>
-        {address.isDefault && (
-          <p className="my-auto px-1 bg-green-100 text-green-600 text-[8px] rounded-xs leading-4">
-            기본
-          </p>
-        )}
+        <p className="font-semibold text-sm">
+          {loading ? (
+            <span className="bg-gray-200 rounded w-24 h-4 animate-pulse inline-block" />
+          ) : error ? (
+            <span className="text-red-500 text-xs">에러</span>
+          ) : address ? (
+            address.name
+          ) : null}
+        </p>
       </div>
       <div className="flex items-start gap-0 text-gray-600">
-        <p>({address.zipcode})</p>
-        <p>{address.addressLine}</p>
+        {loading ? (
+          <>
+            <span className="bg-gray-200 rounded w-16 h-4 animate-pulse inline-block mr-2" />
+            <span className="bg-gray-200 rounded w-40 h-4 animate-pulse inline-block" />
+          </>
+        ) : error ? (
+          <span className="text-red-400 text-xs">데이터를 불러올 수 없음</span>
+        ) : address ? (
+          <>
+            <p>({address.zipcode})</p>
+            <p>{address.addressLine}</p>
+          </>
+        ) : null}
       </div>
     </article>
   );
 };
+
 
 export default function CartAddressCarousel({
   addressUuidList = [],
@@ -126,19 +101,13 @@ export default function CartAddressCarousel({
       setIsTransitioning(false);
     };
 
-    const onTransitionStart = () => {
-      setIsTransitioning(true);
-    };
-
     onSelect();
     api.on('select', onSelect);
     api.on('settle', onSettled);
-    api.on('transitionStart', onTransitionStart);
 
     return () => {
       api.off('select', onSelect);
       api.off('settle', onSettled);
-      api.off('transitionStart', onTransitionStart);
     };
   }, [api, addressUuidList]);
 

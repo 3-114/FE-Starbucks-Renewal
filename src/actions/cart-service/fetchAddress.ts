@@ -33,9 +33,9 @@ export async function fetchAddressdetail(addressUuid:string): Promise<AddressDet
         'Content-Type': 'application/json',
         'Member-Uuid': process.env.MEMBER_UUID ?? '',
       },
-      next: {
-        tags: ['cart:address-uuids'],
-      },
+      // next: {
+      //   tags: ['cart:address-uuids'],
+      // },
     }
   );
   if (!response.ok) {
