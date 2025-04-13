@@ -8,23 +8,23 @@ export const options: NextAuthOptions = {
     CredentialsProvider({
       name: 'credentials',
       credentials: {
-        username: { label: 'Username', type: 'text' },
+        email: { label: 'Email', type: 'text' },
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials): Promise<any> {
-        if (!credentials?.username || !credentials?.password) {
+        if (!credentials?.email || !credentials?.password) {
           return null;
         }
 
         console.log('credentials', credentials);
         try {
           const response = await fetch(
-            `${process.env.BASE_API_URL}/api/v1/auth/sign-in`,
+            `${process.env.API_BASE_URL}/auth-service/sign-in`,
             {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
-                email: credentials.username,
+                email: credentials.email,
                 password: credentials.password,
               }),
             }

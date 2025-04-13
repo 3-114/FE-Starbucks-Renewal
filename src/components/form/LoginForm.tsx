@@ -7,28 +7,40 @@ import { Button } from '@/components/ui/button';
 
 import { LoginUnderMenuData } from '@/data/LoginData';
 import { FormWrapper } from '../wrapper/FormWrapper';
+import { signIn } from 'next-auth/react';
 
 export default function LoginForm() {
-  const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log('Form submitted');
+    
     const formData = new FormData(event.currentTarget);
-    const payload = {
-      username: formData.get('username'),
-      password: formData.get('password'),
-    };
-    console.log(payload);
-    // next-auth login
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+    
+    try {
+      const result = await signIn('credentials', {
+        email,
+        password,
+        callbackUrl: '/',
+      });
+      
+      if (result?.error) {
+        console.error('로그인 실패:', result.error);
+      } else {
+      }
+    } catch (error) {
+      console.error('로그인 오류:', error);
+    }
   };
   return (
     <FormWrapper.OnSubmit onSubmit={handleLogin}>
       <Input
-        name="username"
+        name="email"
         type="text"
         placeholder="아이디"
         variant="login"
-        autoComplete="username"
-        className="text-3xl font-normal py-3 transition-all placeholder:text-2xl placeholder:text-gray-500"
+        autoComplete="email"
+        className="text-xl font-normal py-3 transition-all placeholder:text-2xl placeholder:text-black"
       />
       <Input
         name="password"
@@ -36,7 +48,7 @@ export default function LoginForm() {
         placeholder="비밀번호"
         variant="login"
         autoComplete="current-password"
-        className="text-5xl font-normal py-3 tracking-tighter transition-all placeholder:text-2xl placeholder:text-gray-500"
+        className="text-xl font-normal py-3 tracking-tighter transition-all placeholder:text-2xl placeholder:text-black"
       />
       <NomalSeparator
         data={LoginUnderMenuData}
