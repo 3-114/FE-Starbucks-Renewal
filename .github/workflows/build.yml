@@ -39,6 +39,8 @@ jobs:
           version: 8.14.0
 
       - name: Install dependencies & build Next.js
+        env:
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
         run: |
           pnpm install
           pnpm build
