@@ -62,43 +62,43 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
-- name: SSH to EC2 and Deploy Docker Container
-  uses: appleboy/ssh-action@v1
-  with:
-    host: ${{ secrets.EC2_HOST }}
-    username: ${{ secrets.EC2_USERNAME }}
-    key: ${{ secrets.EC2_PRIVATE_KEY }}
-    envs: ECR_REGISTRY,ECR_REPOSITORY,IMAGE_TAG,AWS_REGION
-    script: |
-      echo "▶ ECR에서 Next.js 이미지 Pull 후 컨테이너 실행"
+      - name: SSH to EC2 and Deploy Docker Container
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          envs: ECR_REGISTRY,ECR_REPOSITORY,IMAGE_TAG,AWS_REGION
+          script: |
+            echo "▶ ECR에서 Next.js 이미지 Pull 후 컨테이너 실행"
 
-      # ECR 로그인
-      aws ecr get-login-password --region $AWS_REGION \
-        | docker login --username AWS --password-stdin $ECR_REGISTRY
+            # ECR 로그인
+            aws ecr get-login-password --region $AWS_REGION \
+              | docker login --username AWS --password-stdin $ECR_REGISTRY
 
-      # 기존 컨테이너 종료 및 삭제
-      docker stop nextjs-frontend || true
-      docker rm nextjs-frontend || true
+            # 기존 컨테이너 종료 및 삭제
+            docker stop nextjs-frontend || true
+            docker rm nextjs-frontend || true
 
-      # 최신 이미지 Pull
-      docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+            # 최신 이미지 Pull
+            docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
-      # 새 컨테이너 실행
-      docker run -d \
-        --name nextjs-frontend \
-        -p 3000:3000 \
-        $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+            # 새 컨테이너 실행
+            docker run -d \
+              --name nextjs-frontend \
+              -p 3000:3000 \
+              $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
-      echo "✅ Next.js Docker 컨테이너 실행 완료"
+            echo "✅ Next.js Docker 컨테이너 실행 완료"
 
-      # === EC2 내부 Docker 이미지 정리 ===
-      echo "🧹 EC2에 남은 Docker 이미지 중 최신 5개만 남기고 삭제 시작"
+            # === EC2 내부 Docker 이미지 정리 ===
+            echo "🧹 EC2에 남은 Docker 이미지 중 최신 5개만 남기고 삭제 시작"
 
-      docker images "$ECR_REGISTRY/$ECR_REPOSITORY" --format "{{.Repository}}:{{.Tag}}" \
-        | grep -v "<none>" \
-        | grep -v "$IMAGE_TAG" \
-        | sort -r \
-        | tail -n +6 \
-        | xargs -r docker rmi
+            docker images "$ECR_REGISTRY/$ECR_REPOSITORY" --format "{{.Repository}}:{{.Tag}}" \
+              | grep -v "<none>" \
+              | grep -v "$IMAGE_TAG" \
+              | sort -r \
+              | tail -n +6 \
+              | xargs -r docker rmi
 
-      echo "🧼 EC2 Docker 이미지 정리 완료"
+            echo "🧼 EC2 Docker 이미지 정리 완료"
