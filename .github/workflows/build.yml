@@ -34,11 +34,9 @@ jobs:
         with:
           node-version: 18
           cache: 'pnpm'
-      
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8.14.0
+          
+      - name: Manually install pnpm
+        run: npm install -g pnpm
 
       - name: Check pnpm version
         run: pnpm --version
