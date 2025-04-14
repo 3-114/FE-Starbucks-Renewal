@@ -3,8 +3,9 @@ FROM node:18-alpine AS builder
 WORKDIR /app
 
 # ✅ GitHub Actions에서 주입한 환경변수 받기
-ARG NEXT_PUBLIC_API_URL
-ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+ARG API_BASE_URL
+ENV API_BASE_URL=$API_BASE_URL
+RUN echo "📦 ENV VAR: $API_BASE_URL"
 
 COPY package.json pnpm-lock.yaml ./
 RUN npm install -g pnpm && pnpm install
