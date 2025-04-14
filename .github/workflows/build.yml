@@ -33,20 +33,11 @@ jobs:
         with:
           node-version: 18
 
-      # ✅ pnpm 수동 설치 + PATH 보장
-      - name: Manually install pnpm and update PATH
-        shell: bash
-        run: |
-          npm install -g pnpm
-          echo "PATH=$(npm bin -g):$PATH" >> $GITHUB_ENV
-          echo "✅ pnpm 설치 완료 및 PATH 반영"
-
-      # ✅ 설치 확인 (디버깅용)
-      - name: Check pnpm version
-        run: |
-          echo "pnpm path: $(which pnpm)"
-          pnpm --version
-
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.14.0
+          
       - name: Install dependencies & build Next.js
         run: |
           pnpm install
