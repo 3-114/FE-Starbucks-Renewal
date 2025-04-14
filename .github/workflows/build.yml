@@ -38,7 +38,7 @@ jobs:
         shell: bash
         run: |
           npm install -g pnpm
-          echo "export PATH=$(npm bin -g):$PATH" >> $GITHUB_ENV
+          echo "PATH=$(npm bin -g):$PATH" >> $GITHUB_ENV
           echo "✅ pnpm 설치 완료 및 PATH 반영"
 
       # ✅ 설치 확인 (디버깅용)
