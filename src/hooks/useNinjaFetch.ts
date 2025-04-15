@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 
 export function useNinjaFetch<T>(
   fetcher: (signal: AbortSignal) => Promise<T>,
-  shouldFetch : boolean,
+  shouldFetch: boolean
 ): {
   data: T | null;
   loading: boolean;
@@ -30,6 +30,7 @@ export function useNinjaFetch<T>(
           console.error('Fetch error:', err);
         }
       } finally {
+        hasFetched.current = true;
         setLoading(false);
       }
     };
