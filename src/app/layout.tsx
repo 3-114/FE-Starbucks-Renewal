@@ -3,8 +3,6 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { getServerSession } from 'next-auth';
 import AuthContextProvider from '@/provider/AuthContextProvider';
-import { SidebarContextProvider } from '@/context/SideBarContext';
-import { Sidebar } from 'lucide-react';
 import { options } from './api/auth/[...nextauth]/options';
 
 export const metadata: Metadata = {
@@ -38,12 +36,7 @@ export default async function RootLayout({
   return (
     <html lang="ko-KR">
       <body className={`${inter.variable} antialiased`}>
-        <AuthContextProvider isAuth={isAuth}>
-          <SidebarContextProvider>
-            <Sidebar />
-            {children}
-          </SidebarContextProvider>
-        </AuthContextProvider>
+        <AuthContextProvider isAuth={isAuth}>{children}</AuthContextProvider>
       </body>
     </html>
   );
