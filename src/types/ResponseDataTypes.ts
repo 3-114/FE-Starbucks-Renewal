@@ -51,3 +51,11 @@ export type CartTabType = {
   title: string;
   count: number;
 };
+
+export type AddressDetailType ={
+  id: string;
+  name: string;
+  zipcode: number;
+  addressLine: string;
+  isDefault?: boolean;
+}
