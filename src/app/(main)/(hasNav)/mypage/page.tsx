@@ -1,5 +1,9 @@
+import MyPage from '@/components/page/MyPage';
+
 export default function page() {
   return (
-    <div>page</div>
-  )
+    <div>
+      <MyPage />
+    </div>
+  );
 }
