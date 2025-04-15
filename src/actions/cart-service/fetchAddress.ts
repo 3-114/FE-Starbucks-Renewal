@@ -1,23 +1,40 @@
 'use server';
 
-import { AddressDetailType } from '@/types/ResponseDataTypes';
+import {
+  AddressDetailType,
+  commonResponseType,
+  shippingAddressType,
+} from '@/types/ResponseDataTypes';
+import { getServerSession } from 'next-auth';
+import { options } from '@/app/api/auth/[...nextauth]/options';
 
-export async function fetchAddressUuidsList(): Promise<string[]> {
-  const response = await fetch(`${process.env.API_BASE_URL}/deliveries/cart`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'Member-Uuid': process.env.MEMBER_UUID ?? '',
-    },
-    next: {
-      tags: ['cart:address-uuids-list'],
-    },
-  });
-  if (!response.ok) {
-    throw new Error('데이터 패치 실패! 야외취침 확정!');
-  }
+export async function fetchAddressUuidsList(): Promise<shippingAddressType[]> {
+  const session = await getServerSession(options);
 
-  const data = await response.json();
+  const accessToken = session?.user?.accessToken;
+
+  const response = await fetch(
+    `${process.env.API_BASE_URL}/deliveries/cart/uuids`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+      },
+      // next: {
+      //   tags: ['cart:address-uuids-list'],
+      // },
+      cache: 'no-cache',
+    }
+  );
+  // console.log(await response.json());
+  // if (!response.ok) {
+  //   throw new Error('데이터 패치 실패! 야외취침 확정!');
+  // }
+  const data = (await response.json()) as commonResponseType<
+    shippingAddressType[]
+  >;
+  console.log(data, '==============================================data');
   return data.result;
 }
 
@@ -25,18 +42,25 @@ export async function fetchAddressdetail(
   addressUuid: string,
   signal?: AbortSignal
 ): Promise<AddressDetailType> {
+  const session = await getServerSession(options);
+
+  const accessToken = session?.user?.accessToken;
+
+  if (!accessToken) {
+    throw new Error('Access token 없음. 로그인 상태 확인 필요.');
+  }
   const response = await fetch(
     `${process.env.API_BASE_URL}/cart/get-address?deliveryUuid=${addressUuid}`,
     {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Member-Uuid': process.env.MEMBER_UUID ?? '',
+        'Authorization': `Bearer ${accessToken}`,
       },
       signal,
-      next: {
-        tags: ['cart:address-detail', addressUuid],
-      },
+      // next: {
+      //   tags: ['cart:address-detail', addressUuid],
+      // },
     }
   );
 

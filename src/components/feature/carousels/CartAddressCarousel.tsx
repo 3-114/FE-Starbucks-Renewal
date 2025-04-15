@@ -15,11 +15,12 @@ import { Button } from '@/components/ui/button';
 import { prefetchAddressdetail } from '@/actions/cart-service';
 import router from 'next/router';
 import AddressItemBox from '@/components/feature/boxs/AddressItemBox';
+import { shippingAddressType } from '@/types/ResponseDataTypes';
 
 export default function CartAddressCarousel({
-  addressUuidList = [],
+  addressUuidList,
 }: {
-  addressUuidList: string[];
+  addressUuidList: shippingAddressType[];
 }) {
   const [api, setApi] = useState<CarouselApi | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -80,12 +81,12 @@ export default function CartAddressCarousel({
           }}
         >
           <CarouselContent>
-            {addressUuidList.map((uuid, index) => (
-              <CarouselItem key={uuid}>
+            {addressUuidList.map((item, index) => (
+              <CarouselItem key={item.deliveryUuid}>
                 <AddressItemBox
-                  uuid={uuid}
+                  uuid={item.deliveryUuid}
                   isActive={currentIndex === index}
-                  prefetch={visibleUuids.includes(uuid)}
+                  prefetch={visibleUuids.includes(item.deliveryUuid)}
                 />
               </CarouselItem>
             ))}
