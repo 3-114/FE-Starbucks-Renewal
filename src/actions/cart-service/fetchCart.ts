@@ -4,7 +4,9 @@ import { getServerSession } from 'next-auth';
 import { revalidateTag } from 'next/cache';
 import { options } from '@/app/api/auth/[...nextauth]/options';
 
-export async function fetchCartProductUuids(tabId?: number): Promise<string[]> {
+export async function fetchCartProductUuids(
+  tabId?: number
+): Promise<{ productUuid: string }[]> {
   const suffix = tabId === 1 ? '/reservation' : '/general';
 
   const session = await getServerSession(options);
@@ -23,9 +25,9 @@ export async function fetchCartProductUuids(tabId?: number): Promise<string[]> {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${accessToken}`,
       },
-      next: {
-        tags: ['cart:product-uuids'],
-      },
+      // next: {
+      //   tags: ['cart:product-uuids'],
+      // },
     }
   );
   if (!response.ok) {
@@ -82,7 +84,7 @@ export async function getCartTabCounts(): Promise<{
 }
 
 export async function fetchCartTabCount(tabId: number): Promise<number> {
-  const suffix = tabId === 1 ? 'reservation' : 'general';
+  const suffix = tabId === 2 ? 'reservation' : 'general';
 
   const session = await getServerSession(options);
 
@@ -92,17 +94,14 @@ export async function fetchCartTabCount(tabId: number): Promise<number> {
     throw new Error('Access token 없음. 로그인 상태 확인 필요.');
   }
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/count/${suffix}`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${accessToken}`,
-      },
-      cache: 'no-store',
-    }
-  );
+  const res = await fetch(`${process.env.API_BASE_URL}/cart/count/${suffix}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`,
+    },
+    cache: 'no-store',
+  });
 
   if (!res.ok) {
     console.error('count fetch 실패');
@@ -110,5 +109,5 @@ export async function fetchCartTabCount(tabId: number): Promise<number> {
   }
 
   const data = await res.json();
-  return data.result;
+  return data.result?.totalCount ?? 0;
 }
