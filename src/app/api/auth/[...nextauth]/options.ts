@@ -32,7 +32,7 @@ export const options: NextAuthOptions = {
 
           const user =
             (await response.json()) as commonResponseType<signInDataType>;
-          // console.log('user', user);
+          console.log('user', user);
           return user.result;
         } catch (error) {
           // console.error('error', error);
@@ -81,6 +81,7 @@ export const options: NextAuthOptions = {
           return '/sign-up';
         }
       }
+      console.log('user', user);
       return true;
     },
     async jwt({ token, user }) {

@@ -43,9 +43,10 @@ export async function fetchAddressdetail(
   const session = await getServerSession(options);
 
   const accessToken = session?.user?.accessToken;
+  console.log('accessToken', accessToken);
 
   const response = await fetch(
-    `${process.env.API_BASE_URL}/cart/get-address/${addressUuid}`,
+    `${process.env.API_BASE_URL}/deliveries/cart/get-address/${addressUuid}`,
     {
       method: 'GET',
       headers: {
@@ -58,12 +59,9 @@ export async function fetchAddressdetail(
     }
   );
 
-  if (!response.ok) {
-    throw new Error('데이터 패치 실패! 야외취침 확정!');
-  }
-
   const data = await response.json();
-  return data;
+  console.log('data', data);
+  return data.result;
 }
 
 export const prefetchAddressdetail = async (
