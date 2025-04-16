@@ -21,16 +21,16 @@ export async function fetchAddressUuidsList(): Promise<shippingAddressType[]> {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${accessToken}`,
       },
-      // next: {
-      //   tags: ['cart:address-uuids-list'],
-      // },
-      cache: 'no-cache',
+      next: {
+        tags: ['cart:address-uuids-list'],
+      },
     }
   );
-  // console.log(await response.json());
-  // if (!response.ok) {
-  //   throw new Error('데이터 패치 실패! 야외취침 확정!');
-  // }
+
+  if (!response.ok) {
+    throw new Error('데이터 패치 실패! 야외취침 확정!');
+  }
+
   const data = (await response.json()) as commonResponseType<
     shippingAddressType[]
   >;
@@ -43,7 +43,6 @@ export async function fetchAddressdetail(
   const session = await getServerSession(options);
 
   const accessToken = session?.user?.accessToken;
-  console.log('accessToken', accessToken);
 
   const response = await fetch(
     `${process.env.API_BASE_URL}/deliveries/cart/get-address/${addressUuid}`,
@@ -53,14 +52,13 @@ export async function fetchAddressdetail(
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${accessToken}`,
       },
-      // next: {
-      //   tags: ['cart:address-detail', addressUuid],
-      // },
+      next: {
+        tags: ['cart:address-detail', addressUuid],
+      },
     }
   );
 
   const data = await response.json();
-  console.log('data', data);
   return data.result;
 }
 
