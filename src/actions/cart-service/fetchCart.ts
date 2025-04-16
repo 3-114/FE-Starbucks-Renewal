@@ -13,10 +13,6 @@ export async function fetchCartProductUuids(
 
   const accessToken = session?.user?.accessToken;
 
-  if (!accessToken) {
-    throw new Error('Access token 없음. 로그인 상태 확인 필요.');
-  }
-
   const response = await fetch(
     `${process.env.API_BASE_URL}/cart/product${suffix}`,
     {
@@ -35,6 +31,7 @@ export async function fetchCartProductUuids(
   }
 
   const data = await response.json();
+  console.log(data);
   return data.result;
 }
 
@@ -53,10 +50,6 @@ export async function getCartTabCounts(): Promise<{
   const session = await getServerSession(options);
 
   const accessToken = session?.user?.accessToken;
-
-  if (!accessToken) {
-    throw new Error('Access token 없음. 로그인 상태 확인 필요.');
-  }
 
   const headers = {
     'Content-Type': 'application/json',
@@ -89,10 +82,6 @@ export async function fetchCartTabCount(tabId: number): Promise<number> {
   const session = await getServerSession(options);
 
   const accessToken = session?.user?.accessToken;
-
-  if (!accessToken) {
-    throw new Error('Access token 없음. 로그인 상태 확인 필요.');
-  }
 
   const res = await fetch(`${process.env.API_BASE_URL}/cart/count/${suffix}`, {
     method: 'GET',

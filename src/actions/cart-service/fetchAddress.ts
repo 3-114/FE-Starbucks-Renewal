@@ -99,6 +99,5 @@ export async function fetchUpdateAddress(
   if (!response.ok) {
     throw new Error('주소 업데이트 실패');
   }
-
   return true;
 }

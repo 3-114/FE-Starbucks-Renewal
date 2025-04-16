@@ -3,7 +3,10 @@ import CartSummary from '@/components/shared/cart/CartSummary';
 import CartNotice from '@/components/notice/CartNotice';
 import CartFooter from '@/components/layout/Footers/CartFooter';
 import CartAllSelectBox from '@/components/feature/boxs/CartAllSelectBox';
-import { getProductByUuid } from '@/actions/cart-service/getProductByUuid';
+import {
+  getInformationProductByUuid,
+  getCartProductByUuid,
+} from '@/actions/cart-service/getProductByUuid';
 
 import MainFooter from '@/components/layout/Footers/MainFooter';
 import { MainFooterDummyData } from '@/data/FooterData';
@@ -11,10 +14,24 @@ import { MainFooterDummyData } from '@/data/FooterData';
 export default async function CartList({
   productUuids,
 }: {
-  productUuids: string[];
+  productUuids: { productUuid: string }[];
 }) {
   const cartItems = (
-    await Promise.all(productUuids.map((uuid) => getProductByUuid(uuid)))
+    await Promise.all(
+      productUuids.map(async ({ productUuid }) => {
+        const [info, cart] = await Promise.all([
+          getInformationProductByUuid(productUuid),
+          getCartProductByUuid(productUuid),
+        ]);
+
+        if (!info || !cart) return null;
+
+        return {
+          ...info,
+          ...cart,
+        };
+      })
+    )
   ).filter(Boolean);
 
   const checkedItems = cartItems.filter((item) => item.checked);
@@ -23,7 +40,7 @@ export default async function CartList({
 
   const productTotal = checkedItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
-    0 
+    0
   );
 
   const maxShippingFee = Math.max(
