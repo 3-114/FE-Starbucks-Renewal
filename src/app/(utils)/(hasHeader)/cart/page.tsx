@@ -12,7 +12,7 @@ export default async function page() {
   );
   return (
     <main>
-      <CartAddressCarousel addressUuidList={addressList} />
+      <CartAddressCarousel addressList={addressList} />
       {/* <CartView /> */}
     </main>
   );

@@ -75,3 +75,30 @@ export const prefetchAddressdetail = async (
     console.error('프리패칭 실패 :', error);
   }
 };
+
+export async function fetchUpdateAddress(
+  deliveryUuid: string
+): Promise<boolean> {
+  const session = await getServerSession(options);
+  const accessToken = session?.user?.accessToken;
+
+  const response = await fetch(
+    `${process.env.API_BASE_URL}/deliveries/cart/update-address`,
+    {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({
+        deliveryUuid,
+      }),
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error('주소 업데이트 실패');
+  }
+
+  return true;
+}

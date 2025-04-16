@@ -1,7 +1,6 @@
 export default function AddressItemBox({
   address,
   error = false,
-  loading = false,
 }: {
   address?: {
     alias: string;
@@ -9,9 +8,7 @@ export default function AddressItemBox({
     mainAddress: string;
   };
   error?: boolean;
-  loading?: boolean;
 }) {
-  const isLoading = !error && !address && loading;
   const hasError = error === true;
   const hasData = !error && address !== null && address !== undefined;
 
@@ -24,12 +21,11 @@ export default function AddressItemBox({
           ) : hasData ? (
             address.alias
           ) : (
-            <span
-              className={`bg-gray-200 rounded w-24 h-4 ${isLoading ? 'animate-pulse' : ''} inline-block`}
-            />
+            <span className="bg-gray-200 rounded w-24 h-4 inline-block" />
           )}
         </span>
       </div>
+
       <div className="flex items-start gap-1 text-gray-600">
         {hasError ? (
           <p className="text-red-400 text-xs">데이터를 불러올 수 없음</p>
@@ -40,12 +36,8 @@ export default function AddressItemBox({
           </>
         ) : (
           <>
-            <span
-              className={`bg-gray-200 rounded w-16 h-4 ${isLoading ? 'animate-pulse' : ''} inline-block mr-2`}
-            />
-            <span
-              className={`bg-gray-200 rounded w-40 h-4 ${isLoading ? 'animate-pulse' : ''} inline-block`}
-            />
+            <span className="bg-gray-200 rounded w-16 h-4 inline-block mr-2" />
+            <span className="bg-gray-200 rounded w-40 h-4 inline-block" />
           </>
         )}
       </div>
