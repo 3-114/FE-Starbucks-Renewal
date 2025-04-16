@@ -14,23 +14,20 @@ export default function AddressItemBox({
     data: address,
     loading,
     error,
-  } = useNinjaFetch(
-    (signal) => fetchAddressdetail(uuid, signal),
-    isActive || prefetch
-  );
+  } = useNinjaFetch(() => fetchAddressdetail(uuid), isActive || !prefetch);
 
   return (
     <article className="py-4">
       <div className="flex items-start space-x-2">
-        <p className="font-semibold text-sm">
+        <span className="font-semibold text-sm">
           {loading ? (
             <span className="bg-gray-200 rounded w-24 h-4 animate-pulse inline-block" />
           ) : error ? (
-            <span className="text-red-500 text-xs">에러</span>
+            <p className="text-red-500 text-xs">에러</p>
           ) : address ? (
-            address.name
+            address.alias
           ) : null}
-        </p>
+        </span>
       </div>
       <div className="flex items-start gap-0 text-gray-600">
         {loading ? (
@@ -39,11 +36,11 @@ export default function AddressItemBox({
             <span className="bg-gray-200 rounded w-40 h-4 animate-pulse inline-block" />
           </>
         ) : error ? (
-          <span className="text-red-400 text-xs">데이터를 불러올 수 없음</span>
+          <p className="text-red-400 text-xs">데이터를 불러올 수 없음</p>
         ) : address ? (
           <>
-            <p>({address.zipcode})</p>
-            <p>{address.addressLine}</p>
+            <p>({address.zoneCode})</p>
+            <p>{address.mainAddress}</p>
           </>
         ) : null}
       </div>

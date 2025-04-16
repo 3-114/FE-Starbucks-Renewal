@@ -41,15 +41,16 @@ export default function CartAddressCarousel({
       startTransition(() => {
         setCurrentIndex(index);
 
-        const prefetchUuids = [];
-        if (addressUuidList[index - 1])
-          prefetchUuids.push(addressUuidList[index - 1]);
-        if (addressUuidList[index]) prefetchUuids.push(addressUuidList[index]);
-        if (addressUuidList[index + 1])
-          prefetchUuids.push(addressUuidList[index + 1]);
+        const prefetchAddressItems: shippingAddressType[] = [];
 
-        setVisibleUuids(prefetchUuids);
-        prefetchAddressdetail(prefetchUuids).catch(console.error);
+        if (addressUuidList[index - 1])
+          prefetchAddressItems.push(addressUuidList[index - 1]);
+        if (addressUuidList[index + 1])
+          prefetchAddressItems.push(addressUuidList[index + 1]);
+
+        setVisibleUuids(prefetchAddressItems.map((item) => item.deliveryUuid));
+
+        prefetchAddressdetail(prefetchAddressItems).catch(console.error);
       });
     };
 

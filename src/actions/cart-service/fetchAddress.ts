@@ -34,30 +34,24 @@ export async function fetchAddressUuidsList(): Promise<shippingAddressType[]> {
   const data = (await response.json()) as commonResponseType<
     shippingAddressType[]
   >;
-  console.log(data, '==============================================data');
   return data.result;
 }
 
 export async function fetchAddressdetail(
-  addressUuid: string,
-  signal?: AbortSignal
+  addressUuid: string
 ): Promise<AddressDetailType> {
   const session = await getServerSession(options);
 
   const accessToken = session?.user?.accessToken;
 
-  if (!accessToken) {
-    throw new Error('Access token 없음. 로그인 상태 확인 필요.');
-  }
   const response = await fetch(
-    `${process.env.API_BASE_URL}/cart/get-address?deliveryUuid=${addressUuid}`,
+    `${process.env.API_BASE_URL}/cart/get-address/${addressUuid}`,
     {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${accessToken}`,
       },
-      signal,
       // next: {
       //   tags: ['cart:address-detail', addressUuid],
       // },
@@ -73,12 +67,12 @@ export async function fetchAddressdetail(
 }
 
 export const prefetchAddressdetail = async (
-  addressUuids: string[]
+  addressUuids: shippingAddressType[]
 ): Promise<void> => {
   try {
     await Promise.all(
-      addressUuids.map((addressUuids) =>
-        fetchAddressdetail(addressUuids).catch(() => null)
+      addressUuids.map((item) =>
+        fetchAddressdetail(item.deliveryUuid).catch(() => null)
       )
     );
   } catch (error) {

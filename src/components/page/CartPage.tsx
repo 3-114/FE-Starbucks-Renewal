@@ -8,7 +8,7 @@ export default async function CartPage() {
   return (
     <main>
       <CartAddressCarousel addressUuidList={addressList} />
-      <CartView />
+      {/* <CartView /> */}
     </main>
   );
 }

@@ -52,13 +52,15 @@ export type CartTabType = {
 };
 
 export type AddressDetailType = {
-  id: string;
-  name: string;
-  zipcode: number;
-  addressLine: string;
-  isDefault?: boolean;
+  deliveryUuid: string;
+  alias: string;
+  recipient: string;
+  zoneCode: string;
+  mainAddress: string;
+  detailAddress: string;
+  defaultAddress: boolean;
+  selected: boolean;
 };
-
 export interface shippingAddressType {
   deliveryUuid: string;
 }
