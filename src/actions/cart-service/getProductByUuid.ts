@@ -66,8 +66,8 @@ export async function updateQuantity(id: string, quantity: number) {
   return { success: true };
 }
 
-export async function ToggleCheckbox(id: string, checked: boolean) {
-  console.log(`[ToggleCheckbox] ${id} → ${checked}`);
+export async function ToggleCheckbox(uuid: string, checked: boolean) {
+  console.log(`[ToggleCheckbox] ${uuid} → ${checked}`);
   await new Promise((res) => setTimeout(res, 200));
   return { success: true };
 }

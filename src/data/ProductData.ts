@@ -1153,3 +1153,229 @@ export const dummyProducts: Record<string, Product> = {
     category: '초콜릿스낵',
   },
 };
+
+export const dummyProductDataMap: Record<
+  string,
+  { id: number; title: string; price: number; url: string }[]
+> = {
+  'TREND TAG': [
+    {
+      id: 1,
+      title: 'TREND TAG Product 1',
+      price: 21000,
+      url: '/avatarUrl.png',
+    },
+    {
+      id: 2,
+      title: 'TREND TAG Product 2',
+      price: 25000,
+      url: '/avatarUrl.png',
+    },
+    {
+      id: 3,
+      title: 'TREND TAG Product 3',
+      price: 23000,
+      url: '/avatarUrl.png',
+    },
+    {
+      id: 4,
+      title: 'TREND TAG Product 4',
+      price: 27000,
+      url: '/avatarUrl.png',
+    },
+    {
+      id: 5,
+      title: 'TREND TAG Product 5',
+      price: 29000,
+      url: '/avatarUrl.png',
+    },
+    {
+      id: 6,
+      title: 'TREND TAG Product 6',
+      price: 31000,
+      url: '/avatarUrl.png',
+    },
+    {
+      id: 7,
+      title: 'TREND TAG Product 7',
+      price: 33000,
+      url: '/avatarUrl.png',
+    },
+  ],
+  'Ways of Working': [
+    {
+      id: 8,
+      title: 'Ways of Working Product 1',
+      price: 18000,
+      url: '/avatarUrl.png',
+    },
+    {
+      id: 9,
+      title: 'Ways of Working Product 2',
+      price: 20000,
+      url: '/avatarUrl.png',
+    },
+    {
+      id: 10,
+      title: 'Ways of Working Product 3',
+      price: 22000,
+      url: '/avatarUrl.png',
+    },
+    {
+      id: 11,
+      title: 'Ways of Working Product 4',
+      price: 24000,
+      url: '/avatarUrl.png',
+    },
+    {
+      id: 12,
+      title: 'Ways of Working Product 5',
+      price: 26000,
+      url: '/avatarUrl.png',
+    },
+    {
+      id: 13,
+      title: 'Ways of Working Product 6',
+      price: 28000,
+      url: '/avatarUrl.png',
+    },
+    {
+      id: 14,
+      title: 'Ways of Working Product 7',
+      price: 30000,
+      url: '/avatarUrl.png',
+    },
+  ],
+  'Flower Market': [
+    {
+      id: 15,
+      title: 'Flower Market Product 1',
+      price: 15000,
+      url: '/avatarUrl.png',
+    },
+    {
+      id: 16,
+      title: 'Flower Market Product 2',
+      price: 17000,
+      url: '/avatarUrl.png',
+    },
+    {
+      id: 17,
+      title: 'Flower Market Product 3',
+      price: 19000,
+      url: '/avatarUrl.png',
+    },
+    {
+      id: 18,
+      title: 'Flower Market Product 4',
+      price: 21000,
+      url: '/avatarUrl.png',
+    },
+    {
+      id: 19,
+      title: 'Flower Market Product 5',
+      price: 23000,
+      url: '/avatarUrl.png',
+    },
+    {
+      id: 20,
+      title: 'Flower Market Product 6',
+      price: 25000,
+      url: '/avatarUrl.png',
+    },
+    {
+      id: 21,
+      title: 'Flower Market Product 7',
+      price: 27000,
+      url: '/avatarUrl.png',
+    },
+  ],
+  'Love DAZE MD': [
+    {
+      id: 22,
+      title: 'Love DAZE MD Product 1',
+      price: 32000,
+      url: '/avatarUrl.png',
+    },
+    {
+      id: 23,
+      title: 'Love DAZE MD Product 2',
+      price: 34000,
+      url: '/avatarUrl.png',
+    },
+    {
+      id: 24,
+      title: 'Love DAZE MD Product 3',
+      price: 36000,
+      url: '/avatarUrl.png',
+    },
+    {
+      id: 25,
+      title: 'Love DAZE MD Product 4',
+      price: 38000,
+      url: '/avatarUrl.png',
+    },
+    {
+      id: 26,
+      title: 'Love DAZE MD Product 5',
+      price: 40000,
+      url: '/avatarUrl.png',
+    },
+    {
+      id: 27,
+      title: 'Love DAZE MD Product 6',
+      price: 42000,
+      url: '/avatarUrl.png',
+    },
+    {
+      id: 28,
+      title: 'Love DAZE MD Product 7',
+      price: 44000,
+      url: '/avatarUrl.png',
+    },
+  ],
+  '스테디셀러 텀블러': [
+    {
+      id: 29,
+      title: '스테디셀러 텀블러 Product 1',
+      price: 15000,
+      url: '/avatarUrl.png',
+    },
+    {
+      id: 30,
+      title: '스테디셀러 텀블러 Product 2',
+      price: 16000,
+      url: '/avatarUrl.png',
+    },
+    {
+      id: 31,
+      title: '스테디셀러 텀블러 Product 3',
+      price: 17000,
+      url: '/avatarUrl.png',
+    },
+    {
+      id: 32,
+      title: '스테디셀러 텀블러 Product 4',
+      price: 18000,
+      url: '/avatarUrl.png',
+    },
+    {
+      id: 33,
+      title: '스테디셀러 텀블러 Product 5',
+      price: 19000,
+      url: '/avatarUrl.png',
+    },
+    {
+      id: 34,
+      title: '스테디셀러 텀블러 Product 6',
+      price: 20000,
+      url: '/avatarUrl.png',
+    },
+    {
+      id: 35,
+      title: '스테디셀러 텀블러 Product 7',
+      price: 21000,
+      url: '/avatarUrl.png',
+    },
+  ],
+};

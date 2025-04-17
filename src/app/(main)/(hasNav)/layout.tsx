@@ -1,12 +1,14 @@
-import MainNav from '@/components/layout/navs/MainNav'
+import MainNav from '@/components/layout/navs/MainNav';
 
-import { MainNavData } from '@/data/NavData'
+import { MainNavData } from '@/data/NavData';
 
-export default async function layout({children}: Readonly<{children: React.ReactNode}>) {
+export default async function layout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <>
-      <MainNav NavData={MainNavData}/>
+      <MainNav NavData={MainNavData} />
       {children}
     </>
-  )
+  );
 }
