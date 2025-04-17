@@ -12,25 +12,16 @@ import { signIn } from 'next-auth/react';
 export default function LoginForm() {
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    
+
     const formData = new FormData(event.currentTarget);
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
-    
-    try {
-      const result = await signIn('credentials', {
-        email,
-        password,
-        callbackUrl: '/',
-      });
-      
-      if (result?.error) {
-        console.error('로그인 실패:', result.error);
-      } else {
-      }
-    } catch (error) {
-      console.error('로그인 오류:', error);
-    }
+
+    signIn('credentials', {
+      email,
+      password,
+      redirect: true,
+    });
   };
   return (
     <FormWrapper.OnSubmit onSubmit={handleLogin}>

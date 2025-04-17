@@ -49,13 +49,18 @@ export type ProductData = {
 export type CartTabType = {
   id: number;
   title: string;
-  count: number;
 };
 
-export type AddressDetailType ={
-  id: string;
-  name: string;
-  zipcode: number;
-  addressLine: string;
-  isDefault?: boolean;
+export type AddressDetailType = {
+  deliveryUuid: string;
+  alias: string;
+  recipient: string;
+  zoneCode: string;
+  mainAddress: string;
+  detailAddress: string;
+  defaultAddress: boolean;
+  selected: boolean;
+};
+export interface shippingAddressType {
+  deliveryUuid: string;
 }

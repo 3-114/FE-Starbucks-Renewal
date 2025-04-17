@@ -6,7 +6,10 @@ import { CartTabType } from '@/types/ResponseDataTypes';
 import {
   fetchCartProductUuids,
   setActiveCartTab,
+  fetchCartTabCount,
 } from '@/actions/cart-service';
+
+type CartTabWithCount = CartTabType & { count: number };
 
 export default function CartTabNav({
   CartTabData,
@@ -14,7 +17,7 @@ export default function CartTabNav({
   CartTabData: CartTabType[];
 }) {
   const [activeTab, setActiveTab] = useState<number>(CartTabData[0].id);
-  const [navData] = useState<CartTabType[]>(CartTabData);
+  const [navData, setNavData] = useState<CartTabWithCount[]>([]);
   const [isPending, startTransition] = useTransition();
 
   const [activeMenuStyle, setActiveMenuStyle] = useState({ left: 0, width: 0 });
@@ -22,9 +25,23 @@ export default function CartTabNav({
   const navRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
+    const fetchCounts = async () => {
+      const counts = await Promise.all(
+        CartTabData.map(async (tab) => {
+          const count = await fetchCartTabCount(tab.id);
+          return { ...tab, count };
+        })
+      );
+      setNavData(counts);
+    };
+
+    fetchCounts();
+  }, [CartTabData]);
+
+  useEffect(() => {
     const updateActiveTabStyle = () => {
       const activeMenu = menuRefs.current.find(
-        (el, index) => navData[index].id === activeTab && el
+        (el, index) => navData[index]?.id === activeTab && el
       );
       if (activeMenu && navRef.current) {
         const { offsetLeft, offsetWidth } = activeMenu;
@@ -77,7 +94,7 @@ export default function CartTabNav({
           >
             <div className="inline-block relative">
               <span className="absolute -top-1 -right-5 bg-green-500 text-white rounded-full w-4 h-4 text-xs flex items-center justify-center">
-                {menu.count}
+                {menu.count ?? '-'}
               </span>
               <span>{menu.title}</span>
             </div>
