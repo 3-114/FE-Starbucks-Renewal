@@ -38,8 +38,8 @@ export default function EventNav({ NavData }: { NavData: EventNavMenuType[] }) {
       className="w-full"
     >
       <CarouselContent>
-        {NavData.map((item) => (
-          <CarouselItem key={item.id} className="!basis-auto">
+        {NavData.map((item, idx) => (
+          <CarouselItem key={idx} className="!basis-auto">
             <Button
               onClick={() => handleClick(item.eventName)}
               variant="navcarousel"

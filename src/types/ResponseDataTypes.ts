@@ -13,7 +13,7 @@ export interface signInDataType {
 }
 
 export type NavItem = {
-  id: number;
+  uuid: number;
   eventName: string;
 };
 
