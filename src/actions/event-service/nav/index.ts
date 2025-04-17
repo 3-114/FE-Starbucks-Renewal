@@ -1,15 +1,23 @@
+import { options } from '@/app/api/auth/[...nextauth]/options';
+import { getServerSession } from 'next-auth';
+
 export async function getEventNavData() {
+  const session = await getServerSession(options);
+
+  const accessToken = session?.user?.accessToken;
+
   const url = `${process.env.API_BASE_URL}/event/nav`;
   const res = await fetch(url, {
     method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`,
+    },
     next: {
       tags: ['event-nav'],
       revalidate: 360000,
     },
   });
-
-  // 디버깅용 로그 출력
-  console.log('📡 Fetching:', url);
 
   if (!res.ok) {
     const text = await res.text();
@@ -24,6 +32,5 @@ export async function getEventNavData() {
   }
 
   const data = await res.json();
-
   return data.result;
 }
