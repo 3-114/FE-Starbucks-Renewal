@@ -19,48 +19,54 @@ export default async function CartList({
   const cartItems = (
     await Promise.all(
       productUuids.map(async ({ productUuid }) => {
-        const [info, cart] = await Promise.all([
-          getInformationProductByUuid(productUuid),
+        const [cartData, infoData] = await Promise.all([
           getCartProductByUuid(productUuid),
+          getInformationProductByUuid(productUuid),
         ]);
 
-        if (!info || !cart) return null;
+        if (!cartData || !infoData) return null;
 
         return {
-          ...info,
-          ...cart,
+          productUuid,
+          ...infoData,
+          ...cartData,
         };
       })
     )
   ).filter(Boolean);
 
-  const checkedItems = cartItems.filter((item) => item.checked);
-  const uncheckedItems = cartItems.filter((item) => !item.checked);
+  const validCartItems = cartItems.filter(
+    (item): item is NonNullable<typeof item> => item !== null
+  );
+
+  const checkedItems = validCartItems.filter((item) => item.selected);
+  const uncheckedItems = validCartItems.filter((item) => !item.selected);
   const orderedItems = [...checkedItems, ...uncheckedItems];
 
   const productTotal = checkedItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
+    (sum, item) => sum + Number(item.productPrice) * item.quantity,
     0
   );
 
   const maxShippingFee = Math.max(
-    ...checkedItems.map((item) => item.shippingFee),
+    ...checkedItems.map((item) => item.shippingFee ?? 0),
     0
   );
 
   const shippingTotal = productTotal >= 30000 ? 0 : maxShippingFee;
+
   const discountTotal = 0;
   const finalTotal = productTotal + shippingTotal - discountTotal;
   const totalCount = checkedItems.length;
 
   const allChecked =
-    cartItems.length > 0 && cartItems.every((item) => item.checked);
+    validCartItems.length > 0 && validCartItems.every((item) => item.selected);
 
   return (
     <article className="pb-60 bg-gray-200">
       <CartAllSelectBox isChecked={allChecked} />
-      {orderedItems.map((item) => (
-        <CartItemBox key={item.uuid} item={item} />
+      {orderedItems.map((item, index) => (
+        <CartItemBox key={index} item={item} />
       ))}
 
       <CartSummary
