@@ -13,7 +13,7 @@ export default async function layout({
   return (
     <SidebarContextProvider>
       <Sidebar />
-      <MainHeader HeaderData={MainHeaderData} title="장바구니" />
+      <MainHeader HeaderData={MainHeaderData} title="온라인스토어" />
       {children}
       <MainFooter FooterData={MainFooterDummyData} />
     </SidebarContextProvider>
