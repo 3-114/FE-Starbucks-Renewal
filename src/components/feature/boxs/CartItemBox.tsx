@@ -21,7 +21,7 @@ export default function CartItemBox({
     <div className="bg-white mb-2 p-4 flex items-start text-sm font-semibold gap-2">
       <ItemCheckbox checked={item.selected} />
       <Image
-        src={'/avatarUrl.png'}
+        src={item.productThumbnailUrl}
         alt="product image"
         width={84}
         height={84}
