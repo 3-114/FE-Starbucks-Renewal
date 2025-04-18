@@ -80,8 +80,17 @@ export function Sidebar() {
         </p>
 
         <div className="border-t border-gray-200 py-3 flex justify-end items-center mt-4">
-          <p className="text-sm font-medium mr-4">전체 상품 보기</p>
-          <ChevronRight size={18} />
+          <p className="text-sm font-medium">전체 상품 보기</p>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => handleRouteChange('/products')}
+            aria-label="전체 상품 보기"
+            className="p-1"
+            color="transparent"
+          >
+            <ChevronRight size={18} />
+          </Button>
         </div>
       </div>
 
