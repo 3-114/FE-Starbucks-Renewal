@@ -19,7 +19,7 @@ export default function CartItemBox({
 }) {
   return (
     <div className="bg-white mb-2 p-4 flex items-start text-sm font-semibold gap-2">
-      <ItemCheckbox id={item.productUuid} checked={item.selected} />
+      <ItemCheckbox checked={item.selected} />
       <Image
         src={'/avatarUrl.png'}
         alt="product image"

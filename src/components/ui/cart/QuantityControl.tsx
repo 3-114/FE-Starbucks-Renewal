@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from 'react';
 import { Plus, Minus } from 'lucide-react';
-import { updateQuantity, getProductByUuid } from '@/actions/cart-service';
+import { updateQuantity, getCartProductByUuid } from '@/actions/cart-service';
 import { Button } from '@/components/ui/button';
 
 export default function QuantityControl({
@@ -18,13 +18,13 @@ export default function QuantityControl({
   const changeQuantity = (newQty: number) => {
     const previousQty = localQuantity;
 
-    setLocalQuantity(newQty); 
+    setLocalQuantity(newQty);
 
     startTransition(async () => {
       try {
         await updateQuantity(id, newQty);
 
-        const updated = await getProductByUuid(id);
+        const updated = await getCartProductByUuid(id);
         setLocalQuantity(updated.quantity);
       } catch (e) {
         console.error('수량 업데이트 실패', e);
@@ -39,7 +39,7 @@ export default function QuantityControl({
         variant="outline"
         size="icon"
         className="border border-gray-500 size-6"
-        color = "transparent"
+        color="transparent"
         disabled={isPending || localQuantity <= 1}
         onClick={() => changeQuantity(localQuantity - 1)}
       >
@@ -55,7 +55,7 @@ export default function QuantityControl({
         variant="outline"
         size="icon"
         className="border border-gray-500 size-6"
-        color = "transparent"
+        color="transparent"
         disabled={isPending}
         onClick={() => changeQuantity(localQuantity + 1)}
       >

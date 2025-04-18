@@ -2,7 +2,7 @@ import CartItemBox from '@/components/feature/boxs/CartItemBox';
 import CartSummary from '@/components/shared/cart/CartSummary';
 import CartNotice from '@/components/notice/CartNotice';
 import CartFooter from '@/components/layout/Footers/CartFooter';
-import CartAllSelectBox from '@/components/feature/boxs/CartAllSelectBox';
+// import CartAllSelectBox from '@/components/feature/boxs/CartAllSelectBox';
 import {
   getInformationProductByUuid,
   getCartProductByUuid,
@@ -59,12 +59,12 @@ export default async function CartList({
   const finalTotal = productTotal + shippingTotal - discountTotal;
   const totalCount = checkedItems.length;
 
-  const allChecked =
-    validCartItems.length > 0 && validCartItems.every((item) => item.selected);
+  // const allChecked =
+  //   validCartItems.length > 0 && validCartItems.every((item) => item.selected);
 
   return (
     <article className="pb-60 bg-gray-200">
-      <CartAllSelectBox isChecked={allChecked} />
+      {/* <CartAllSelectBox isChecked={allChecked} /> */}
       {orderedItems.map((item, index) => (
         <CartItemBox key={index} item={item} />
       ))}
