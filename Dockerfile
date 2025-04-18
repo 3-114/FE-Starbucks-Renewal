@@ -23,9 +23,11 @@ RUN npm install -g pnpm
 # ✅ 런타임에 필요한 환경변수 주입
 ARG API_BASE_URL
 ARG NEXTAUTH_SECRET
+ARG NEXTAUTH_URL
 
 ENV API_BASE_URL=$API_BASE_URL
 ENV NEXTAUTH_SECRET=$NEXTAUTH_SECRET
+ENV NEXTAUTH_URL=$NEXTUAUTH_URL
 
 # ✅ 애플리케이션 복사
 COPY --from=builder /app/public ./public
