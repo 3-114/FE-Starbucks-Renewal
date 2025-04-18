@@ -1,8 +1,8 @@
 import {
   getEventNavData,
-  getEventProductList,
+  // getEventProductList,
 } from '@/actions/event-service/nav';
-import { ProductList } from '@/components/feature/list/ProductList';
+// import { ProductList } from '@/components/feature/list/ProductList';
 import { EventNavMenuType } from '@/types/Initial/InitialDataTypes';
 
 export default async function Page({
@@ -15,15 +15,11 @@ export default async function Page({
 
   const navData: EventNavMenuType[] = await getEventNavData();
 
-  const eventItem = navData.find((i) => i.eventName === category);
+  const eventItem = navData.find((i) => i.eventName === category) || navData[0];
   if (!eventItem) {
     throw new Error(`유효하지 않은 카테고리입니다: ${category}`);
   }
-  const eventUuid = eventItem.eventUuid;
-  const navListData: string[] = await getEventProductList(eventUuid);
-  return (
-    <>
-      <ProductList uuidList={navListData} />
-    </>
-  );
+  // const eventUuid = eventItem.eventUuid;
+  // const navListData: string[] = await getEventProductList(eventUuid);
+  return <>{/* <ProductList uuidList={navListData} /> */}</>;
 }

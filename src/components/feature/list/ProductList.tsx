@@ -7,9 +7,6 @@ export async function ProductList({ uuidList }: { uuidList: string[] }) {
   );
   const products = await Promise.all(productPromises);
 
-  console.log(products);
-
-  console.log(products);
   return (
     <section className="grid grid-cols-2 gap-4 p-4">
       {products.map((p, index) => (

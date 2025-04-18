@@ -4,7 +4,7 @@ import { useState, useTransition } from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
   fetchCartProductUuids,
-  ToggleCheckbox,
+  // ToggleCheckbox,
   getCartProductByUuid,
   removeItem,
 } from '@/actions/cart-service';
@@ -25,9 +25,9 @@ export default function CartAllSelectBox({
       try {
         const uuids = await fetchCartProductUuids();
 
-        await Promise.all(
-          uuids.map((uuid) => ToggleCheckbox(uuid.productUuid, optimistic))
-        );
+        // await Promise.all(
+        //   uuids.map((uuid) => ToggleCheckbox(uuid.productUuid, optimistic))
+        // );
 
         await Promise.all(
           uuids.map((uuid) => getCartProductByUuid(uuid.productUuid))

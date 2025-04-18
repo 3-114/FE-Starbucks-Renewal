@@ -13,10 +13,6 @@ export async function getEventNavData() {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${accessToken}`,
     },
-    next: {
-      tags: ['event-nav'],
-      revalidate: 360000,
-    },
   });
 
   if (!res.ok) {

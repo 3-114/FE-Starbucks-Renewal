@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { commonResponseType, signInDataType } from '@/types/ResponseDataTypes';
 import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
@@ -35,7 +37,7 @@ export const options: NextAuthOptions = {
           console.log('user', user);
           return user.result;
         } catch (error) {
-          // console.error('error', error);
+          console.error('error', error);
         }
         // 회원로그인 api 호출
         return null;
@@ -47,7 +49,7 @@ export const options: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async signIn({ user, account, profile, email, credentials }) {
+    async signIn({ user, account, profile }) {
       if (profile && account) {
         console.log('profile', profile);
         console.log('account', account);
