@@ -24,7 +24,7 @@ const buttonVariants = cva(
         secondary:
           'bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80',
         ghost:
-          'hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50',
+          'hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 bg-none',
         link: 'text-primary underline-offset-4 hover:underline',
         largetpye:
           'text-sm text-primary-foreground font-medium gap-[10px] shadow-xs hover:bg-primary/90 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60',

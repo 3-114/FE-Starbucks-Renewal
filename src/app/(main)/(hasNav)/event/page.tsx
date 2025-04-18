@@ -1,14 +1,25 @@
+import {
+  getEventNavData,
+  // getEventProductList,
+} from '@/actions/event-service/nav';
+// import { ProductList } from '@/components/feature/list/ProductList';
+import { EventNavMenuType } from '@/types/Initial/InitialDataTypes';
+
 export default async function Page({
   searchParams,
 }: {
-  searchParams: Promise<{ category?: string }>
+  searchParams: Promise<{ category?: string }>;
 }) {
   const params = await searchParams;
-  const category = params.category;
+  const category = params.category ?? '';
 
-  return (
-    <div className="p-6">
-      <h1 className="text-xl font-bold mb-4">{category}</h1>
-    </div>
-  );
+  const navData: EventNavMenuType[] = await getEventNavData();
+
+  const eventItem = navData.find((i) => i.eventName === category) || navData[0];
+  if (!eventItem) {
+    throw new Error(`유효하지 않은 카테고리입니다: ${category}`);
+  }
+  // const eventUuid = eventItem.eventUuid;
+  // const navListData: string[] = await getEventProductList(eventUuid);
+  return <>{/* <ProductList uuidList={navListData} /> */}</>;
 }

@@ -1,11 +1,11 @@
-import { GnbType } from "@/types/Initial/InitialDataTypes"
+import { GnbType } from '@/types/Initial/InitialDataTypes';
 
 export default async function MainHeader({
   HeaderData,
   title,
 }: {
-  HeaderData: GnbType[]
-  title: string
+  HeaderData: GnbType[];
+  title: string;
 }) {
   return (
     <header className="w-full px-4 py-2 flex items-center">
@@ -18,7 +18,6 @@ export default async function MainHeader({
           ))}
         </ul>
 
-        {/* 절대 위치로 중앙에 배치 */}
         <h1 className="text-sm font-semibold absolute left-1/2 transform -translate-x-1/2 tracking-normal">
           {title}
         </h1>
@@ -32,5 +31,5 @@ export default async function MainHeader({
         </ul>
       </nav>
     </header>
-  )
+  );
 }

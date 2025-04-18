@@ -1,15 +1,21 @@
-import MainHeader from '@/components/layout/headers/MainHeader'
-import MainFooter from '@/components/layout/Footers/MainFooter'
+import { SidebarContextProvider } from '@/context/SideBarContext';
+import { Sidebar } from '@/components/util/SideBar';
 
-import { MainHeaderData } from '@/data/HeaderData'
-import { MainFooterDummyData } from '@/data/FooterData'
+import MainHeader from '@/components/layout/headers/MainHeader';
+import MainFooter from '@/components/layout/Footers/MainFooter';
 
-export default async function layout({children}: Readonly<{children: React.ReactNode}>) {
+import { MainHeaderData } from '@/data/HeaderData';
+import { MainFooterDummyData } from '@/data/FooterData';
+
+export default async function layout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <>
+    <SidebarContextProvider>
+      <Sidebar />
       <MainHeader HeaderData={MainHeaderData} title="온라인 스토어" />
       {children}
-      <MainFooter FooterData={MainFooterDummyData} /> 
-    </>
-  )
+      <MainFooter FooterData={MainFooterDummyData} />
+    </SidebarContextProvider>
+  );
 }
