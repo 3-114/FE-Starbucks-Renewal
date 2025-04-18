@@ -16,7 +16,7 @@ export default async function BestPage({
   return (
     <main>
       <EventNav NavData={NavData} />
-      <ProductList uuidList={uuidList} />
+      <ProductList uuidList={uuidList} showBest={true} />
     </main>
   );
 }
