@@ -1,39 +1,45 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useOptimistic, useTransition } from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
-// import { ToggleCheckbox, getCartProductByUuid } from '@/actions/cart-service';
+import { ToggleCheckbox, getProductByCartUuid } from '@/actions/cart-service';
 
 export default function ItemCheckbox({
-  // id,
+  cartUuid,
   checked,
 }: {
-  // id: string;
+  cartUuid: string;
   checked: boolean;
 }) {
+  const [optimisticChecked, addOptimisticChecked] = useOptimistic<boolean, boolean>(
+    checked,
+    (_current, next) => next
+  );
   const [isPending, startTransition] = useTransition();
-  const [localChecked, setLocalChecked] = useState(checked);
+
+  const handleChange = async (newChecked: boolean) => {
+    startTransition(() => {
+            addOptimisticChecked(newChecked);
+      });
+  
+    try {
+      await ToggleCheckbox(cartUuid);
+      await getProductByCartUuid(cartUuid);
+    } catch {
+      startTransition(() => {
+        addOptimisticChecked(checked);
+      });
+
+    }
+  };
 
   return (
     <Checkbox
-      checked={localChecked}
+      checked={optimisticChecked}
       variant="green"
       size="lg"
       disabled={isPending}
-      onCheckedChange={(newChecked) => {
-        const optimistic = Boolean(newChecked);
-        setLocalChecked(optimistic);
-
-        startTransition(async () => {
-          // try {
-          //   await ToggleCheckbox(id, optimistic);
-          //   const updatedProduct = await getCartProductByUuid(id);
-          //   setLocalChecked(updatedProduct);
-          // } catch {
-          //   setLocalChecked(!optimistic);
-          // }
-        });
-      }}
+      onCheckedChange={handleChange}
     />
   );
 }

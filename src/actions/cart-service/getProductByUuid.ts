@@ -3,31 +3,9 @@
 import { options } from '@/app/api/auth/[...nextauth]/options';
 import { getServerSession } from 'next-auth';
 
-export async function getCartProductByUuid(
-  uuid: string
-): Promise<{ quantity: number; selected: boolean }> {
-  const session = await getServerSession(options);
-  const accessToken = session?.user?.accessToken;
-
-  const response = await fetch(
-    `${process.env.API_BASE_URL}/cart/by-product/${uuid}`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${accessToken}`,
-      },
-    }
-  );
-  if (!response.ok) {
-    throw new Error('단 건 조회 데이터 패치 실패! 야외취침 확정!');
-  }
-
-  const data = await response.json();
-  return data[0];
-}
-
-export async function getInformationProductByUuid(uuid: string): Promise<{
+export async function getProductByCartUuid(uuid: string): Promise<{
+  quantity: number;
+  selected:boolean;
   productName: string;
   productPrice: number;
   productThumbnailUrl: string;
@@ -38,7 +16,7 @@ export async function getInformationProductByUuid(uuid: string): Promise<{
   const accessToken = session?.user?.accessToken;
 
   const response = await fetch(
-    `${process.env.API_BASE_URL}/products/preview/${uuid}`,
+    `${process.env.API_BASE_URL}/cart/${uuid}`,
     {
       method: 'GET',
       headers: {
@@ -90,9 +68,9 @@ export async function ToggleCheckbox(uuid: string) {
   const accessToken = session?.user?.accessToken;
 
   const response = await fetch(
-    `${process.env.API_BASE_URL}/cart/${uuid}/get-selected`,
+    `${process.env.API_BASE_URL}/cart/${uuid}/toggle-selection`,
     {
-      method: 'GET',
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${accessToken}`,
@@ -100,10 +78,6 @@ export async function ToggleCheckbox(uuid: string) {
     }
   );
   if (!response.ok) {
-    throw new Error('단 건 조회 데이터 패치 실패! 야외취침 확정!');
+    throw new Error('체크박스 변경에 실패!!');
   }
-
-  const data = await response.json();
-
-  return data.result.selected;
 }
