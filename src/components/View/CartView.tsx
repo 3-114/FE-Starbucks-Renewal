@@ -8,11 +8,11 @@ const dummyCartTabData = [
 ];
 
 export default function CartView({
-  productUuids,
+  CartUuids,
 }: {
-  productUuids: { productUuid: string }[];
+  CartUuids: { cartUuid: string }[];
 }) {
-  const isEmpty = productUuids.length === 0;
+  const isEmpty = CartUuids.length === 0;
 
   return (
     <section>
@@ -20,7 +20,7 @@ export default function CartView({
       {isEmpty ? (
         <EmptyCartContent />
       ) : (
-        <FilledCartContent productUuids={productUuids} />
+        <FilledCartContent CartUuids={CartUuids} />
       )}
     </section>
   );

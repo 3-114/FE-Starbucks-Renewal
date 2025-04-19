@@ -4,32 +4,24 @@ import CartNotice from '@/components/notice/CartNotice';
 import CartFooter from '@/components/layout/Footers/CartFooter';
 // import CartAllSelectBox from '@/components/feature/boxs/CartAllSelectBox';
 import {
-  getInformationProductByUuid,
-  getCartProductByUuid,
+  getProductByCartUuid,
 } from '@/actions/cart-service/getProductByUuid';
 
 import MainFooter from '@/components/layout/Footers/MainFooter';
 import { MainFooterDummyData } from '@/data/FooterData';
 
 export default async function CartList({
-  productUuids,
+  CartUuids,
 }: {
-  productUuids: { productUuid: string }[];
+  CartUuids: { cartUuid: string }[];
 }) {
   const cartItems = (
     await Promise.all(
-      productUuids.map(async ({ productUuid }) => {
-        const [cartData, infoData] = await Promise.all([
-          getCartProductByUuid(productUuid),
-          getInformationProductByUuid(productUuid),
-        ]);
-
-        if (!cartData || !infoData) return null;
-
+      CartUuids.map(async ({ cartUuid }) => {
+        const product = await getProductByCartUuid(cartUuid);
         return {
-          productUuid,
-          ...infoData,
-          ...cartData,
+          cartUuid,
+          ...product,
         };
       })
     )

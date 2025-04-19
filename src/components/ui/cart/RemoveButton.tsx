@@ -3,7 +3,7 @@
 import { X } from 'lucide-react';
 import { useTransition } from 'react';
 import { Button } from '@/components/ui/button';
-import { removeItem, fetchCartProductUuids } from '@/actions/cart-service';
+import { removeItem, getCartProductByUuid } from '@/actions/cart-service';
 
 export default function RemoveButton({ id }: { id: string }) {
   const [isPending, startTransition] = useTransition();
@@ -19,7 +19,7 @@ export default function RemoveButton({ id }: { id: string }) {
         startTransition(async () => {
           try {
             await removeItem(id);
-            await fetchCartProductUuids();
+            await getCartProductByUuid(id);
           } catch (e) {
             console.error('삭제 실패', e);
           }

@@ -1,7 +1,7 @@
 import {
   fetchAddressdetail,
   fetchAddressUuidsList,
-  fetchCartProductUuids,
+  fetchCartUuids,
 } from '@/actions/cart-service';
 import CartAddressCarousel from '@/components/feature/carousels/CartAddressCarousel';
 import CartView from '@/components/View/CartView';
@@ -11,11 +11,11 @@ export default async function page() {
   const addressList = await Promise.all(
     shippingAddressUuidList.map((item) => fetchAddressdetail(item.deliveryUuid))
   );
-  const productUuids = await fetchCartProductUuids();
+  const CartUuids = await fetchCartUuids();
   return (
     <main>
       <CartAddressCarousel addressList={addressList} />
-      <CartView productUuids={productUuids} />
+      <CartView CartUuids={CartUuids} />
     </main>
   );
 }

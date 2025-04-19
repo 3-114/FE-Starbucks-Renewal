@@ -7,7 +7,7 @@ export default function CartItemBox({
   item,
 }: {
   item: {
-    productUuid: string;
+    cartUuid: string;
     productName: string;
     productPrice: number;
     productThumbnailUrl: string;
@@ -19,7 +19,7 @@ export default function CartItemBox({
 }) {
   return (
     <div className="bg-white mb-2 p-4 flex items-start text-sm font-semibold gap-2">
-      <ItemCheckbox checked={item.selected} />
+      <ItemCheckbox cartUuid={item.cartUuid} checked={item.selected} />
       <Image
         src={item.productThumbnailUrl}
         alt="product image"
@@ -30,10 +30,10 @@ export default function CartItemBox({
       <div className="flex-1 space-y-2">
         <div className="flex justify-between">
           <p>{item.productName}</p>
-          <RemoveButton id={item.productUuid} />
+          <RemoveButton id={item.cartUuid} />
         </div>
         <div className="flex justify-between">
-          <QuantityControl id={item.productUuid} quantity={item.quantity} />
+          <QuantityControl id={item.cartUuid} quantity={item.quantity} />
           <p className="text-base/normal font-semibold">
             {(item.productPrice * item.quantity).toLocaleString()}원
           </p>

@@ -4,26 +4,21 @@ import { getServerSession } from 'next-auth';
 import { revalidateTag } from 'next/cache';
 import { options } from '@/app/api/auth/[...nextauth]/options';
 
-export async function fetchCartProductUuids(
-  tabId?: number
-): Promise<{ productUuid: string }[]> {
-  const suffix = tabId === 1 ? '/reservation' : '/general';
+export async function fetchCartUuids(
+): Promise<{ cartUuid: string }[]> {
 
   const session = await getServerSession(options);
 
   const accessToken = session?.user?.accessToken;
 
   const response = await fetch(
-    `${process.env.API_BASE_URL}/cart/product${suffix}`,
+    `${process.env.API_BASE_URL}/cart/uuid-list`,
     {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${accessToken}`,
       },
-      // next: {
-      //   tags: ['cart:product-uuids'],
-      // },
     }
   );
   if (!response.ok) {
@@ -31,7 +26,35 @@ export async function fetchCartProductUuids(
   }
 
   const data = await response.json();
-  console.log(data);
+  return data.result;
+}
+
+export async function getInformationProductByUuid(uuid: string): Promise<{
+  productName: string;
+  productPrice: number;
+  productThumbnailUrl: string;
+  isThumbnail: boolean;
+  shippingFee: number;
+}> {
+  const session = await getServerSession(options);
+  const accessToken = session?.user?.accessToken;
+
+  const response = await fetch(
+    `${process.env.API_BASE_URL}/products/preview/${uuid}`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+      },
+    }
+  );
+  if (!response.ok) {
+    throw new Error('단 건 조회 데이터 패치 실패! 야외취침 확정!');
+  }
+
+  const data = await response.json();
+
   return data.result;
 }
 
@@ -99,4 +122,28 @@ export async function fetchCartTabCount(tabId: number): Promise<number> {
 
   const data = await res.json();
   return data.result?.totalCount ?? 0;
+}
+
+export async function getCartProductByUuid(
+  uuid: string
+): Promise<{ quantity: number; selected: boolean }> {
+  const session = await getServerSession(options);
+  const accessToken = session?.user?.accessToken;
+
+  const response = await fetch(
+    `${process.env.API_BASE_URL}/cart/by-product/${uuid}`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+      },
+    }
+  );
+  if (!response.ok) {
+    throw new Error('단 건 조회 데이터 패치 실패! 야외취침 확정!');
+  }
+
+  const data = await response.json();
+  return data.result;
 }
