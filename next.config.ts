@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
   },
   images: {
     domains: ['sitem.ssgcdn.com'],
+    unoptimized: true,
   },
 };
 
