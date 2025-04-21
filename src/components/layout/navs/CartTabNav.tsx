@@ -72,7 +72,7 @@ export default function CartTabNav({
   };
 
   return (
-    <div>
+    <nav>
       <ul
         ref={navRef}
         className="grid grid-cols-2 relative text-center shadow-sm"
@@ -105,6 +105,6 @@ export default function CartTabNav({
           style={{ left: activeMenuStyle.left, width: activeMenuStyle.width }}
         ></div>
       </ul>
-    </div>
+    </nav>
   );
 }

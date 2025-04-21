@@ -73,5 +73,5 @@ export interface CartItemType {
   productThumbnailUrl: string;
   isThumbnail: boolean;
   shippingFee: number;
-  cartUuid?: string;
+  cartUuid: string;
 }

@@ -17,7 +17,9 @@ export async function getProductByCartUuid(
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${accessToken}`,
     },
-    // next: { tags: ['getCartItem'] },
+    next: {
+      tags: [`CartItem:${uuid}`],
+    },
   });
   if (!response.ok) {
     throw new Error('단 건 조회 데이터 패치 실패! 야외취침 확정!');
