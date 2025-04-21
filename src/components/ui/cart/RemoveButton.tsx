@@ -1,12 +1,30 @@
 'use client';
 
 import { X } from 'lucide-react';
-import { useTransition } from 'react';
+import { useOptimistic, useTransition } from 'react';
 import { Button } from '@/components/ui/button';
-import { removeItem, getCartProductByUuid } from '@/actions/cart-service';
+import { removeItem } from '@/actions/cart-service';
 
-export default function RemoveButton({ id }: { id: string }) {
+export default function RemoveButton({ cartUuid }: { cartUuid: string }) {
+  const [isRemoved, setOptimisticRemoved] = useOptimistic<boolean, boolean>(
+    false,
+    (_current, next) => next
+  );
   const [isPending, startTransition] = useTransition();
+
+  const handleRemove = () => {
+    const prev = isRemoved;
+    startTransition(async () => {
+      setOptimisticRemoved(true);
+      try {
+        await removeItem(cartUuid);
+      } catch (error) {
+        console.error('삭제 실패:', error);
+        setOptimisticRemoved(prev);
+      }
+    });
+  };
+  if (isRemoved) return null;
 
   return (
     <Button
@@ -14,19 +32,10 @@ export default function RemoveButton({ id }: { id: string }) {
       size="icon"
       color="transparent"
       disabled={isPending}
-      className='border size-6'
-      onClick={() => {
-        startTransition(async () => {
-          try {
-            await removeItem(id);
-            await getCartProductByUuid(id);
-          } catch (e) {
-            console.error('삭제 실패', e);
-          }
-        });
-      }}
+      className="border size-6"
+      onClick={handleRemove}
     >
-      <X size={16} className='text-gray-400'/>
+      <X size={16} className="text-gray-400" />
     </Button>
   );
 }

@@ -1,90 +1,80 @@
 'use client';
 
+import { useOptimistic, useTransition } from 'react';
+import { Checkbox } from '@/components/ui/checkbox';
+import { ToggleCheckbox, removeItem } from '@/actions/cart-service';
+import { Button } from '@/components/ui/button';
+
 export default function CartAllSelectBox({
   isChecked,
+  cartUuids,
 }: {
   isChecked: boolean;
+  cartUuids: { cartUuid: string }[];
 }) {
-  // const [localChecked, setLocalChecked] = useState(isChecked);
-  // const [isPending, startTransition] = useTransition();
+  const [optimisticChecked, setOptimisticChecked] = useOptimistic<
+    boolean,
+    boolean
+  >(isChecked, (_current, next) => next);
 
-  // const handleCheckChange = () => {
-  //   const optimistic = !localChecked;
-  //   setLocalChecked(optimistic);
+  const [isRemovedAll, setRemovedAll] = useOptimistic<boolean, boolean>(
+    false,
+    (_current, next) => next
+  );
+  const [isPending, startTransition] = useTransition();
 
-  //   startTransition(async () => {
-  //     try {
-  //       // const uuids = await fetchCartProductUuids();
+  const handleCheckChange = () => {
+    const next = !optimisticChecked;
 
-  //       // await Promise.all(
-  //       //   uuids.map((uuid) => ToggleCheckbox(uuid.productUuid, optimistic))
-  //       // );
+    startTransition(async () => {
+      setOptimisticChecked(next);
+      try {
+        await Promise.all(
+          cartUuids.map((item) => ToggleCheckbox(item.cartUuid))
+        );
+      } catch (error) {
+        console.error('전체 선택 실패 → 롤백', error);
+        setOptimisticChecked(!next);
+      }
+    });
+  };
 
-  //       await Promise.all(
-  //         uuids.map((uuid) => getCartProductByUuid(uuid.productUuid))
-  //       );
-  //     } catch {
-  //       console.error('전체 선택 실패 → 롤백');
-  //       setLocalChecked(!optimistic);
-  //       const uuids = await fetchCartProductUuids();
-  //       await Promise.all(
-  //         uuids.map((uuid) => getCartProductByUuid(uuid.productUuid))
-  //       );
-  //     }
-  //   });
-  // };
+  const handleDeleteAll = () => {
+    startTransition(async () => {
+      setRemovedAll(true);
+      try {
+        await Promise.all(cartUuids.map((item) => removeItem(item.cartUuid)));
+      } catch (error) {
+        console.error('전체 삭제 실패 → 롤백', error);
+        setRemovedAll(false);
+      }
+    });
+  };
 
-  // const handleDelete = () => {
-  //   startTransition(async () => {
-  //     try {
-  //       const uuids = await fetchCartProductUuids();
-
-  //       const results = await Promise.allSettled(
-  //         uuids.map((uuid) => removeItem(uuid.productUuid))
-  //       );
-
-  //       const hasFailure = results.some(
-  //         (result) => result.status === 'rejected'
-  //       );
-
-  //       if (hasFailure) {
-  //         console.error('일부 삭제 실패 → 상태 복구');
-  //         const uuids = await fetchCartProductUuids();
-  //         await Promise.all(
-  //           uuids.map((uuid) => getCartProductByUuid(uuid.productUuid))
-  //         );
-  //       } else {
-  //         console.log('전체 삭제 성공');
-  //       }
-  //     } catch {
-  //       console.error('전체 삭제 중 예외 발생 → 상태 복구');
-  //       const uuids = await fetchCartProductUuids();
-  //       await Promise.all(
-  //         uuids.map((uuid) => getCartProductByUuid(uuid.productUuid))
-  //       );
-  //     }
-  //   });
-  // };
+  if (isRemovedAll) return null;
 
   return (
-    <div className="flex justify-between items-center py-6 px-4 bg-white text-sm font-medium">
+    <div className="flex justify-between items-center py-6 pl-4 pr-10 bg-white text-sm font-medium">
       <div className="flex items-center gap-[10px]">
-        {/* <Checkbox
-          checked={localChecked}
-          onCheckedChange={}
+        <Checkbox
+          defaultChecked={optimisticChecked}
+          onCheckedChange={handleCheckChange}
           variant="green"
           size="lg"
           disabled={isPending}
-        /> */}
-        <p>전체 선택{isChecked}</p>
+        />
+        <p>전체 선택</p>
       </div>
-      {/* <button
-        onClick={}
-        className="text-sm text-gray-500"
+      <Button
+        variant="ghost"
+        size="icon"
+        color="transparent"
         disabled={isPending}
+        onClick={handleDeleteAll}
+        className="text-sm text-gray-500"
       >
         전체 삭제
-      </button> */}
+      </Button>
     </div>
   );
 }

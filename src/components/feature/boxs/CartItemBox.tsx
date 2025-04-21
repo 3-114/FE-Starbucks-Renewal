@@ -18,10 +18,13 @@ export default function CartItemBox({ item }: { item: CartItemType }) {
       <div className="flex-1 space-y-2">
         <div className="flex justify-between">
           <p>{item.productName}</p>
-          <RemoveButton id={item.cartUuid ?? ''} />
+          <RemoveButton cartUuid={item.cartUuid ?? ''} />
         </div>
         <div className="flex justify-between">
-          <QuantityControl id={item.cartUuid ?? ''} quantity={item.quantity} />
+          <QuantityControl
+            cartUuid={item.cartUuid ?? ''}
+            quantity={item.quantity}
+          />
           <p className="text-base/normal font-semibold">
             {(item.productPrice * item.quantity).toLocaleString()}원
           </p>
