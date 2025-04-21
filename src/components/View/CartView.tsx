@@ -7,6 +7,8 @@ import CartNotice from '../notice/CartNotice';
 import CartFooter from '@/components/layout/Footers/CartFooter';
 import { CartItemType } from '@/types/ResponseDataTypes';
 
+import CartAllSelectBox from '@/components/feature/boxs/CartAllSelectBox';
+
 const dummyCartTabData = [
   { id: 1, title: '일반' },
   { id: 2, title: '예약' },
@@ -47,6 +49,8 @@ export default async function CartView({
   const finalTotal = productTotal + shippingTotal - discountTotal;
   const totalCount = checkedItems.length;
 
+  const all_checked = checkedItems.length == cartItems.length;
+
   return (
     <>
       <CartTabNav CartTabData={dummyCartTabData} />
@@ -54,6 +58,7 @@ export default async function CartView({
         <EmptyCartContent />
       ) : (
         <>
+          <CartAllSelectBox isChecked={all_checked} cartUuids={CartUuids} />
           <FilledCartContent cartData={orderedItems} />
           <CartSummary
             productTotal={productTotal}

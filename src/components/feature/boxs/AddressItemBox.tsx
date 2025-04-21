@@ -1,4 +1,6 @@
-export default function AddressItemBox({
+import { memo } from 'react';
+
+export default memo(function AddressItemBox({
   address,
   error = false,
 }: {
@@ -43,4 +45,4 @@ export default function AddressItemBox({
       </div>
     </article>
   );
-}
+});

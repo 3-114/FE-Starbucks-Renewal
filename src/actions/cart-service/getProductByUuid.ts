@@ -17,7 +17,7 @@ export async function getProductByCartUuid(
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${accessToken}`,
     },
-    next: { tags: ['getCartItem'] },
+    // next: { tags: ['getCartItem'] },
   });
   if (!response.ok) {
     throw new Error('단 건 조회 데이터 패치 실패! 야외취침 확정!');
@@ -26,35 +26,6 @@ export async function getProductByCartUuid(
   const data = (await response.json()) as commonResponseType<CartItemType>;
 
   return data.result as CartItemType;
-}
-
-export async function removeItem(uuid: string) {
-  const session = await getServerSession(options);
-  const accessToken = session?.user?.accessToken;
-
-  const response = await fetch(
-    `${process.env.API_BASE_URL}/cart/${uuid}/get-selected`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${accessToken}`,
-      },
-    }
-  );
-  if (!response.ok) {
-    throw new Error('단 건 조회 데이터 패치 실패! 야외취침 확정!');
-  }
-
-  const data = await response.json();
-
-  return data.result.selected;
-}
-
-export async function updateQuantity(id: string, quantity: number) {
-  console.log(id, quantity);
-  await new Promise((resolve) => setTimeout(resolve, 300));
-  return { success: true };
 }
 
 export async function ToggleCheckbox(uuid: string) {
@@ -71,6 +42,63 @@ export async function ToggleCheckbox(uuid: string) {
       },
     }
   );
+  if (!response.ok) {
+    throw new Error('체크박스 변경에 실패!!');
+  }
+  revalidateTag('getCartItem');
+}
+
+export async function increaseQuantity(uuid: string) {
+  const session = await getServerSession(options);
+  const accessToken = session?.user?.accessToken;
+
+  const response = await fetch(
+    `${process.env.API_BASE_URL}/cart/${uuid}/item-increase`,
+    {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+      },
+    }
+  );
+  if (!response.ok) {
+    throw new Error('체크박스 변경에 실패!!');
+  }
+  revalidateTag('getCartItem');
+}
+
+export async function decreaseQuantity(uuid: string) {
+  const session = await getServerSession(options);
+  const accessToken = session?.user?.accessToken;
+
+  const response = await fetch(
+    `${process.env.API_BASE_URL}/cart/${uuid}/item-decrease`,
+    {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+      },
+    }
+  );
+  if (!response.ok) {
+    throw new Error('체크박스 변경에 실패!!');
+  }
+  revalidateTag('getCartItem');
+}
+
+export async function removeItem(uuid: string) {
+  const session = await getServerSession(options);
+  const accessToken = session?.user?.accessToken;
+
+  const response = await fetch(`${process.env.API_BASE_URL}/cart/${uuid}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`,
+    },
+  });
   if (!response.ok) {
     throw new Error('체크박스 변경에 실패!!');
   }

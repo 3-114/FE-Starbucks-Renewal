@@ -9,7 +9,6 @@ export default async function CartList({
   return (
     <section>
       <ul className="bg-gray-200 space-y-1">
-        {/* <CartAllSelectBox isChecked={allChecked} /> */}
         {cartData.map((item, index) => (
           <CartItemBox key={index} item={item} />
         ))}

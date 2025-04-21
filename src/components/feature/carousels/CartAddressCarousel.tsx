@@ -6,6 +6,7 @@ import {
   useTransition,
   useOptimistic,
   useCallback,
+  useMemo,
 } from 'react';
 import Link from 'next/link';
 import { Plus } from 'lucide-react';
@@ -92,11 +93,15 @@ export default function CartAddressCarousel({
     };
   }, [api, updateAddress, optimisticList.length]);
 
-  const handleAddAddress = () => {
-    router.push('/account/addresses/new');
-  };
+  const handleAddAddress = useCallback(
+    () => router.push('/account/addresses/new'),
+    [router]
+  );
 
-  const totalSlides = optimisticList.length + 1;
+  const totalSlides = useMemo(
+    () => optimisticList.length + 1,
+    [optimisticList.length]
+  );
 
   return (
     <section>

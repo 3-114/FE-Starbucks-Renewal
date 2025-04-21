@@ -4,23 +4,21 @@ import { getServerSession } from 'next-auth';
 import { revalidateTag } from 'next/cache';
 import { options } from '@/app/api/auth/[...nextauth]/options';
 
-export async function fetchCartUuids(
-): Promise<{ cartUuid: string }[]> {
-
+export async function fetchCartUuids(): Promise<{ cartUuid: string }[]> {
   const session = await getServerSession(options);
 
   const accessToken = session?.user?.accessToken;
 
-  const response = await fetch(
-    `${process.env.API_BASE_URL}/cart/uuid-list`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${accessToken}`,
-      },
-    }
-  );
+  const response = await fetch(`${process.env.API_BASE_URL}/cart/uuid-list`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`,
+    },
+    next: {
+      tags: ['CartUuidsList'],
+    },
+  });
   if (!response.ok) {
     throw new Error('데이터 패치 실패! 야외취침 확정!');
   }

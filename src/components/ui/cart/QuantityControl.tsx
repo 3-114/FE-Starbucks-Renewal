@@ -1,34 +1,38 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useOptimistic, useTransition } from 'react';
 import { Plus, Minus } from 'lucide-react';
-import { updateQuantity, getCartProductByUuid } from '@/actions/cart-service';
+import { increaseQuantity, decreaseQuantity } from '@/actions/cart-service';
 import { Button } from '@/components/ui/button';
 
 export default function QuantityControl({
-  id,
+  cartUuid,
   quantity,
 }: {
-  id: string;
+  cartUuid: string;
   quantity: number;
 }) {
-  const [localQuantity, setLocalQuantity] = useState(quantity);
+  const [optimisticQty, addOptimisticQty] = useOptimistic<number, number>(
+    quantity,
+    (_current, next) => next
+  );
   const [isPending, startTransition] = useTransition();
 
-  const changeQuantity = (newQty: number) => {
-    const previousQty = localQuantity;
-
-    setLocalQuantity(newQty);
-
+  const changeQuantity = (delta: number) => {
+    const previousQty = optimisticQty;
+    const newQty = previousQty + delta;
+    if (newQty < 1) return;
     startTransition(async () => {
+      addOptimisticQty(newQty);
       try {
-        await updateQuantity(id, newQty);
-
-        const updated = await getCartProductByUuid(id);
-        setLocalQuantity(updated.quantity);
-      } catch (e) {
-        console.error('수량 업데이트 실패', e);
-        setLocalQuantity(previousQty);
+        if (delta > 0) {
+          await increaseQuantity(cartUuid);
+        } else {
+          await decreaseQuantity(cartUuid);
+        }
+      } catch (error) {
+        console.error('수량 변경 실패:', error);
+        addOptimisticQty(previousQty);
       }
     });
   };
@@ -40,24 +44,24 @@ export default function QuantityControl({
         size="icon"
         className="border border-gray-500 size-6"
         color="transparent"
-        disabled={isPending || localQuantity <= 1}
-        onClick={() => changeQuantity(localQuantity - 1)}
+        disabled={isPending || optimisticQty <= 1}
+        onClick={() => changeQuantity(-1)}
       >
         <Minus
           size={16}
-          className={localQuantity <= 1 ? 'text-gray-500' : 'text-black'}
+          className={optimisticQty <= 1 ? 'text-gray-500' : 'text-black'}
         />
       </Button>
 
-      <span className="w-6 text-center text-base">{localQuantity}</span>
+      <span className="w-6 text-center text-base">{optimisticQty}</span>
 
       <Button
         variant="outline"
         size="icon"
-        className="border border-gray-500 size-6"
         color="transparent"
+        className="border border-gray-500 size-6"
         disabled={isPending}
-        onClick={() => changeQuantity(localQuantity + 1)}
+        onClick={() => changeQuantity(1)}
       >
         <Plus size={16} className="text-black" />
       </Button>
