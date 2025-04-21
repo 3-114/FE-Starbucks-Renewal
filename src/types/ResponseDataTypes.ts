@@ -49,6 +49,7 @@ export type ProductData = {
 export type CartTabType = {
   id: number;
   title: string;
+  cartType: string;
 };
 
 export type AddressDetailType = {

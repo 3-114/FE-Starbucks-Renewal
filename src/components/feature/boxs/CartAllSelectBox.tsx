@@ -2,15 +2,13 @@
 
 import { useOptimistic, useTransition } from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
-import { ToggleCheckbox, removeItem } from '@/actions/cart-service';
+import { allToggleCheckbox, removeAllItems } from '@/actions/cart-service';
 import { Button } from '@/components/ui/button';
 
 export default function CartAllSelectBox({
   isChecked,
-  cartUuids,
 }: {
   isChecked: boolean;
-  cartUuids: { cartUuid: string }[];
 }) {
   const [optimisticChecked, setOptimisticChecked] = useOptimistic<
     boolean,
@@ -21,6 +19,7 @@ export default function CartAllSelectBox({
     false,
     (_current, next) => next
   );
+
   const [isPending, startTransition] = useTransition();
 
   const handleCheckChange = () => {
@@ -29,9 +28,7 @@ export default function CartAllSelectBox({
     startTransition(async () => {
       setOptimisticChecked(next);
       try {
-        await Promise.all(
-          cartUuids.map((item) => ToggleCheckbox(item.cartUuid))
-        );
+        await allToggleCheckbox();
       } catch (error) {
         console.error('전체 선택 실패 → 롤백', error);
         setOptimisticChecked(!next);
@@ -43,7 +40,7 @@ export default function CartAllSelectBox({
     startTransition(async () => {
       setRemovedAll(true);
       try {
-        await Promise.all(cartUuids.map((item) => removeItem(item.cartUuid)));
+        await removeAllItems();
       } catch (error) {
         console.error('전체 삭제 실패 → 롤백', error);
         setRemovedAll(false);

@@ -10,8 +10,12 @@ import { dummyCartTabData } from '@/data/TabData';
 
 export default async function CartView({
   CartUuids,
+  generalCartCount,
+  reservationCartCount,
 }: {
   CartUuids: { cartUuid: string }[];
+  generalCartCount: number;
+  reservationCartCount: number;
 }) {
   const cartItems = await Promise.all(
     CartUuids.map(async ({ cartUuid }) => {
@@ -21,7 +25,7 @@ export default async function CartView({
 
   const checkedItems = cartItems.filter((item) => item.selected);
   const isEmpty = CartUuids.length === 0;
-  const all_checked = checkedItems.length == cartItems.length;
+  const all_checked = checkedItems.length === cartItems.length;
   const productTotal = checkedItems.reduce(
     (sum, item) => sum + Number(item.productPrice) * item.quantity,
     0
@@ -37,13 +41,17 @@ export default async function CartView({
 
   return (
     <>
-      <CartTabNav CartTabData={dummyCartTabData} />
+      <CartTabNav
+        CartTabData={dummyCartTabData}
+        generalCartCount={generalCartCount}
+        reservationCartCount={reservationCartCount}
+      />
       {isEmpty ? (
         <EmptyCartContent />
       ) : (
         <>
-          <CartAllSelectBox isChecked={all_checked} cartUuids={CartUuids} />
-          <FilledCartContent cartData={checkedItems} />
+          <CartAllSelectBox isChecked={all_checked} />
+          <FilledCartContent cartData={cartItems} />
           <CartSummary
             productTotal={productTotal}
             shippingTotal={shippingTotal}

@@ -1,47 +1,41 @@
 'use client';
 
 import { useEffect, useRef, useState, useTransition } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { CartTabType } from '@/types/ResponseDataTypes';
-import {
-  fetchCartUuids,
-  setActiveCartTab,
-  fetchCartTabCount,
-} from '@/actions/cart-service';
-
-type CartTabWithCount = CartTabType & { count: number };
+import { setActiveCartTab } from '@/actions/cart-service';
 
 export default function CartTabNav({
   CartTabData,
+  generalCartCount,
+  reservationCartCount,
 }: {
   CartTabData: CartTabType[];
+  generalCartCount: number;
+  reservationCartCount: number;
 }) {
-  const [activeTab, setActiveTab] = useState<number>(CartTabData[0].id);
-  const [navData, setNavData] = useState<CartTabWithCount[]>([]);
-  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const typeParam = searchParams.get('type') ?? 'general';
 
+  const [activeTab, setActiveTab] = useState<number>(() => {
+    return (
+      CartTabData.find((tab) => tab.cartType === typeParam)?.id ??
+      CartTabData[0].id
+    );
+  });
+
+  const [isPending, startTransition] = useTransition();
   const [activeMenuStyle, setActiveMenuStyle] = useState({ left: 0, width: 0 });
+
   const menuRefs = useRef<(HTMLLIElement | null)[]>([]);
   const navRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
-    const fetchCounts = async () => {
-      const counts = await Promise.all(
-        CartTabData.map(async (tab) => {
-          const count = await fetchCartTabCount(tab.id);
-          return { ...tab, count };
-        })
-      );
-      setNavData(counts);
-    };
-
-    fetchCounts();
-  }, [CartTabData]);
-
-  useEffect(() => {
     const updateActiveTabStyle = () => {
       const activeMenu = menuRefs.current.find(
-        (el, index) => navData[index]?.id === activeTab && el
+        (el, index) => CartTabData[index]?.id === activeTab && el
       );
       if (activeMenu && navRef.current) {
         const { offsetLeft, offsetWidth } = activeMenu;
@@ -52,10 +46,13 @@ export default function CartTabNav({
     updateActiveTabStyle();
     window.addEventListener('resize', updateActiveTabStyle);
     return () => window.removeEventListener('resize', updateActiveTabStyle);
-  }, [activeTab, navData]);
+  }, [activeTab, CartTabData]);
 
   const handleTabClick = (tabId: number) => {
     if (tabId === activeTab || isPending) return;
+
+    const nextTab = CartTabData.find((tab) => tab.id === tabId);
+    if (!nextTab) return;
 
     const prevTabId = activeTab;
     setActiveTab(tabId);
@@ -63,12 +60,23 @@ export default function CartTabNav({
     startTransition(async () => {
       try {
         await setActiveCartTab(prevTabId, tabId);
-        await fetchCartUuids();
+        router.push(`?type=${nextTab.cartType}`);
       } catch {
         console.error('탭 변경 실패. 이전 상태로 롤백합니다.');
         setActiveTab(prevTabId);
       }
     });
+  };
+
+  const getCountByType = (cartType: string): number => {
+    switch (cartType) {
+      case 'general':
+        return generalCartCount;
+      case 'reservation':
+        return reservationCartCount;
+      default:
+        return 0;
+    }
   };
 
   return (
@@ -77,7 +85,7 @@ export default function CartTabNav({
         ref={navRef}
         className="grid grid-cols-2 relative text-center shadow-sm"
       >
-        {navData.map((menu, index) => (
+        {CartTabData.map((menu, index) => (
           <li
             key={menu.id}
             ref={(el) => {
@@ -94,7 +102,7 @@ export default function CartTabNav({
           >
             <div className="inline-block relative">
               <span className="absolute -top-1 -right-5 bg-green-500 text-white rounded-full w-4 h-4 text-xs flex items-center justify-center">
-                {menu.count ?? '-'}
+                {getCountByType(menu.cartType)}
               </span>
               <span>{menu.title}</span>
             </div>

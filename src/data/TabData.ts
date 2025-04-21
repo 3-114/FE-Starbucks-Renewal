@@ -1,4 +1,4 @@
 export const dummyCartTabData = [
-  { id: 1, title: '일반' },
-  { id: 2, title: '예약' },
+  { id: 1, title: '일반', cartType: 'general' },
+  { id: 2, title: '예약', cartType: 'reservation' },
 ];
