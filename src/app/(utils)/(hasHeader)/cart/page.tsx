@@ -12,6 +12,7 @@ export default async function page() {
     shippingAddressUuidList.map((item) => fetchAddressdetail(item.deliveryUuid))
   );
   const CartUuids = await fetchCartUuids();
+  console.log('CartUuids', CartUuids);
   return (
     <main>
       <CartAddressCarousel addressList={addressList} />

@@ -2,24 +2,12 @@ import Image from 'next/image';
 import ItemCheckbox from '@/components/ui/cart/ItemCheckbox';
 import QuantityControl from '@/components/ui/cart/QuantityControl';
 import RemoveButton from '@/components/ui/cart/RemoveButton';
+import { CartItemType } from '@/types/ResponseDataTypes';
 
-export default function CartItemBox({
-  item,
-}: {
-  item: {
-    cartUuid: string;
-    productName: string;
-    productPrice: number;
-    productThumbnailUrl: string;
-    isThumbnail: boolean;
-    quantity: number;
-    selected: boolean;
-    shippingFee: number;
-  };
-}) {
+export default function CartItemBox({ item }: { item: CartItemType }) {
   return (
-    <div className="bg-white mb-2 p-4 flex items-start text-sm font-semibold gap-2">
-      <ItemCheckbox cartUuid={item.cartUuid} checked={item.selected} />
+    <li className="bg-white px-4 py-6 flex items-start text-sm font-semibold gap-2">
+      <ItemCheckbox cartUuid={item.cartUuid ?? ''} checked={item.selected} />
       <Image
         src={item.productThumbnailUrl}
         alt="product image"
@@ -39,6 +27,6 @@ export default function CartItemBox({
           </p>
         </div>
       </div>
-    </div>
+    </li>
   );
 }

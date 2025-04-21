@@ -1,37 +1,31 @@
 'use server';
 
 import { options } from '@/app/api/auth/[...nextauth]/options';
+import { CartItemType, commonResponseType } from '@/types/ResponseDataTypes';
 import { getServerSession } from 'next-auth';
+import { revalidateTag } from 'next/cache';
 
-export async function getProductByCartUuid(uuid: string): Promise<{
-  quantity: number;
-  selected:boolean;
-  productName: string;
-  productPrice: number;
-  productThumbnailUrl: string;
-  isThumbnail: boolean;
-  shippingFee: number;
-}> {
+export async function getProductByCartUuid(
+  uuid: string
+): Promise<CartItemType> {
   const session = await getServerSession(options);
   const accessToken = session?.user?.accessToken;
 
-  const response = await fetch(
-    `${process.env.API_BASE_URL}/cart/${uuid}`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${accessToken}`,
-      },
-    }
-  );
+  const response = await fetch(`${process.env.API_BASE_URL}/cart/${uuid}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`,
+    },
+    next: { tags: ['getCartItem'] },
+  });
   if (!response.ok) {
     throw new Error('단 건 조회 데이터 패치 실패! 야외취침 확정!');
   }
 
-  const data = await response.json();
+  const data = (await response.json()) as commonResponseType<CartItemType>;
 
-  return data.result;
+  return data.result as CartItemType;
 }
 
 export async function removeItem(uuid: string) {
@@ -80,4 +74,5 @@ export async function ToggleCheckbox(uuid: string) {
   if (!response.ok) {
     throw new Error('체크박스 변경에 실패!!');
   }
+  revalidateTag('getCartItem');
 }

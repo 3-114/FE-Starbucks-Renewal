@@ -11,31 +11,30 @@ export default function ItemCheckbox({
   cartUuid: string;
   checked: boolean;
 }) {
-  const [optimisticChecked, addOptimisticChecked] = useOptimistic<boolean, boolean>(
-    checked,
-    (_current, next) => next
-  );
+  const [optimisticChecked, addOptimisticChecked] = useOptimistic<
+    boolean,
+    boolean
+  >(checked, (_current, next) => next);
   const [isPending, startTransition] = useTransition();
 
   const handleChange = async (newChecked: boolean) => {
     startTransition(() => {
-            addOptimisticChecked(newChecked);
-      });
-  
+      addOptimisticChecked(newChecked);
+    });
+
     try {
       await ToggleCheckbox(cartUuid);
-      await getProductByCartUuid(cartUuid);
-    } catch {
+    } catch (error) {
+      console.error('Failed to toggle checkbox:', error);
       startTransition(() => {
         addOptimisticChecked(checked);
       });
-
     }
   };
 
   return (
     <Checkbox
-      checked={optimisticChecked}
+      defaultChecked={optimisticChecked}
       variant="green"
       size="lg"
       disabled={isPending}
