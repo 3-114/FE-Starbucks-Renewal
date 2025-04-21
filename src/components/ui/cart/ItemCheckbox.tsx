@@ -2,7 +2,7 @@
 
 import { useOptimistic, useTransition } from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
-import { ToggleCheckbox, getProductByCartUuid } from '@/actions/cart-service';
+import { ToggleCheckbox } from '@/actions/cart-service';
 
 export default function ItemCheckbox({
   cartUuid,
