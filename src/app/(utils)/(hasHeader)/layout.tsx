@@ -15,7 +15,7 @@ export default async function layout({
       <Sidebar />
       <MainHeader HeaderData={MainHeaderData} title="장바구니" />
       {children}
-      <MainFooter FooterData={MainFooterDummyData} />
+      <MainFooter FooterData={MainFooterDummyData} className="pb-40" />
     </SidebarContextProvider>
   );
 }

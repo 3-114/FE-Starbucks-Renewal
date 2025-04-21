@@ -64,3 +64,14 @@ export type AddressDetailType = {
 export interface shippingAddressType {
   deliveryUuid: string;
 }
+
+export interface CartItemType {
+  quantity: number;
+  selected: boolean;
+  productName: string;
+  productPrice: number;
+  productThumbnailUrl: string;
+  isThumbnail: boolean;
+  shippingFee: number;
+  cartUuid?: string;
+}
