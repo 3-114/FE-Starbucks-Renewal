@@ -1,42 +1,20 @@
 import BestPage from '@/components/page/BestPage';
+import { fetchMainCategory } from '@/actions/product-service';
 import { EventNavMenuType } from '@/types/Initial/InitialDataTypes';
-
-const dummyNavData: EventNavMenuType[] = [
-  {
-    eventUuid: '1',
-    eventName: '텀블러/보온병',
-  },
-  {
-    eventUuid: '2',
-    eventName: '머그/컵',
-  },
-  {
-    eventUuid: '3',
-    eventName: '라이프스타일',
-  },
-  {
-    eventUuid: '4',
-    eventName: '티/커피용품',
-  },
-  {
-    eventUuid: '5',
-    eventName: '케이크',
-  },
-  {
-    eventUuid: '6',
-    eventName: '초콜릿스낵',
-  },
-];
 
 export default async function Page({
   searchParams,
 }: {
-  searchParams: Promise<{ category?: string | undefined }>;
+  searchParams: Promise<{ category?: string; page?: string }>;
 }) {
-  const category = (await searchParams).category ?? dummyNavData[0].eventName;
-  return (
-    <>
-      <BestPage category={category} NavData={dummyNavData} />
-    </>
+  const { category = '' } = await searchParams;
+
+  const NavDataRaw = await fetchMainCategory();
+  const NavData: EventNavMenuType[] = NavDataRaw.map(
+    (item: { mainCategoryUuid: string; mainCategoryName: string }) => ({
+      eventUuid: item.mainCategoryUuid,
+      eventName: item.mainCategoryName,
+    })
   );
+  return <BestPage category={category} NavData={NavData} />;
 }

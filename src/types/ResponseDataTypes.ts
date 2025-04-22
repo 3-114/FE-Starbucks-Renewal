@@ -98,3 +98,36 @@ export type ProductDetail = {
 export type ProductDetailResponse = {
   result: ProductDetail;
 };
+
+export type ProductUuidItem = {
+  productUuid: string;
+};
+
+export type Pageable = {
+  pageNumber: number;
+  pageSize: number;
+  offset: number;
+  paged: boolean;
+  unpaged: boolean;
+  sort: Sort;
+};
+
+export type Sort = {
+  empty: boolean;
+  sorted: boolean;
+  unsorted: boolean;
+};
+
+export type ProductListByCategoryResponse = {
+  content: ProductUuidItem[];
+  pageable: Pageable;
+  totalElements: number;
+  totalPages: number;
+  last: boolean;
+  size: number;
+  number: number;
+  sort: Sort;
+  numberOfElements: number;
+  first: boolean;
+  empty: boolean;
+};
