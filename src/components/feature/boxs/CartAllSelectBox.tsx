@@ -2,15 +2,15 @@
 
 import { useOptimistic, useTransition } from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
-import { ToggleCheckbox, removeItem } from '@/actions/cart-service';
+import { allToggleCheckbox, removeAllItems } from '@/actions/cart-service';
 import { Button } from '@/components/ui/button';
 
 export default function CartAllSelectBox({
   isChecked,
-  cartUuids,
+  cartType,
 }: {
   isChecked: boolean;
-  cartUuids: { cartUuid: string }[];
+  cartType: string;
 }) {
   const [optimisticChecked, setOptimisticChecked] = useOptimistic<
     boolean,
@@ -21,6 +21,7 @@ export default function CartAllSelectBox({
     false,
     (_current, next) => next
   );
+
   const [isPending, startTransition] = useTransition();
 
   const handleCheckChange = () => {
@@ -29,9 +30,7 @@ export default function CartAllSelectBox({
     startTransition(async () => {
       setOptimisticChecked(next);
       try {
-        await Promise.all(
-          cartUuids.map((item) => ToggleCheckbox(item.cartUuid))
-        );
+        await allToggleCheckbox();
       } catch (error) {
         console.error('전체 선택 실패 → 롤백', error);
         setOptimisticChecked(!next);
@@ -43,7 +42,7 @@ export default function CartAllSelectBox({
     startTransition(async () => {
       setRemovedAll(true);
       try {
-        await Promise.all(cartUuids.map((item) => removeItem(item.cartUuid)));
+        await removeAllItems(cartType);
       } catch (error) {
         console.error('전체 삭제 실패 → 롤백', error);
         setRemovedAll(false);
@@ -57,7 +56,7 @@ export default function CartAllSelectBox({
     <div className="flex justify-between items-center py-6 pl-4 pr-10 bg-white text-sm font-medium">
       <div className="flex items-center gap-[10px]">
         <Checkbox
-          defaultChecked={optimisticChecked}
+          checked={optimisticChecked}
           onCheckedChange={handleCheckChange}
           variant="green"
           size="lg"

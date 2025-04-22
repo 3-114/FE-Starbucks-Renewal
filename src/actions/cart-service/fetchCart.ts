@@ -4,21 +4,26 @@ import { getServerSession } from 'next-auth';
 import { revalidateTag } from 'next/cache';
 import { options } from '@/app/api/auth/[...nextauth]/options';
 
-export async function fetchCartUuids(): Promise<{ cartUuid: string }[]> {
+export async function fetchCartUuids(
+  cartType: string
+): Promise<{ cartUuid: string }[]> {
   const session = await getServerSession(options);
-
   const accessToken = session?.user?.accessToken;
 
-  const response = await fetch(`${process.env.API_BASE_URL}/cart/uuid-list`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${accessToken}`,
-    },
-    next: {
-      tags: ['CartUuidsList'],
-    },
-  });
+  const response = await fetch(
+    `${process.env.API_BASE_URL}/cart/uuid-list?cartType=${cartType}`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+      },
+      next: {
+        tags: [`CartUuidsList-${cartType}`],
+      },
+    }
+  );
+
   if (!response.ok) {
     throw new Error('데이터 패치 실패! 야외취침 확정!');
   }
@@ -63,38 +68,30 @@ export async function setActiveCartTab(prevTabId: number, nextTabId: number) {
 
   return true;
 }
-
-export async function getCartTabCounts(): Promise<{
-  general: number;
-  reservation: number;
-}> {
+export async function getCartCount(cartType: string): Promise<number> {
   const session = await getServerSession(options);
-
   const accessToken = session?.user?.accessToken;
 
-  const headers = {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${accessToken}`,
-  };
-
-  const [generalRes, reservationRes] = await Promise.all([
-    fetch(`${process.env.API_BASE_URL}/count/general`, {
+  const response = await fetch(
+    `${process.env.API_BASE_URL}/cart/count/${cartType}`,
+    {
       method: 'GET',
-      headers,
-    }),
-    fetch(`${process.env.API_BASE_URL}/count/reservation`, {
-      method: 'GET',
-      headers,
-    }),
-  ]);
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+      },
+      next: {
+        tags: [`${cartType}CartCount`],
+      },
+    }
+  );
 
-  const general = await generalRes.json();
-  const reservation = await reservationRes.json();
+  if (!response.ok) {
+    throw new Error(`패치 실패! ${cartType}의 count`);
+  }
 
-  return {
-    general: general.result,
-    reservation: reservation.result,
-  };
+  const data = await response.json();
+  return data.result.totalCount;
 }
 
 export async function fetchCartTabCount(tabId: number): Promise<number> {

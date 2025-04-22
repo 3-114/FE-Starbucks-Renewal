@@ -49,6 +49,7 @@ export type ProductData = {
 export type CartTabType = {
   id: number;
   title: string;
+  cartType: string;
 };
 
 export type AddressDetailType = {
@@ -73,5 +74,27 @@ export interface CartItemType {
   productThumbnailUrl: string;
   isThumbnail: boolean;
   shippingFee: number;
-  cartUuid?: string;
+  cartUuid: string;
 }
+
+export type Thumbnail = {
+  productId: number;
+  productThumbnailUrl: string;
+  productThumbnailIndex: number;
+  isThumbnail: boolean;
+};
+
+export type ProductDetail = {
+  productUuid: string;
+  productName: string;
+  brand: string;
+  productPrice: number;
+  productDescription: string;
+  shippingFee: number;
+  productStatus: '판매 중' | '판매 완료' | string;
+  thumbnailList: Thumbnail[];
+};
+
+export type ProductDetailResponse = {
+  result: ProductDetail;
+};

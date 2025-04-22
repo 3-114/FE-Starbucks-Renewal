@@ -7,7 +7,7 @@ import { CartItemType } from '@/types/ResponseDataTypes';
 export default function CartItemBox({ item }: { item: CartItemType }) {
   return (
     <li className="bg-white px-4 py-6 flex items-start text-sm font-semibold gap-2">
-      <ItemCheckbox cartUuid={item.cartUuid ?? ''} checked={item.selected} />
+      <ItemCheckbox cartUuid={item.cartUuid} checked={item.selected} />
       <Image
         src={item.productThumbnailUrl}
         alt="product image"
@@ -18,13 +18,10 @@ export default function CartItemBox({ item }: { item: CartItemType }) {
       <div className="flex-1 space-y-2">
         <div className="flex justify-between">
           <p>{item.productName}</p>
-          <RemoveButton cartUuid={item.cartUuid ?? ''} />
+          <RemoveButton cartUuid={item.cartUuid} />
         </div>
         <div className="flex justify-between">
-          <QuantityControl
-            cartUuid={item.cartUuid ?? ''}
-            quantity={item.quantity}
-          />
+          <QuantityControl cartUuid={item.cartUuid} quantity={item.quantity} />
           <p className="text-base/normal font-semibold">
             {(item.productPrice * item.quantity).toLocaleString()}원
           </p>
