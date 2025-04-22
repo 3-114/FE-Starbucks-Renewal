@@ -1,6 +1,6 @@
 'use client';
 
-import { useOptimistic, useTransition } from 'react';
+import { useEffect, useOptimistic, useTransition } from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { ToggleCheckbox } from '@/actions/cart-service';
 
@@ -17,11 +17,16 @@ export default function ItemCheckbox({
   >(checked, (_current, next) => next);
   const [isPending, startTransition] = useTransition();
 
+  useEffect(() => {
+    startTransition(() => {
+      addOptimisticChecked(checked);
+    });
+  }, [checked, addOptimisticChecked]);
+
   const handleChange = async (newChecked: boolean) => {
     startTransition(() => {
       addOptimisticChecked(newChecked);
     });
-
     try {
       await ToggleCheckbox(cartUuid);
     } catch (error) {
@@ -34,7 +39,7 @@ export default function ItemCheckbox({
 
   return (
     <Checkbox
-      defaultChecked={optimisticChecked}
+      checked={optimisticChecked}
       variant="green"
       size="lg"
       disabled={isPending}

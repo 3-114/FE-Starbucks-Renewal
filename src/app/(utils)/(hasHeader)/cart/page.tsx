@@ -34,6 +34,7 @@ export default async function Page({
         CartUuids={CartUuids}
         generalCartCount={generalCartCount}
         reservationCartCount={reservationCartCount}
+        cartType={cartType}
       />
     </main>
   );

@@ -47,7 +47,7 @@ export async function ToggleCheckbox(uuid: string) {
   if (!response.ok) {
     throw new Error('체크박스 변경에 실패!!');
   }
-  revalidateTag('getCartItem');
+  revalidateTag(`CartItem:${uuid}`);
 }
 
 export async function increaseQuantity(uuid: string) {
@@ -128,12 +128,29 @@ export async function allToggleCheckbox(): Promise<void> {
 
   const data = await response.json();
 
-  console.log(data);
-
   const cartUuids: string[] =
     data.result?.map((item: { cartUuid: string }) => item.cartUuid) ?? [];
 
   for (const uuid of cartUuids) {
     revalidateTag(`CartItem:${uuid}`);
   }
+}
+
+export async function removeAllItems(cartType: string): Promise<boolean> {
+  const session = await getServerSession(options);
+  const accessToken = session?.user?.accessToken;
+
+  const response = await fetch(`${process.env.API_BASE_URL}/cart?${cartType}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error('전체 토글 실패');
+  }
+
+  return response.ok;
 }

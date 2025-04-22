@@ -12,10 +12,12 @@ export default async function CartView({
   CartUuids,
   generalCartCount,
   reservationCartCount,
+  cartType,
 }: {
   CartUuids: { cartUuid: string }[];
   generalCartCount: number;
   reservationCartCount: number;
+  cartType: string;
 }) {
   const cartItems = await Promise.all(
     CartUuids.map(async ({ cartUuid }) => {
@@ -50,7 +52,7 @@ export default async function CartView({
         <EmptyCartContent />
       ) : (
         <>
-          <CartAllSelectBox isChecked={all_checked} />
+          <CartAllSelectBox isChecked={all_checked} cartType={cartType} />
           <FilledCartContent cartData={cartItems} />
           <CartSummary
             productTotal={productTotal}
