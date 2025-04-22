@@ -5,7 +5,10 @@ const nextConfig: NextConfig = {
     API_BASE_URL: process.env.API_BASE_URL,
   },
   images: {
-    domains: ['sitem.ssgcdn.com'],
+    domains: [
+      'sitem.ssgcdn.com',
+      'https://e-dong1957.com/kr/images/content/content_ready_img.png',
+    ],
     unoptimized: true,
   },
 };
