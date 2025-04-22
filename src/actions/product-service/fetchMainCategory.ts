@@ -1,18 +1,10 @@
-import { options } from '@/app/api/auth/[...nextauth]/options';
-import { getServerSession } from 'next-auth';
-
 export async function fetchMainCategory(): Promise<
   { mainCategoryUuid: string; mainCategoryName: string }[]
 > {
-  const session = await getServerSession(options);
-
-  const accessToken = session?.user?.accessToken;
-
   const response = await fetch(`${process.env.API_BASE_URL}/main-category`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${accessToken}`,
     },
   });
 

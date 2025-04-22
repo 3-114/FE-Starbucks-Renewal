@@ -11,7 +11,13 @@ import {
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
-export default function EventNav({ NavData }: { NavData: EventNavMenuType[] }) {
+export default function EventNav({
+  NavData,
+  resetPageOnCategoryChange = false,
+}: {
+  NavData: EventNavMenuType[];
+  resetPageOnCategoryChange?: boolean;
+}) {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -22,13 +28,23 @@ export default function EventNav({ NavData }: { NavData: EventNavMenuType[] }) {
     if (!currentCategory && firstCategory) {
       const query = new URLSearchParams(searchParams.toString());
       query.set('category', firstCategory);
+
+      if (resetPageOnCategoryChange) {
+        query.set('page', '1');
+      }
+
       router.replace(`?${query.toString()}`);
     }
-  }, [searchParams, NavData, router]);
+  }, [searchParams, NavData, router, resetPageOnCategoryChange]);
 
   const handleClick = (eventName: string) => {
     const query = new URLSearchParams(searchParams.toString());
     query.set('category', eventName);
+
+    if (resetPageOnCategoryChange) {
+      query.set('page', '1');
+    }
+
     router.push(`?${query.toString()}`);
   };
 
