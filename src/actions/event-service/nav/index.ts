@@ -1,17 +1,9 @@
-import { options } from '@/app/api/auth/[...nextauth]/options';
-import { getServerSession } from 'next-auth';
-
 export async function getEventNavData() {
-  const session = await getServerSession(options);
-
-  const accessToken = session?.user?.accessToken;
-
   const url = `${process.env.API_BASE_URL}/event/nav`;
   const res = await fetch(url, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${accessToken}`,
     },
   });
 
@@ -34,16 +26,11 @@ export async function getEventNavData() {
 export async function getEventProductList(
   eventUuid: string
 ): Promise<string[]> {
-  const session = await getServerSession(options);
-
-  const accessToken = session?.user?.accessToken;
-
   const url = `${process.env.API_BASE_URL}/product-category/${eventUuid}`;
   const res = await fetch(url, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${accessToken}`,
     },
   });
 
