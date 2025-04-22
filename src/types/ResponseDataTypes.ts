@@ -76,3 +76,25 @@ export interface CartItemType {
   shippingFee: number;
   cartUuid: string;
 }
+
+export type Thumbnail = {
+  productId: number;
+  productThumbnailUrl: string;
+  productThumbnailIndex: number;
+  isThumbnail: boolean;
+};
+
+export type ProductDetail = {
+  productUuid: string;
+  productName: string;
+  brand: string;
+  productPrice: number;
+  productDescription: string;
+  shippingFee: number;
+  productStatus: '판매 중' | '판매 완료' | string;
+  thumbnailList: Thumbnail[];
+};
+
+export type ProductDetailResponse = {
+  result: ProductDetail;
+};
