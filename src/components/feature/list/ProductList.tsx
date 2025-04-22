@@ -24,14 +24,14 @@ export async function ProductList({
 
   return (
     <>
-      <section className="grid grid-cols-2 gap-4 p-4">
+      <section className="grid grid-cols-2 gap-4 p-4 items-stretch">
         {products.map((p, index) => (
           <Link
             key={index}
             href={`/products/${p.productUuid}`}
             className="no-underline"
           >
-            <div className="relative border rounded-lg p-2 hover:shadow-md transition">
+            <div className="flex flex-col justify-between h-full relative border rounded-lg p-2 hover:shadow-md transition">
               <div className="relative aspect-square w-full">
                 <Image
                   src={p.productThumbnailUrl}

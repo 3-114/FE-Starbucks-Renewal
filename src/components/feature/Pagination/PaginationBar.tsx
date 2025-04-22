@@ -10,6 +10,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
+import { cn } from '@/lib/utils';
 
 interface PaginationBarProps {
   totalPages: number;
@@ -55,7 +56,10 @@ export default function PaginationBar({ totalPages }: PaginationBarProps) {
         <PaginationItem>
           <PaginationLink
             href="#"
-            isActive={currentPage === 1}
+            className={cn(
+              'px-3 py-1.5 text-sm border border-transparent hover:border-gray-300 rounded-md transition',
+              currentPage === 1 && 'border-gray-400 bg-gray-100 font-semibold'
+            )}
             onClick={(e) => {
               e.preventDefault();
               goToPage(1);
@@ -65,19 +69,23 @@ export default function PaginationBar({ totalPages }: PaginationBarProps) {
           </PaginationLink>
         </PaginationItem>
 
-        {/* ... (앞쪽) */}
+        {/* ... 앞쪽 생략 */}
         {middlePages.length > 0 && middlePages[0] > 2 && (
           <PaginationItem>
             <PaginationEllipsis />
           </PaginationItem>
         )}
 
-        {/* 중간 페이지들 */}
+        {/* 중간 페이지 */}
         {middlePages.map((pageNum) => (
           <PaginationItem key={pageNum}>
             <PaginationLink
               href="#"
-              isActive={pageNum === currentPage}
+              className={cn(
+                'px-3 py-1.5 text-sm border border-transparent hover:border-gray-300 rounded-md transition',
+                pageNum === currentPage &&
+                  'border-gray-400 bg-gray-100 font-semibold'
+              )}
               onClick={(e) => {
                 e.preventDefault();
                 goToPage(pageNum);
@@ -88,7 +96,7 @@ export default function PaginationBar({ totalPages }: PaginationBarProps) {
           </PaginationItem>
         ))}
 
-        {/* ... (뒤쪽) */}
+        {/* ... 뒤쪽 생략 */}
         {middlePages.length > 0 &&
           middlePages[middlePages.length - 1] < lastPage - 1 && (
             <PaginationItem>
@@ -101,7 +109,11 @@ export default function PaginationBar({ totalPages }: PaginationBarProps) {
           <PaginationItem>
             <PaginationLink
               href="#"
-              isActive={currentPage === lastPage}
+              className={cn(
+                'px-3 py-1.5 text-sm border border-transparent hover:border-gray-300 rounded-md transition',
+                currentPage === lastPage &&
+                  'border-gray-400 bg-gray-100 font-semibold'
+              )}
               onClick={(e) => {
                 e.preventDefault();
                 goToPage(lastPage);
