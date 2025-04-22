@@ -39,16 +39,12 @@ export async function getInformationProductByUuid(uuid: string): Promise<{
   isThumbnail: boolean;
   shippingFee: number;
 }> {
-  const session = await getServerSession(options);
-  const accessToken = session?.user?.accessToken;
-
   const response = await fetch(
     `${process.env.API_BASE_URL}/products/preview/${uuid}`,
     {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${accessToken}`,
       },
     }
   );
