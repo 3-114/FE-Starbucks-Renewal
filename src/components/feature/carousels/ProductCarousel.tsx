@@ -20,7 +20,7 @@ export default function ProductCarousel({
         {productDataList.map((product) => (
           <CarouselItem key={product.id} className="flex-none">
             <Link
-              href={`/products/${encodeURIComponent(product.title)}`}
+              href={`/products/${encodeURIComponent(product.id)}`}
               className="block p-2 w-40 break-words"
             >
               <div className="bg-gray-100 rounded-lg p-6 flex items-center justify-center w-40 h-40 relative">

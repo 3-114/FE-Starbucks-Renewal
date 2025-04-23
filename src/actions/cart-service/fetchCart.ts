@@ -138,3 +138,27 @@ export async function getCartProductByUuid(
   const data = await response.json();
   return data.result;
 }
+
+export async function AddCartItem({
+  productUuid,
+  quantity,
+}: {
+  productUuid: string;
+  quantity: number;
+}): Promise<void> {
+  const session = await getServerSession(options);
+  const accessToken = session?.user?.accessToken;
+
+  const response = await fetch(`${process.env.API_BASE_URL}/cart`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({ productUuid, quantity }),
+  });
+
+  if (!response.ok) {
+    throw new Error('장바구니 추가 실패! 야외취침 확정!');
+  }
+}
