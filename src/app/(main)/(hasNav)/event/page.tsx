@@ -2,7 +2,10 @@ import EventNav from '@/components/layout/navs/EventNav';
 import {
   getEventNavData,
   getEventImageList,
-} from '@/actions/event-service/nav';
+  getEventProductList,
+} from '@/actions/event-service';
+import { ProductList } from '@/components/feature/list/ProductList';
+import ImageList from '@/components/feature/list/ImageList';
 
 export default async function Page({
   searchParams,
@@ -18,11 +21,12 @@ export default async function Page({
         NavData[0].eventUuid);
 
   const eventImageList = await getEventImageList(matchedCategory);
-  console.log(eventImageList);
+  const eventproductList = await getEventProductList(matchedCategory);
   return (
     <>
       <EventNav NavData={NavData} />
-      <div>좋은선택</div>
+      <ImageList eventImages={eventImageList} />
+      <ProductList uuidList={eventproductList} showBest={false} />
     </>
   );
 }
