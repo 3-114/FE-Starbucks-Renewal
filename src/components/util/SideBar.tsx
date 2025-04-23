@@ -1,50 +1,48 @@
 'use client';
 import { cn } from '@/lib/utils';
 import { ChevronRight, XIcon } from 'lucide-react';
-import { useEffect } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSidebarContext } from '@/context/SideBarContext';
 import { Button } from '../ui/button';
 import Image from 'next/image';
 
-const categories = [
-  {
-    name: '텀블러/보온병',
-    image: '/avatarUrl.png',
-    link: '/products/tumblers',
-  },
-  { name: '머그/컵', image: '/avatarUrl.png', link: '/products/mugs' },
-  {
-    name: '라이프스타일',
-    image: '/avatarUrl.png',
-    link: '/products/lifestyle',
-  },
-  {
-    name: '티/커피용품',
-    image: '/avatarUrl.png',
-    link: '/products/tea-coffee',
-  },
-  { name: '케이크', image: '/avatarUrl.png', link: '/products/cakes' },
-  { name: '초콜릿/스낵', image: '/avatarUrl.png', link: '/products/snacks' },
-  { name: '세트', image: '/avatarUrl.png', link: '/products/sets' },
-];
+interface Category {
+  mainCategoryUuid: string;
+  mainCategoryName: string;
+  mainCategoryImage: string;
+}
 
 export function Sidebar() {
   const { isOpen, setIsOpen } = useSidebarContext();
   const route = useRouter();
   const onClick = () => setIsOpen((prev) => !prev);
+  const fetchedRef = useRef(false);
+  const [categories, setCategories] = useState<Category[]>([]);
 
+  const fetchCategories = useCallback(async () => {
+    if (fetchedRef.current) return;
+    try {
+      const res = await fetch('/api/categories');
+      const data = await res.json();
+      setCategories(data);
+      fetchedRef.current = true;
+    } catch (e) {
+      console.error('카테고리 fetch 실패', e);
+    }
+  }, []);
   useEffect(() => {
     if (isOpen) {
+      fetchCategories();
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
     }
-  }, [isOpen]);
+  }, [isOpen, fetchCategories]);
 
-  const handleRouteChange = (link: string) => {
+  const handleRouteChange = (uuid: string) => {
     setIsOpen(false);
-    route.push(link);
+    route.push(`/products?mainCategoryUuid=${uuid}`);
   };
 
   return (
@@ -84,7 +82,10 @@ export function Sidebar() {
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => handleRouteChange('/products')}
+            onClick={() => {
+              setIsOpen(false);
+              route.push('/products');
+            }}
             aria-label="전체 상품 보기"
             className="p-1"
             color="transparent"
@@ -100,18 +101,18 @@ export function Sidebar() {
             <div
               key={index}
               className="flex flex-col items-center cursor-pointer"
-              onClick={() => handleRouteChange(category.link)}
+              onClick={() => handleRouteChange(category.mainCategoryUuid)}
             >
               <div className="bg-gray-100 rounded-full p-1 mb-1 relative w-28 h-28">
                 <Image
-                  src={category.image}
-                  alt={category.name}
+                  src={category.mainCategoryImage}
+                  alt={category.mainCategoryName}
                   fill
                   sizes="80px"
                   className="object-cover rounded-full"
                 />
               </div>
-              <p className="text-xs text-center">{category.name}</p>
+              <p className="text-xs text-center">{category.mainCategoryName}</p>
             </div>
           ))}
         </div>
