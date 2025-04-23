@@ -12,7 +12,7 @@ export async function getEventImageList(uuid: string): Promise<
         'Content-Type': 'application/json',
       },
       next: {
-        tags: ['event:ImageList'],
+        tags: [`event:ImageList ${uuid}`],
       },
     }
   );
@@ -25,21 +25,19 @@ export async function getEventImageList(uuid: string): Promise<
   return data.result as { eventUrl: string; eventUrlIndex: number }[];
 }
 
-export async function getEventProductList(uuid: string): Promise<
-  {
-    eventUrl: string;
-    eventUrlIndex: number;
-  }[]
-> {
+export async function getEventProductList(
+  uuid: string
+): Promise<{ productUuid: string }[]> {
+  console.log(uuid);
   const response = await fetch(
-    `${process.env.API_BASE_URL}/event-image/${uuid}`,
+    `${process.env.API_BASE_URL}/product-category/uuid-list/event?eventUuid=${uuid}`,
     {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
       next: {
-        tags: ['event:ImageList'],
+        tags: [`event:ProductList ${uuid}`],
       },
     }
   );
@@ -49,5 +47,5 @@ export async function getEventProductList(uuid: string): Promise<
   }
 
   const data = await response.json();
-  return data.result;
+  return data.result.content;
 }

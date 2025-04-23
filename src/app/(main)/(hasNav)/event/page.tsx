@@ -21,7 +21,8 @@ export default async function Page({
         NavData[0].eventUuid);
 
   const eventImageList = await getEventImageList(matchedCategory);
-  const eventproductList = await getEventProductList(matchedCategory);
+  const rawProductList = await getEventProductList(matchedCategory);
+  const eventproductList = rawProductList.map((item) => item.productUuid);
   return (
     <>
       <EventNav NavData={NavData} />

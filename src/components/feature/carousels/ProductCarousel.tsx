@@ -23,12 +23,11 @@ export default function ProductCarousel({
               href={`/products/${encodeURIComponent(product.title)}`}
               className="block p-2 w-40 break-words"
             >
-              <div className="bg-gray-100 rounded-lg p-6 flex items-center justify-center w-40 h-40">
+              <div className="bg-gray-100 rounded-lg p-6 flex items-center justify-center w-40 h-40 relative">
                 <Image
                   src={product.url}
                   alt={product.title}
-                  width={40}
-                  height={40}
+                  fill
                   className="object-contain"
                 />
               </div>
