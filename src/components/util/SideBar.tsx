@@ -23,14 +23,17 @@ export function Sidebar() {
   const fetchCategories = useCallback(async () => {
     if (fetchedRef.current) return;
     try {
-      const res = await fetch('/api/categories');
+      const res = await fetch(
+        `${process.env.API_BASE_URL}/main-category/side-bar`
+      );
       const data = await res.json();
-      setCategories(data);
+      setCategories(data.result);
       fetchedRef.current = true;
     } catch (e) {
       console.error('카테고리 fetch 실패', e);
     }
   }, []);
+
   useEffect(() => {
     if (isOpen) {
       fetchCategories();

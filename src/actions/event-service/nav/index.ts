@@ -1,51 +1,44 @@
-export async function getEventNavData() {
-  const url = `${process.env.API_BASE_URL}/event/nav`;
-  const res = await fetch(url, {
+export async function getEventNavData(): Promise<
+  {
+    eventUuid: string;
+    eventName: string;
+  }[]
+> {
+  const response = await fetch(`${process.env.API_BASE_URL}/event/nav`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
   });
 
-  if (!res.ok) {
-    const text = await res.text();
-    console.error('❌ Fetch failed:', {
-      status: res.status,
-      statusText: res.statusText,
-      url,
-      body: text,
-    });
-
-    throw new Error('네비게이션 데이터를 불러오는 데 실패');
+  if (!response.ok) {
+    throw new Error('데이터 패치 실패! 야외취침 확정!');
   }
 
-  const data = await res.json();
+  const data = await response.json();
   return data.result;
 }
 
-export async function getEventProductList(
-  eventUuid: string
-): Promise<string[]> {
-  const url = `${process.env.API_BASE_URL}/product-category/${eventUuid}`;
-  const res = await fetch(url, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
+export async function getEventImageList(uuid: string): Promise<
+  {
+    eventUrl: string;
+    eventUrlIndex: number;
+  }[]
+> {
+  const response = await fetch(
+    `${process.env.API_BASE_URL}/event-image/${uuid}`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  );
 
-  if (!res.ok) {
-    const text = await res.text();
-    console.error('❌ Fetch failed:', {
-      status: res.status,
-      statusText: res.statusText,
-      url,
-      body: text,
-    });
-
-    throw new Error('네비게이션 데이터 안 리스트를 불러오는 데 실패');
+  if (!response.ok) {
+    throw new Error('데이터 패치 실패! 야외취침 확정!');
   }
 
-  const data = await res.json();
+  const data = await response.json();
   return data.result;
 }
