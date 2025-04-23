@@ -28,7 +28,6 @@ export async function getEventImageList(uuid: string): Promise<
 export async function getEventProductList(
   uuid: string
 ): Promise<{ productUuid: string }[]> {
-  console.log(uuid);
   const response = await fetch(
     `${process.env.API_BASE_URL}/product-category/uuid-list/event?eventUuid=${uuid}`,
     {

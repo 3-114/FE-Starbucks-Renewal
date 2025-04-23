@@ -7,9 +7,11 @@ const nextConfig: NextConfig = {
   images: {
     domains: [
       'sitem.ssgcdn.com',
-      'https://e-dong1957.com/kr/images/content/content_ready_img.png',
+      'e-dong1957.com',
+      'simg.ssgcdn.com',
+      'image.istarbucks.co.kr',
+      'sui.ssgcdn.com',
     ],
-    unoptimized: true,
   },
 };
 
