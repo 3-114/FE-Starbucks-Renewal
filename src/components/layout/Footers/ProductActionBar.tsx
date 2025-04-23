@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ShoppingCart } from 'lucide-react';
 import QuantitySelector from '@/components/feature/Selector/QuantitySelector';
+import { AddCartItem } from '@/actions/cart-service';
 
 export default function ProductActionBar({
   productUuid,
@@ -24,18 +25,22 @@ export default function ProductActionBar({
     return defaultPrice * quantity;
   };
 
-  const handlePurchase = () => {
-    console.log('구매하기 클릭됨:', {
-      productUuid,
-      quantity,
-    });
+  const handlePurchase = async () => {
+    try {
+      await AddCartItem({ productUuid, quantity });
+      console.log('장바구니 추가 완료:', { productUuid, quantity });
+    } catch (error) {
+      console.error('장바구니 추가 실패:', error);
+    }
   };
 
-  const handleCart = () => {
-    console.log('장바구니 담기:', {
-      productUuid,
-      quantity,
-    });
+  const handleCart = async () => {
+    try {
+      await AddCartItem({ productUuid, quantity });
+      console.log('장바구니 추가 완료:', { productUuid, quantity });
+    } catch (error) {
+      console.error('장바구니 추가 실패:', error);
+    }
   };
 
   return (

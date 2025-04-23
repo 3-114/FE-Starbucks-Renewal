@@ -1,25 +1,33 @@
+import EventNav from '@/components/layout/navs/EventNav';
 import {
   getEventNavData,
-  // getEventProductList,
-} from '@/actions/event-service/nav';
-// import { ProductList } from '@/components/feature/list/ProductList';
-import { EventNavMenuType } from '@/types/Initial/InitialDataTypes';
+  getEventImageList,
+  getEventProductList,
+} from '@/actions/event-service';
+import { ProductList } from '@/components/feature/list/ProductList';
+import ImageList from '@/components/feature/list/ImageList';
 
 export default async function Page({
   searchParams,
 }: {
   searchParams: Promise<{ category?: string }>;
 }) {
-  const params = await searchParams;
-  const category = params.category ?? '';
+  const NavData = await getEventNavData();
+  const { category = '' } = await searchParams;
+  const matchedCategory =
+    category === '' || category === '전체'
+      ? NavData[0].eventUuid
+      : (NavData.find((item) => item.eventName === category)?.eventUuid ??
+        NavData[0].eventUuid);
 
-  const navData: EventNavMenuType[] = await getEventNavData();
-
-  const eventItem = navData.find((i) => i.eventName === category) || navData[0];
-  if (!eventItem) {
-    throw new Error(`유효하지 않은 카테고리입니다: ${category}`);
-  }
-  // const eventUuid = eventItem.eventUuid;
-  // const navListData: string[] = await getEventProductList(eventUuid);
-  return <>{/* <ProductList uuidList={navListData} /> */}</>;
+  const eventImageList = await getEventImageList(matchedCategory);
+  const rawProductList = await getEventProductList(matchedCategory);
+  const eventproductList = rawProductList.map((item) => item.productUuid);
+  return (
+    <>
+      <EventNav NavData={NavData} />
+      <ImageList eventImages={eventImageList} />
+      <ProductList uuidList={eventproductList} showBest={false} />
+    </>
+  );
 }

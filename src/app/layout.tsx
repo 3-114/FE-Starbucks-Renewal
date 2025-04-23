@@ -11,13 +11,13 @@ export const metadata: Metadata = {
     template: '%s | SPHAROS 6TH Rebuilding APP',
   },
   description: '1차프로젝트 SPHAROS 6TH Rebuilding',
-  icons: { icon: '/assets/images/icons/icon.png' },
+  icons: { icon: '/avatarUrl.png' },
   metadataBase: new URL('https://spharos5th.com'),
   openGraph: {
     url: 'https://spharos6th.com',
     title: 'SPHAROS 6TH',
     description: '1차프로젝트 SPHAROS 6TH',
-    images: [{ url: '/assets/images/og/og_image.png' }],
+    images: [{ url: '/avatarUrl.png' }],
   },
 };
 

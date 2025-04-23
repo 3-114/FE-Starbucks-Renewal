@@ -1,50 +1,60 @@
 'use client';
+
 import { cn } from '@/lib/utils';
 import { ChevronRight, XIcon } from 'lucide-react';
-import { useEffect } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSidebarContext } from '@/context/SideBarContext';
 import { Button } from '../ui/button';
 import Image from 'next/image';
 
-const categories = [
-  {
-    name: '텀블러/보온병',
-    image: '/avatarUrl.png',
-    link: '/products/tumblers',
-  },
-  { name: '머그/컵', image: '/avatarUrl.png', link: '/products/mugs' },
-  {
-    name: '라이프스타일',
-    image: '/avatarUrl.png',
-    link: '/products/lifestyle',
-  },
-  {
-    name: '티/커피용품',
-    image: '/avatarUrl.png',
-    link: '/products/tea-coffee',
-  },
-  { name: '케이크', image: '/avatarUrl.png', link: '/products/cakes' },
-  { name: '초콜릿/스낵', image: '/avatarUrl.png', link: '/products/snacks' },
-  { name: '세트', image: '/avatarUrl.png', link: '/products/sets' },
-];
+interface Category {
+  mainCategoryUuid: string;
+  mainCategoryName: string;
+  mainCategoryImage: string;
+}
 
 export function Sidebar() {
   const { isOpen, setIsOpen } = useSidebarContext();
-  const route = useRouter();
+  const router = useRouter();
   const onClick = () => setIsOpen((prev) => !prev);
+  const fetchedRef = useRef(false);
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  const fetchCategories = useCallback(async () => {
+    if (fetchedRef.current) return;
+    try {
+      const res = await fetch(
+        `${process.env.API_BASE_URL}/main-category/side-bar`
+      );
+      const data = await res.json();
+      setCategories(data.result);
+      fetchedRef.current = true;
+    } catch (e) {
+      console.error('카테고리 fetch 실패', e);
+    }
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
+      fetchCategories();
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
     }
-  }, [isOpen]);
+  }, [isOpen, fetchCategories]);
 
-  const handleRouteChange = (link: string) => {
+  const handleRouteChange = (category: string | '/promotions' | '/best') => {
     setIsOpen(false);
-    route.push(link);
+
+    if (category.startsWith('/')) {
+      router.push(category);
+    } else if (category === '') {
+      router.push('/products');
+    } else {
+      const encoded = encodeURIComponent(category);
+      router.push(`/products?category=${encoded}`);
+    }
   };
 
   return (
@@ -53,7 +63,7 @@ export function Sidebar() {
         'fixed top-0 left-0 z-[3000] size-full pt-4 transition-all overflow-hidden',
         'flex flex-col justify-between items-start',
         isOpen ? 'translate-x-0' : '-translate-x-full',
-        'backdrop-filter backdrop-blur-xl -backdrop-hue-rotate=90 backdrop-opacity-95'
+        'backdrop-filter backdrop-blur-xl backdrop-opacity-95 overflow-y-auto'
       )}
       style={{
         animation: 'gradient-bg 3s infinite',
@@ -84,7 +94,7 @@ export function Sidebar() {
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => handleRouteChange('/products')}
+            onClick={() => handleRouteChange('')}
             aria-label="전체 상품 보기"
             className="p-1"
             color="transparent"
@@ -100,18 +110,18 @@ export function Sidebar() {
             <div
               key={index}
               className="flex flex-col items-center cursor-pointer"
-              onClick={() => handleRouteChange(category.link)}
+              onClick={() => handleRouteChange(category.mainCategoryName)}
             >
               <div className="bg-gray-100 rounded-full p-1 mb-1 relative w-28 h-28">
                 <Image
-                  src={category.image}
-                  alt={category.name}
+                  src={category.mainCategoryImage}
+                  alt={category.mainCategoryName}
                   fill
                   sizes="80px"
                   className="object-cover rounded-full"
                 />
               </div>
-              <p className="text-xs text-center">{category.name}</p>
+              <p className="text-xs text-center">{category.mainCategoryName}</p>
             </div>
           ))}
         </div>
@@ -122,7 +132,7 @@ export function Sidebar() {
           variant="ghost"
           color="gray"
           className="flex justify-between items-center w-full py-3 px-4 border-t border-gray-200 rounded-none"
-          onClick={() => handleRouteChange('/promotions')}
+          onClick={() => handleRouteChange('/event')}
         >
           <p>기획전</p>
           <div className="flex items-center gap-2">
