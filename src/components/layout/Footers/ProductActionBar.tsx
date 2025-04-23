@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { ShoppingCart } from 'lucide-react';
 import QuantitySelector from '@/components/feature/Selector/QuantitySelector';
 import { AddCartItem } from '@/actions/cart-service';
+import { useRouter } from 'next/navigation';
 
 export default function ProductActionBar({
   productUuid,
@@ -14,6 +15,7 @@ export default function ProductActionBar({
   defaultPrice: number;
 }) {
   const [quantity, setQuantity] = useState(1);
+  const router = useRouter();
 
   const handleQuantityChange = (newQuantity: number) => {
     if (newQuantity >= 1 && newQuantity) {
@@ -28,18 +30,32 @@ export default function ProductActionBar({
   const handlePurchase = async () => {
     try {
       await AddCartItem({ productUuid, quantity });
-      console.log('장바구니 추가 완료:', { productUuid, quantity });
-    } catch (error) {
-      console.error('장바구니 추가 실패:', error);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        if (err.message.includes('로그인이 필요')) {
+          router.push('/login');
+        } else {
+          console.error('장바구니 추가 실패:', err.message);
+        }
+      } else {
+        console.error('알 수 없는 에러:', err);
+      }
     }
   };
 
   const handleCart = async () => {
     try {
       await AddCartItem({ productUuid, quantity });
-      console.log('장바구니 추가 완료:', { productUuid, quantity });
-    } catch (error) {
-      console.error('장바구니 추가 실패:', error);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        if (err.message.includes('로그인이 필요')) {
+          router.push('/login');
+        } else {
+          console.error('장바구니 추가 실패:', err.message);
+        }
+      } else {
+        console.error('알 수 없는 에러:', err);
+      }
     }
   };
 

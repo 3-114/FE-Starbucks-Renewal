@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import {
   Carousel,
   CarouselContent,
@@ -12,7 +13,7 @@ import {
 export default function EventCarousel({
   eventData,
 }: {
-  eventData: { id: number; imgUrl: string; link: string }[];
+  eventData: { id: number; imgUrl: string; eventName: string }[];
 }) {
   const [api, setApi] = useState<CarouselApi | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -49,17 +50,19 @@ export default function EventCarousel({
       <CarouselContent>
         {eventData.map((item, index) => (
           <CarouselItem key={item.id} className="w-full">
-            <a href={item.link} target="_blank" rel="noopener noreferrer">
+            <Link
+              href={`/event?category=${encodeURIComponent(item.eventName)}`}
+            >
               <div className="relative w-full aspect-[400/300]">
                 <Image
                   src={item.imgUrl}
                   alt={`이벤트 ${item.id}`}
                   fill
-                  className="object-cover"
+                  className="object-cover object-top"
                   priority={index === 0}
                 />
               </div>
-            </a>
+            </Link>
           </CarouselItem>
         ))}
       </CarouselContent>

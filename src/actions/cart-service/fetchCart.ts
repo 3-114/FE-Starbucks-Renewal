@@ -4,6 +4,20 @@ import { getServerSession } from 'next-auth';
 import { revalidateTag } from 'next/cache';
 import { options } from '@/app/api/auth/[...nextauth]/options';
 
+class AuthError extends Error {
+  constructor(message = '로그인이 필요합니다.') {
+    super(message);
+    this.name = 'AuthError';
+  }
+}
+
+class CartError extends Error {
+  constructor(message = '장바구니 추가 실패') {
+    super(message);
+    this.name = 'CartError';
+  }
+}
+
 export async function fetchCartUuids(
   cartType: string
 ): Promise<{ cartUuid: string }[]> {
@@ -149,6 +163,10 @@ export async function AddCartItem({
   const session = await getServerSession(options);
   const accessToken = session?.user?.accessToken;
 
+  if (!accessToken) {
+    throw new AuthError(); // 로그인 안 된 경우 명시적으로 예외 발생
+  }
+
   const response = await fetch(`${process.env.API_BASE_URL}/cart`, {
     method: 'POST',
     headers: {
@@ -159,6 +177,6 @@ export async function AddCartItem({
   });
 
   if (!response.ok) {
-    throw new Error('장바구니 추가 실패! 야외취침 확정!');
+    throw new CartError('장바구니 서버 응답 실패'); // 서버 응답 에러
   }
 }
