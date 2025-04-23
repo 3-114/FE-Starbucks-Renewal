@@ -1,7 +1,6 @@
 'use server';
 
 import { getServerSession } from 'next-auth';
-import { revalidateTag } from 'next/cache';
 import { options } from '@/app/api/auth/[...nextauth]/options';
 
 class AuthError extends Error {
@@ -60,6 +59,9 @@ export async function getInformationProductByUuid(uuid: string): Promise<{
       headers: {
         'Content-Type': 'application/json',
       },
+      next: {
+        tags: [`Product-${uuid}`],
+      },
     }
   );
   if (!response.ok) {
@@ -71,13 +73,6 @@ export async function getInformationProductByUuid(uuid: string): Promise<{
   return data.result;
 }
 
-export async function setActiveCartTab(prevTabId: number, nextTabId: number) {
-  if (prevTabId !== nextTabId) {
-    revalidateTag('cart:product-uuids');
-  }
-
-  return true;
-}
 export async function getCartCount(cartType: string): Promise<number> {
   const session = await getServerSession(options);
   const accessToken = session?.user?.accessToken;
@@ -164,7 +159,7 @@ export async function AddCartItem({
   const accessToken = session?.user?.accessToken;
 
   if (!accessToken) {
-    throw new AuthError(); // 로그인 안 된 경우 명시적으로 예외 발생
+    throw new AuthError();
   }
 
   const response = await fetch(`${process.env.API_BASE_URL}/cart`, {
@@ -177,6 +172,6 @@ export async function AddCartItem({
   });
 
   if (!response.ok) {
-    throw new CartError('장바구니 서버 응답 실패'); // 서버 응답 에러
+    throw new CartError('장바구니 서버 응답 실패');
   }
 }

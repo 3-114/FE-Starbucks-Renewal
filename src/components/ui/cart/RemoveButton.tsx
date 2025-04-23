@@ -5,7 +5,13 @@ import { useOptimistic, useTransition } from 'react';
 import { Button } from '@/components/ui/button';
 import { removeItem } from '@/actions/cart-service';
 
-export default function RemoveButton({ cartUuid }: { cartUuid: string }) {
+export default function RemoveButton({
+  cartUuid,
+  cartType,
+}: {
+  cartUuid: string;
+  cartType: string;
+}) {
   const [isRemoved, setOptimisticRemoved] = useOptimistic<boolean, boolean>(
     false,
     (_current, next) => next
@@ -17,7 +23,7 @@ export default function RemoveButton({ cartUuid }: { cartUuid: string }) {
     startTransition(async () => {
       setOptimisticRemoved(true);
       try {
-        await removeItem(cartUuid);
+        await removeItem(cartUuid, cartType);
       } catch (error) {
         console.error('삭제 실패:', error);
         setOptimisticRemoved(prev);

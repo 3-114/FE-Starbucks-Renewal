@@ -4,7 +4,13 @@ import QuantityControl from '@/components/ui/cart/QuantityControl';
 import RemoveButton from '@/components/ui/cart/RemoveButton';
 import { CartItemType } from '@/types/ResponseDataTypes';
 
-export default function CartItemBox({ item }: { item: CartItemType }) {
+export default function CartItemBox({
+  item,
+  cartType,
+}: {
+  item: CartItemType;
+  cartType: string;
+}) {
   return (
     <li className="bg-white px-4 py-6 flex items-start text-sm font-semibold gap-2">
       <ItemCheckbox cartUuid={item.cartUuid} checked={item.selected} />
@@ -18,7 +24,7 @@ export default function CartItemBox({ item }: { item: CartItemType }) {
       <div className="flex-1 space-y-2">
         <div className="flex justify-between">
           <p>{item.productName}</p>
-          <RemoveButton cartUuid={item.cartUuid} />
+          <RemoveButton cartUuid={item.cartUuid} cartType={cartType} />
         </div>
         <div className="flex justify-between">
           <QuantityControl cartUuid={item.cartUuid} quantity={item.quantity} />

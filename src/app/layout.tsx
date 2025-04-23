@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     url: 'https://spharos6th.com',
     title: 'SPHAROS 6TH',
     description: '1차프로젝트 SPHAROS 6TH',
-    images: [{ url: '/avatarUrl.png' }],
+    images: [{ url: 'https://spharos6th.com/avatarUrl.png' }],
   },
 };
 

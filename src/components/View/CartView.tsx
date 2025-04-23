@@ -53,7 +53,7 @@ export default async function CartView({
       ) : (
         <>
           <CartAllSelectBox isChecked={all_checked} cartType={cartType} />
-          <FilledCartContent cartData={cartItems} />
+          <FilledCartContent cartData={cartItems} cartType={cartType} />
           <CartSummary
             productTotal={productTotal}
             shippingTotal={shippingTotal}

@@ -90,7 +90,7 @@ export async function decreaseQuantity(uuid: string) {
   revalidateTag('getCartItem');
 }
 
-export async function removeItem(uuid: string) {
+export async function removeItem(uuid: string, cartType: string) {
   const session = await getServerSession(options);
   const accessToken = session?.user?.accessToken;
 
@@ -105,6 +105,7 @@ export async function removeItem(uuid: string) {
     throw new Error('체크박스 변경에 실패!!');
   }
   revalidateTag('getCartItem');
+  revalidateTag(`${cartType}CartCount`);
 }
 
 export async function allToggleCheckbox(): Promise<void> {
