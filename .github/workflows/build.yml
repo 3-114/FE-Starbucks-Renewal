@@ -1,10 +1,6 @@
 name: Deploy Next.js to ECR and EC2
 
 on:
-  push:
-    branches:
-#      - develop
-
   pull_request:
     branches:
       - main
