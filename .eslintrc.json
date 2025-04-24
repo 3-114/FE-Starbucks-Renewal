@@ -1,0 +1,38 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "plugins": ["@typescript-eslint", "prettier"],
+  "parser": "@typescript-eslint/parser",
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "rules": {
+    // any rule off
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-empty-object-type": "off",
+    "prettier/prettier": ["error", { "singleQuote": true }],
+    "semi": ["error", "always"],
+    "quotes": ["error", "single"],
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off"
+  },
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "overrides": [
+    {
+      "files": ["tailwind.config.ts"],
+      "rules": {
+        "@typescript-eslint/no-require-imports": "off"
+      }
+    }
+  ]
+}

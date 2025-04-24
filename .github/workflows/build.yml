@@ -1,0 +1,109 @@
+name: Deploy Next.js to ECR and EC2
+
+on:
+  pull_request:
+    branches:
+      - main
+
+env:
+  AWS_REGION: ap-northeast-2
+  ECR_REGISTRY: 412381782254.dkr.ecr.ap-northeast-2.amazonaws.com
+  ECR_REPOSITORY: 114/starbucks-frontend
+
+jobs:
+  deploy:
+    name: Build, Push to ECR & Deploy to EC2
+    runs-on: ubuntu-latest
+    environment: production
+
+    env:
+      IMAGE_TAG: ${{ github.sha }}
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.14.0
+
+      - name: Install dependencies & build Next.js
+        env:
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+        run: |
+          pnpm install
+          pnpm build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push Docker image to Amazon ECR
+        env:
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+          NEXTAUTH_URL : ${{ secrets.NEXTAUTH_URL }}
+        run: |
+          docker build \
+            --build-arg API_BASE_URL=$API_BASE_URL \
+            --build-arg NEXTAUTH_SECRET=$NEXTAUTH_SECRET \
+            --build-arg NEXTAUTH_URL=$NEXTAUTH_URL \
+            -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+      - name: SSH to EC2 and Deploy Docker Container
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          envs: ECR_REGISTRY,ECR_REPOSITORY,IMAGE_TAG,AWS_REGION
+          script: |
+            echo "▶ ECR에서 Next.js 이미지 Pull 후 컨테이너 실행"
+
+            # ECR 로그인
+            aws ecr get-login-password --region $AWS_REGION \
+              | docker login --username AWS --password-stdin $ECR_REGISTRY
+
+            # 기존 컨테이너 종료 및 삭제
+            docker stop nextjs-frontend || true
+            docker rm nextjs-frontend || true
+
+            # 최신 이미지 Pull
+            docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+            # starbucks-network 생성 (존재하지 않으면)
+            docker network inspect starbucks-network >/dev/null 2>&1 || docker network create starbucks-network
+
+            # 새 컨테이너 실행
+            docker run -d \
+              --name nextjs-frontend \
+              --network starbucks-network \
+              -p 3000:3000 \
+              $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+            echo "✅ Next.js Docker 컨테이너 실행 완료"
+
+            # === EC2 내부 Docker 이미지 정리 ===
+            echo "🧹 EC2에 남은 Docker 이미지 중 최신 3개만 남기고 삭제 시작"
+
+            docker images "$ECR_REGISTRY/$ECR_REPOSITORY" --format "{{.Repository}}:{{.Tag}}" \
+              | grep -v "<none>" \
+              | grep -v "$IMAGE_TAG" \
+              | sort -r \
+              | tail -n +3 \
+              | xargs -r docker rmi
+
+            echo "🧼 EC2 Docker 이미지 정리 완료"
