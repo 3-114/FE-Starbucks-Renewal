@@ -108,7 +108,7 @@ export async function removeItem(uuid: string, cartType: string) {
   revalidateTag(`${cartType}CartCount`);
 }
 
-export async function allToggleCheckbox(): Promise<void> {
+export async function allToggleCheckbox(cardType: string): Promise<void> {
   const session = await getServerSession(options);
   const accessToken = session?.user?.accessToken;
 
@@ -126,6 +126,8 @@ export async function allToggleCheckbox(): Promise<void> {
   if (!response.ok) {
     throw new Error('전체 토글 실패');
   }
+
+  revalidateTag(`CartUuidsList-${cardType}`);
 
   const data = await response.json();
 

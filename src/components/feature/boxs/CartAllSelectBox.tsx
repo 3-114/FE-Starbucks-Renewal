@@ -4,7 +4,6 @@ import { useOptimistic, useTransition } from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { allToggleCheckbox, removeAllItems } from '@/actions/cart-service';
 import { Button } from '@/components/ui/button';
-import { useAllSelected } from '@/context/AllSelectedContext';
 
 export default function CartAllSelectBox({
   isChecked,
@@ -24,20 +23,17 @@ export default function CartAllSelectBox({
   );
 
   const [isPending, startTransition] = useTransition();
-  const { setAllSelected } = useAllSelected();
 
   const handleCheckChange = () => {
     const next = !optimisticChecked;
-    setAllSelected(next);
 
     startTransition(async () => {
       setOptimisticChecked(next);
       try {
-        await allToggleCheckbox();
+        await allToggleCheckbox(cartType);
       } catch (error) {
         console.error('전체 선택 실패 → 롤백', error);
         setOptimisticChecked(!next);
-        setAllSelected(!next);
       }
     });
   };
