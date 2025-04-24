@@ -3,7 +3,7 @@ name: Deploy Next.js to ECR and EC2
 on:
   push:
     branches:
-      - develop
+#      - develop
       - 29-cicd-frontend-배포-자동화
 
   pull_request:
