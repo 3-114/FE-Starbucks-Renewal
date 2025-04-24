@@ -9,7 +9,7 @@ const nextConfig: NextConfig = {
       'image.istarbucks.co.kr',
       'sui.ssgcdn.com',
     ],
-    unoptimized: true,
+    //unoptimized: true,
   },
   env: {
     API_BASE_URL: process.env.API_BASE_URL,
