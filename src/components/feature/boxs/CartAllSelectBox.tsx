@@ -27,12 +27,14 @@ export default function CartAllSelectBox({
   const { setAllSelected } = useAllSelected();
 
   useEffect(() => {
-    setAllSelected(isChecked);
+    if (origin !== 'manual') {
+      setAllSelected(isChecked, 'derived');
+    }
   }, [isChecked, setAllSelected]);
 
   const handleCheckChange = () => {
     const next = !optimisticChecked;
-    setAllSelected(next);
+    setAllSelected(next, 'manual');
 
     startTransition(async () => {
       setOptimisticChecked(next);

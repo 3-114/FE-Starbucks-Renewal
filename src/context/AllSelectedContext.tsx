@@ -2,22 +2,33 @@
 
 import { createContext, useContext, useState, ReactNode } from 'react';
 
+type OriginType = 'manual' | 'derived';
+
 interface AllSelectedContextType {
   allSelected: boolean;
-  setAllSelected: (value: boolean) => void;
+  origin: OriginType;
+  setAllSelected: (value: boolean, origin: OriginType) => void;
 }
 
 const AllSelectedContext = createContext<AllSelectedContextType | null>(null);
 
 export function AllSelected({ children }: { children: ReactNode }) {
-  const [allSelected, setAllSelected] = useState(false);
+  const [allSelected, setAllSelectedValue] = useState(false);
+  const [origin, setOrigin] = useState<OriginType>('derived');
 
-  console.log('지금 상태는?', allSelected);
+  const setAllSelected = (value: boolean, triggerOrigin: OriginType) => {
+    setAllSelectedValue(value);
+    setOrigin(triggerOrigin);
+  };
+
+  console.log('🔍 현재 allSelected 상태:', allSelected, '| 출처:', origin);
 
   return (
-    <AllSelectedContext value={{ allSelected, setAllSelected }}>
+    <AllSelectedContext.Provider
+      value={{ allSelected, origin, setAllSelected }}
+    >
       {children}
-    </AllSelectedContext>
+    </AllSelectedContext.Provider>
   );
 }
 
