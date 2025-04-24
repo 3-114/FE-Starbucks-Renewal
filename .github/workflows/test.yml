@@ -55,7 +55,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
-            docker pull 12381782254.dkr.ecr.ap-northeast-2.amazonaws.com/114/starbucks-frontend:latest
+            docker pull 412381782254.dkr.ecr.ap-northeast-2.amazonaws.com/114/starbucks-frontend:latest
             docker stop frontend || true
             docker rm frontend || true
             docker run -d --name frontend -p 3000:3000 \
