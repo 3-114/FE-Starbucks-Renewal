@@ -65,8 +65,8 @@ jobs:
             --build-arg API_BASE_URL=$API_BASE_URL \
             --build-arg NEXTAUTH_SECRET=$NEXTAUTH_SECRET \
             --build-arg NEXTAUTH_URL=$NEXTAUTH_URL \
-            -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+            -t $ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REPOSITORY:$IMAGE_TAG
 
       - name: SSH to EC2 and Deploy Docker Container
         uses: appleboy/ssh-action@v1
@@ -87,24 +87,28 @@ jobs:
             docker rm nextjs-frontend || true
 
             # 최신 이미지 Pull
-            docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+            docker pull $$ECR_REPOSITORY:$IMAGE_TAG
+
+            # starbucks-network 생성 (존재하지 않으면)
+            docker network inspect starbucks-network >/dev/null 2>&1 || docker network create starbucks-network
 
             # 새 컨테이너 실행
             docker run -d \
               --name nextjs-frontend \
+              --network starbucks-network \
               -p 3000:3000 \
-              $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+              $ECR_REPOSITORY:$IMAGE_TAG
 
             echo "✅ Next.js Docker 컨테이너 실행 완료"
 
             # === EC2 내부 Docker 이미지 정리 ===
-            echo "🧹 EC2에 남은 Docker 이미지 중 최신 5개만 남기고 삭제 시작"
+            echo "🧹 EC2에 남은 Docker 이미지 중 최신 3개만 남기고 삭제 시작"
 
-            docker images "$ECR_REGISTRY/$ECR_REPOSITORY" --format "{{.Repository}}:{{.Tag}}" \
+            docker images "$ECR_REPOSITORY" --format "{{.Repository}}:{{.Tag}}" \
               | grep -v "<none>" \
               | grep -v "$IMAGE_TAG" \
               | sort -r \
-              | tail -n +6 \
+              | tail -n +3 \
               | xargs -r docker rmi
 
             echo "🧼 EC2 Docker 이미지 정리 완료"
