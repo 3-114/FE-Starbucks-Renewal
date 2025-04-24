@@ -12,6 +12,8 @@ const AllSelectedContext = createContext<AllSelectedContextType | null>(null);
 export function AllSelected({ children }: { children: ReactNode }) {
   const [allSelected, setAllSelected] = useState(false);
 
+  console.log('지금 상태는?', allSelected);
+
   return (
     <AllSelectedContext value={{ allSelected, setAllSelected }}>
       {children}

@@ -40,7 +40,7 @@ export default async function Footer({
               <AccordionItem value="item-1">
                 <AccordionTrigger className="w-full text-xs text-left">
                   <AccordionContent className="w-full text-sm text-gray-600">
-                    SPHAROS 6TH REBUILDIMG APP
+                    SPHAROS 6TH REBUILDING APP
                   </AccordionContent>
                 </AccordionTrigger>
               </AccordionItem>

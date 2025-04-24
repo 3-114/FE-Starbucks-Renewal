@@ -1,9 +1,10 @@
 'use client';
 
-import { useOptimistic, useTransition } from 'react';
+import { useEffect, useOptimistic, useTransition } from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { allToggleCheckbox, removeAllItems } from '@/actions/cart-service';
 import { Button } from '@/components/ui/button';
+import { useAllSelected } from '@/context/AllSelectedContext';
 
 export default function CartAllSelectBox({
   isChecked,
@@ -23,9 +24,15 @@ export default function CartAllSelectBox({
   );
 
   const [isPending, startTransition] = useTransition();
+  const { setAllSelected } = useAllSelected();
+
+  useEffect(() => {
+    setAllSelected(isChecked);
+  }, [isChecked, setAllSelected]);
 
   const handleCheckChange = () => {
     const next = !optimisticChecked;
+    setAllSelected(next);
 
     startTransition(async () => {
       setOptimisticChecked(next);
