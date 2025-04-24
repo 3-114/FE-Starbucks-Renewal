@@ -3,6 +3,7 @@
 import { useEffect, useOptimistic, useTransition } from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { ToggleCheckbox } from '@/actions/cart-service';
+import { useAllSelected } from '@/context/AllSelectedContext';
 
 export default function ItemCheckbox({
   cartUuid,
@@ -16,12 +17,21 @@ export default function ItemCheckbox({
     boolean
   >(checked, (_current, next) => next);
   const [isPending, startTransition] = useTransition();
+  const { allSelected } = useAllSelected();
+
+  const finalChecked = allSelected || optimisticChecked;
 
   useEffect(() => {
     startTransition(() => {
       addOptimisticChecked(checked);
     });
   }, [checked, addOptimisticChecked]);
+
+  useEffect(() => {
+    startTransition(() => {
+      addOptimisticChecked(allSelected);
+    });
+  }, [allSelected, addOptimisticChecked]);
 
   const handleChange = async (newChecked: boolean) => {
     startTransition(() => {
@@ -39,7 +49,7 @@ export default function ItemCheckbox({
 
   return (
     <Checkbox
-      checked={optimisticChecked}
+      checked={finalChecked}
       variant="green"
       size="lg"
       disabled={isPending}

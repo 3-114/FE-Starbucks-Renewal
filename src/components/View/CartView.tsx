@@ -7,6 +7,7 @@ import CartSummary from '../shared/cart/CartSummary';
 import CartNotice from '../notice/CartNotice';
 import CartFooter from '@/components/layout/Footers/CartFooter';
 import { dummyCartTabData } from '@/data/TabData';
+import { AllSelected } from '@/context/AllSelectedContext';
 
 export default async function CartView({
   CartUuids,
@@ -52,16 +53,18 @@ export default async function CartView({
         <EmptyCartContent />
       ) : (
         <>
-          <CartAllSelectBox isChecked={all_checked} cartType={cartType} />
-          <FilledCartContent cartData={cartItems} cartType={cartType} />
-          <CartSummary
-            productTotal={productTotal}
-            shippingTotal={shippingTotal}
-            discountTotal={discountTotal}
-            finalTotal={finalTotal}
-          />
-          <CartNotice />
-          <CartFooter totalCount={totalCount} finalTotal={finalTotal} />
+          <AllSelected>
+            <CartAllSelectBox isChecked={all_checked} cartType={cartType} />
+            <FilledCartContent cartData={cartItems} cartType={cartType} />
+            <CartSummary
+              productTotal={productTotal}
+              shippingTotal={shippingTotal}
+              discountTotal={discountTotal}
+              finalTotal={finalTotal}
+            />
+            <CartNotice />
+            <CartFooter totalCount={totalCount} finalTotal={finalTotal} />
+          </AllSelected>
         </>
       )}
     </>
