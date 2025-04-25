@@ -53,7 +53,7 @@ export async function fetchAddressdetail(
         'Authorization': `Bearer ${accessToken}`,
       },
       next: {
-        tags: ['cart:address-detail', addressUuid],
+        tags: [`cart:address-detail ${addressUuid}`],
       },
     }
   );

@@ -1,48 +1,32 @@
 'use client';
 
-import { useEffect, useOptimistic, useTransition } from 'react';
+import { useCartStore } from '@/store/cartStore';
 import { Checkbox } from '@/components/ui/checkbox';
 import { ToggleCheckbox } from '@/actions/cart-service';
+import { useDebouncedFetch } from '@/hooks/useDebouncedFetch';
 
-export default function ItemCheckbox({
-  cartUuid,
-  checked,
-}: {
-  cartUuid: string;
-  checked: boolean;
-}) {
-  const [optimisticChecked, addOptimisticChecked] = useOptimistic<
-    boolean,
-    boolean
-  >(checked, (_current, next) => next);
-  const [isPending, startTransition] = useTransition();
+export default function ItemCheckbox({ cartUuid }: { cartUuid: string }) {
+  const checked = useCartStore((state) => state.itemStates[cartUuid]?.checked);
+  const setChecked = useCartStore((state) => state.setChecked);
 
-  useEffect(() => {
-    startTransition(() => {
-      addOptimisticChecked(checked);
-    });
-  }, [checked, addOptimisticChecked]);
-
-  const handleChange = async (newChecked: boolean) => {
-    startTransition(() => {
-      addOptimisticChecked(newChecked);
-    });
-    try {
+  const [debouncedChecked, updateChecked] = useDebouncedFetch<boolean>(
+    checked,
+    async () => {
       await ToggleCheckbox(cartUuid);
-    } catch (error) {
-      console.error('Failed to toggle checkbox:', error);
-      startTransition(() => {
-        addOptimisticChecked(checked);
-      });
     }
+  );
+
+  const handleChange = () => {
+    const next = !debouncedChecked;
+    setChecked(cartUuid, next);
+    updateChecked(next);
   };
 
   return (
     <Checkbox
-      checked={optimisticChecked}
+      checked={checked}
       variant="green"
       size="lg"
-      disabled={isPending}
       onCheckedChange={handleChange}
     />
   );
