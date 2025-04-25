@@ -1,8 +1,11 @@
+'use client';
+
 import Image from 'next/image';
 import ItemCheckbox from '@/components/ui/cart/ItemCheckbox';
 import QuantityControl from '@/components/ui/cart/QuantityControl';
 import RemoveButton from '@/components/ui/cart/RemoveButton';
 import { CartItemType } from '@/types/ResponseDataTypes';
+import { useCartStore } from '@/store/cartStore';
 
 export default function CartItemBox({
   item,
@@ -11,9 +14,15 @@ export default function CartItemBox({
   item: CartItemType;
   cartType: string;
 }) {
+  const removed = useCartStore(
+    (state) => state.itemStates[item.cartUuid]?.removed
+  );
+
+  if (removed) return null;
+
   return (
     <li className="bg-white px-4 py-6 flex items-start text-sm font-semibold gap-2">
-      <ItemCheckbox cartUuid={item.cartUuid} checked={item.selected} />
+      <ItemCheckbox cartUuid={item.cartUuid} />
       <Image
         src={item.productThumbnailUrl}
         alt="product image"

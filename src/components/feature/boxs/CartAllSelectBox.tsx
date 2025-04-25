@@ -1,22 +1,16 @@
 'use client';
 
-import { useEffect, useOptimistic, useTransition } from 'react';
+import { useOptimistic, useTransition } from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { allToggleCheckbox, removeAllItems } from '@/actions/cart-service';
 import { Button } from '@/components/ui/button';
-import { useAllSelected } from '@/context/AllSelectedContext';
+import { useCartStore } from '@/store/cartStore';
+import { useDebouncedFetch } from '@/hooks/useDebouncedFetch';
 
-export default function CartAllSelectBox({
-  isChecked,
-  cartType,
-}: {
-  isChecked: boolean;
-  cartType: string;
-}) {
-  const [optimisticChecked, setOptimisticChecked] = useOptimistic<
-    boolean,
-    boolean
-  >(isChecked, (_current, next) => next);
+export default function CartAllSelectBox({ cartType }: { cartType: string }) {
+  const isAllChecked = useCartStore((state) => state.isAllChecked());
+  const setAllRemoved = useCartStore((state) => state.setAllRemoved);
+  const toggleAll = useCartStore((state) => state.toggleAll);
 
   const [isRemovedAll, setRemovedAll] = useOptimistic<boolean, boolean>(
     false,
@@ -24,30 +18,22 @@ export default function CartAllSelectBox({
   );
 
   const [isPending, startTransition] = useTransition();
-  const { setAllSelected } = useAllSelected();
 
-  useEffect(() => {
-    if (origin !== 'manual') {
-      setAllSelected(isChecked, 'derived');
+  const [debouncedAllChecked, updateAllChecked] = useDebouncedFetch<boolean>(
+    isAllChecked,
+    async () => {
+      await allToggleCheckbox(cartType);
     }
-  }, [isChecked, setAllSelected]);
+  );
 
   const handleCheckChange = () => {
-    const next = !optimisticChecked;
-    setAllSelected(next, 'manual');
-
-    startTransition(async () => {
-      setOptimisticChecked(next);
-      try {
-        await allToggleCheckbox(cartType);
-      } catch (error) {
-        console.error('전체 선택 실패 → 롤백', error);
-        setOptimisticChecked(!next);
-      }
-    });
+    const next = !debouncedAllChecked;
+    toggleAll(next);
+    updateAllChecked(next);
   };
 
   const handleDeleteAll = () => {
+    setAllRemoved(true);
     startTransition(async () => {
       setRemovedAll(true);
       try {
@@ -55,6 +41,7 @@ export default function CartAllSelectBox({
       } catch (error) {
         console.error('전체 삭제 실패 → 롤백', error);
         setRemovedAll(false);
+        setAllRemoved(true);
       }
     });
   };
@@ -65,7 +52,7 @@ export default function CartAllSelectBox({
     <div className="flex justify-between items-center py-6 pl-4 pr-10 bg-white text-sm font-medium">
       <div className="flex items-center gap-[10px]">
         <Checkbox
-          checked={optimisticChecked}
+          checked={isAllChecked}
           onCheckedChange={handleCheckChange}
           variant="green"
           size="lg"

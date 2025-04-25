@@ -1,9 +1,10 @@
 'use client';
 
 import { X } from 'lucide-react';
-import { useOptimistic, useTransition } from 'react';
 import { Button } from '@/components/ui/button';
 import { removeItem } from '@/actions/cart-service';
+import { useCartStore } from '@/store/cartStore';
+import { useTransition } from 'react';
 
 export default function RemoveButton({
   cartUuid,
@@ -12,25 +13,24 @@ export default function RemoveButton({
   cartUuid: string;
   cartType: string;
 }) {
-  const [isRemoved, setOptimisticRemoved] = useOptimistic<boolean, boolean>(
-    false,
-    (_current, next) => next
-  );
+  const removed = useCartStore((state) => state.itemStates[cartUuid]?.removed);
+  const setRemoved = useCartStore((state) => state.setRemoved);
   const [isPending, startTransition] = useTransition();
 
   const handleRemove = () => {
-    const prev = isRemoved;
+    setRemoved(cartUuid, true);
+
     startTransition(async () => {
-      setOptimisticRemoved(true);
       try {
         await removeItem(cartUuid, cartType);
       } catch (error) {
-        console.error('삭제 실패:', error);
-        setOptimisticRemoved(prev);
+        console.error('삭제 실패 → 롤백', error);
+        setRemoved(cartUuid, false);
       }
     });
   };
-  if (isRemoved) return null;
+
+  if (removed) return null;
 
   return (
     <Button

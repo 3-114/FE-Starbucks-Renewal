@@ -6,8 +6,8 @@ import { getProductByCartUuid } from '@/actions/cart-service';
 import CartSummary from '../shared/cart/CartSummary';
 import CartNotice from '../notice/CartNotice';
 import CartFooter from '@/components/layout/Footers/CartFooter';
+import CartHydrator from '@/components/Hydrator/CartHydrator';
 import { dummyCartTabData } from '@/data/TabData';
-import { AllSelected } from '@/context/AllSelectedContext';
 
 export default async function CartView({
   CartUuids,
@@ -28,7 +28,6 @@ export default async function CartView({
 
   const checkedItems = cartItems.filter((item) => item.selected);
   const isEmpty = CartUuids.length === 0;
-  const all_checked = checkedItems.length === cartItems.length;
   const productTotal = checkedItems.reduce(
     (sum, item) => sum + Number(item.productPrice) * item.quantity,
     0
@@ -53,18 +52,17 @@ export default async function CartView({
         <EmptyCartContent />
       ) : (
         <>
-          <AllSelected>
-            <CartAllSelectBox isChecked={all_checked} cartType={cartType} />
-            <FilledCartContent cartData={cartItems} cartType={cartType} />
-            <CartSummary
-              productTotal={productTotal}
-              shippingTotal={shippingTotal}
-              discountTotal={discountTotal}
-              finalTotal={finalTotal}
-            />
-            <CartNotice />
-            <CartFooter totalCount={totalCount} finalTotal={finalTotal} />
-          </AllSelected>
+          <CartHydrator items={cartItems} />
+          <CartAllSelectBox cartType={cartType} />
+          <FilledCartContent cartData={cartItems} cartType={cartType} />
+          <CartSummary
+            productTotal={productTotal}
+            shippingTotal={shippingTotal}
+            discountTotal={discountTotal}
+            finalTotal={finalTotal}
+          />
+          <CartNotice />
+          <CartFooter totalCount={totalCount} finalTotal={finalTotal} />
         </>
       )}
     </>

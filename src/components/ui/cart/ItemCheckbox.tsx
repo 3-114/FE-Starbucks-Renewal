@@ -1,45 +1,32 @@
 'use client';
 
-import { useEffect, useOptimistic, useTransition } from 'react';
+import { useCartStore } from '@/store/cartStore';
 import { Checkbox } from '@/components/ui/checkbox';
 import { ToggleCheckbox } from '@/actions/cart-service';
+import { useTransition } from 'react';
 
-export default function ItemCheckbox({
-  cartUuid,
-  checked,
-}: {
-  cartUuid: string;
-  checked: boolean;
-}) {
-  const [optimisticChecked, addOptimisticChecked] = useOptimistic<
-    boolean,
-    boolean
-  >(checked, (_current, next) => next);
+export default function ItemCheckbox({ cartUuid }: { cartUuid: string }) {
+  const checked = useCartStore((state) => state.itemStates[cartUuid]?.checked);
+  const setChecked = useCartStore((state) => state.setChecked);
+
   const [isPending, startTransition] = useTransition();
 
-  useEffect(() => {
-    startTransition(() => {
-      addOptimisticChecked(checked);
-    });
-  }, [checked, addOptimisticChecked]);
-
   const handleChange = async (newChecked: boolean) => {
-    startTransition(() => {
-      addOptimisticChecked(newChecked);
+    setChecked(cartUuid, newChecked);
+
+    startTransition(async () => {
+      try {
+        await ToggleCheckbox(cartUuid);
+      } catch (error) {
+        console.error('토글 실패 → 롤백', error);
+        setChecked(cartUuid, !newChecked);
+      }
     });
-    try {
-      await ToggleCheckbox(cartUuid);
-    } catch (error) {
-      console.error('Failed to toggle checkbox:', error);
-      startTransition(() => {
-        addOptimisticChecked(checked);
-      });
-    }
   };
 
   return (
     <Checkbox
-      checked={optimisticChecked}
+      checked={checked}
       variant="green"
       size="lg"
       disabled={isPending}
