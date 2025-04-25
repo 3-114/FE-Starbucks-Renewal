@@ -1,11 +1,6 @@
 name: Deploy Next.js-test to ECR and EC2
 
 on:
-  push:
-    branches:
-      - develop
-      - 29-cicd-frontend-배포-자동화
-
   pull_request:
     branches:
       - develop
