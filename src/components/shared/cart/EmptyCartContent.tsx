@@ -1,8 +1,5 @@
 import { ShoppingCart } from 'lucide-react';
 import CartFooter from '@/components/layout/Footers/CartFooter';
-import MainFooter from '@/components/layout/Footers/MainFooter';
-
-import { MainFooterDummyData } from '@/data/FooterData';
 
 export default function EmptyCartContent() {
   return (
@@ -11,7 +8,6 @@ export default function EmptyCartContent() {
       <p className="text-base/normal font-semibold text-gray-600 pb-54">
         장바구니가 비었습니다.
       </p>
-      <MainFooter FooterData={MainFooterDummyData} />
       <CartFooter totalCount={0} finalTotal={0} />
     </article>
   );

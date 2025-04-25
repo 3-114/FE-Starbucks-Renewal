@@ -4,7 +4,6 @@ import { useEffect, useRef, useState, useTransition } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { CartTabType } from '@/types/ResponseDataTypes';
-import { setActiveCartTab } from '@/actions/cart-service';
 
 export default function CartTabNav({
   CartTabData,
@@ -59,7 +58,6 @@ export default function CartTabNav({
 
     startTransition(async () => {
       try {
-        await setActiveCartTab(prevTabId, tabId);
         router.push(`?type=${nextTab.cartType}`);
       } catch {
         console.error('탭 변경 실패. 이전 상태로 롤백합니다.');

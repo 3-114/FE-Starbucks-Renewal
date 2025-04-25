@@ -11,13 +11,13 @@ export const metadata: Metadata = {
     template: '%s | SPHAROS 6TH Rebuilding APP',
   },
   description: '1차프로젝트 SPHAROS 6TH Rebuilding',
-  icons: { icon: '/avatarUrl.png' },
-  metadataBase: new URL('https://spharos5th.com'),
+  icons: { icon: '/avatarUrl.webp' },
+  metadataBase: new URL('https://www.starbucks-renewal.shop/'),
   openGraph: {
-    url: 'https://spharos6th.com',
-    title: 'SPHAROS 6TH',
-    description: '1차프로젝트 SPHAROS 6TH',
-    images: [{ url: '/avatarUrl.png' }],
+    url: 'https://www.starbucks-renewal.shop/',
+    title: 'SPHAROS 6TH Rebuilding APP',
+    description: '1차프로젝트 SPHAROS 6TH Rebuilding APP',
+    images: [{ url: 'https://i.ibb.co/jvTKNjmH/main.png' }],
   },
 };
 
