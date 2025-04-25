@@ -3,25 +3,23 @@
 import { useCartStore } from '@/store/cartStore';
 import { Checkbox } from '@/components/ui/checkbox';
 import { ToggleCheckbox } from '@/actions/cart-service';
-import { useTransition } from 'react';
+import { useDebouncedFetch } from '@/hooks/useDebouncedFetch';
 
 export default function ItemCheckbox({ cartUuid }: { cartUuid: string }) {
   const checked = useCartStore((state) => state.itemStates[cartUuid]?.checked);
   const setChecked = useCartStore((state) => state.setChecked);
 
-  const [isPending, startTransition] = useTransition();
+  const [debouncedChecked, updateChecked] = useDebouncedFetch<boolean>(
+    checked,
+    async () => {
+      await ToggleCheckbox(cartUuid);
+    }
+  );
 
-  const handleChange = async (newChecked: boolean) => {
-    setChecked(cartUuid, newChecked);
-
-    startTransition(async () => {
-      try {
-        await ToggleCheckbox(cartUuid);
-      } catch (error) {
-        console.error('토글 실패 → 롤백', error);
-        setChecked(cartUuid, !newChecked);
-      }
-    });
+  const handleChange = () => {
+    const next = !debouncedChecked;
+    setChecked(cartUuid, next);
+    updateChecked(next);
   };
 
   return (
@@ -29,7 +27,6 @@ export default function ItemCheckbox({ cartUuid }: { cartUuid: string }) {
       checked={checked}
       variant="green"
       size="lg"
-      disabled={isPending}
       onCheckedChange={handleChange}
     />
   );
