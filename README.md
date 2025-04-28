@@ -51,25 +51,19 @@
 
 ### Backend
 
-| Name | Version |
-| ---- | ------- |
-| -    | -       |
-| -    | -       |
-| -    | -       |
-| -    | -       |
-| -    | -       |
-| -    | -       |
+| Name            | Version |
+| --------------- | ------- |
+| Java            | 17      |
+| Spring Boot     | 3.4.4   |
+| Gradle - Groovy | 8.13    |
+| MySQL           | 9.2.0   |
 
 ### Infra
 
-| Name | Version |
-| ---- | ------- |
-| -    | -       |
-| -    | -       |
-| -    | -       |
-| -    | -       |
-| -    | -       |
-| -    | -       |
+| Name | Version            |
+| ---- | ------------------ |
+| Spec | AWS EC2 T3 Medium  |
+| OS   | Ubuntu 24.04.2 LTS |
 
 ### CI/CD
 
@@ -83,6 +77,14 @@
 ---
 
 ## 3. 주요 기능
+
+|                                           로그인                                           |                                           장바구니                                           |                                           기획전                                           |
+| :----------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------: |
+| ![로그인](https://github.com/user-attachments/assets/ce5d47fc-7d8b-4e71-bf9c-309dba8d9419) | ![장바구니](https://github.com/user-attachments/assets/1e01c531-c124-4be3-9669-919cd5b78dc2) | ![기획전](https://github.com/user-attachments/assets/57332611-4430-4934-aacc-71886ad6d116) |
+
+|                                           메인                                           |                                           베스트                                           |                                           카테고리                                           |
+| :--------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------: |
+| ![메인](https://github.com/user-attachments/assets/5f8bd568-e6aa-4e84-8e2e-876cf7c6315d) | ![베스트](https://github.com/user-attachments/assets/9442fd63-6d9a-4194-8c78-dbb9ca9ddb98) | ![카테고리](https://github.com/user-attachments/assets/c34a57e2-2d93-4a28-9d82-c34b40aa4163) |
 
 [🔝 목차로 돌아가기](#목차)
 
@@ -230,15 +232,19 @@ Optimistic UI 적용으로 인해 입력 시마다 서버 액션이 과도하게
 
 ![114-아키텍쳐](https://github.com/user-attachments/assets/58712f9b-50dc-4b0d-ac8d-0e407e7325f4)
 
-### ERD
+### CI/CD 아키텍쳐
+
+![cicd 아키텍쳐](https://github.com/user-attachments/assets/12cc8bba-badd-4a5b-8f7d-0c099efee348)
+
+### [ERD 설계](https://github.com/3-114/.github/blob/main/profile/docs/erd-detail.md)
 
 ![최종 ERD](https://github.com/user-attachments/assets/e484d31e-6d8b-4545-bf7b-1417a835eaf3)
 
-### 요구사항 정의서
+### [요구사항 정의서](https://funky-baron-4b5.notion.site/1bc02141a4b3810fa400e69f078ac5ab?pvs=73)
 
 ![요구사항 정의서](./public/img/requirement.png)
 
-### API명세서
+### [API 명세서](https://funky-baron-4b5.notion.site/API-1b502141a4b3804485b7ef524f753b4a)
 
 ![api 명세서](./public/img/apiSpecification.png)
 
