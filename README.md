@@ -20,12 +20,15 @@
 ### Frontend
 | Name | Version |
 | --- | --- |
-| Next.js | - |
-| Typescript | - |
-| - | - |
-| - | - |
-| - | - |
-| -| - |
+| Next.js | 15.2.4 |
+| Typescript | 5.0 |
+| react | 19.0.0 |
+| tailwindcss | 4.0.0 |
+| zustand | 5.0.3 |
+| next-auth| 4.24.11 |
+| lucide-react| 0.484.0 |
+| zod | 3.24.2 |
+| shadcn | - |
 
 ### Backend
 | Name | Version |
